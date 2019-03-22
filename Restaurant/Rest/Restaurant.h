@@ -53,7 +53,7 @@ public:
 
 	Order* getOrderById(int i);
 	void cancelOrder(Order* o);
-	void promote(Order* o);
+	void promoteOrder(Order* o);
 	/// ==> 
 
 

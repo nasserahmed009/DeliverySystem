@@ -37,7 +37,3 @@ int Order::GetDistance() const
 	return Distance;
 }
 
-void Order::promote()
-{
-	if (type == TYPE_NRM) type = TYPE_VIP;
-}

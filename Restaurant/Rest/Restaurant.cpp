@@ -193,10 +193,9 @@ void Restaurant::cancelOrder(Order * o)
 	NormalOrders.remove(o);
 }
 
-void Restaurant::promote(Order * o)
+void Restaurant::promoteOrder(Order * o)
 {
 	NormalOrders.remove(o);
-	o->promote();
 	vipOrders.enqueue(o);
 }
 

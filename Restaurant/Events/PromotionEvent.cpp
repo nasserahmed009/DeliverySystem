@@ -10,7 +10,7 @@ PromotionEvent::PromotionEvent(int eTime,int oID,double money):Event(eTime,oID)
 
 void PromotionEvent::Execute(Restaurant * pRest)
 {
-	pRest->promote(pRest->getOrderById(OrderID));
+	pRest->promoteOrder(pRest->getOrderById(OrderID));
 }
 
 

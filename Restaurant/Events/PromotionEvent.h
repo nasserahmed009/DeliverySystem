@@ -7,7 +7,7 @@ class PromotionEvent :
 	double moneyPaid;
 public:
 	PromotionEvent(int eTime,int oId,double money);
-	void Execute(Restaurant* pRest);
+	virtual void Execute(Restaurant* pRest);
 	~PromotionEvent();
 };
 
