@@ -178,9 +178,14 @@ void Restaurant::AddNormalOrder(Order * o)
 	NormalOrders.insert_at_end(o);
 }
 
-Order * Restaurant::getOrderById(int i)
+Order* Restaurant::getOrderById(int i)
 {
-	return nullptr;
+	Node<Order*>* temp = NormalOrders.getHead();
+	while (temp) {
+		if ((temp->getItem())->GetID() == i) return temp->getItem();
+		temp = temp->getNext();
+	}
+	return NULL;
 }
 
 void Restaurant::cancelOrder(Order * o)

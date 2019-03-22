@@ -13,6 +13,7 @@ public:
 	bool remove (T item); 
 	bool remove_at_end();
 	bool is_empty(); 
+	Node<T>* getHead();
 	void test(); // to print elements (for test only );
 };
 template<typename T>
@@ -25,6 +26,11 @@ bool LinkedList<T> ::is_empty() {
 	if (Head == NULL) 
 	return true;
 	else return false;
+}
+template<typename T>
+inline Node<T>* LinkedList<T>::getHead()
+{
+	return Head;
 }
 template<typename T>
 bool LinkedList <T>::insert_at_end (T item) {
