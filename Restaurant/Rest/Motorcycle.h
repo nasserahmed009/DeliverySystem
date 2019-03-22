@@ -5,7 +5,7 @@
 #include "..\Defs.h"
 
 #pragma once
-class Motorcycle	
+class Motorcycle 
 {
 	int ID;
 	ORD_TYPE type;	//for each order type there is a corresponding motorcycle type 

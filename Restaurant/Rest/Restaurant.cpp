@@ -163,5 +163,20 @@ Order* Restaurant::getDemoOrder()
 
 }
 
+void Restaurant::AddVipOrder(Order * o)
+{
+	vipOrders.enqueue(o);
+}
+
+void Restaurant::AddFrozenOrder(Order * o)
+{
+	FrozenOrders.enqueue(o);
+}
+
+void Restaurant::AddNormalOrder(Order * o)
+{
+	NormalOrders.insert_at_end(o);
+}
+
 
 /// ==> end of DEMO-related function

@@ -17,6 +17,7 @@ int speeds[3], NumberInRegionA[3], NumberInRegionB[3], NumberInRegionC[3], Numbe
 
 int main()
 {
+	Restaurant RestaurantA, RestaurantB, RestaurantC, RestaurantD;
 	ReadInput("input");
 	Restaurant* pRest = new Restaurant;
 	pRest->RunSimulation();

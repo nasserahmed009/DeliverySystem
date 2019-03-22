@@ -6,7 +6,8 @@
 #include "..\GUI\GUI.h"
 #include "..\Generic_DS\Queue.h"
 #include "..\Events\Event.h"
-
+#include "..\Generic_DS\LinkedList.h"
+#include "..\Generic_DS\PriorityQueue.h"
 
 #include "Order.h"
 
@@ -21,6 +22,11 @@ private:
 	/// ==> 
 	//	DEMO-related members. Should be removed in phases 1&2
 	Queue<Order*> DEMO_Queue;	//Important: This is just for demo
+	
+	PriorityQueue<Order*> vipOrders;
+	Queue<Order*> FrozenOrders;
+	LinkedList<Order*> NormalOrders;
+	
 	/// ==>
 	
 	//
@@ -40,6 +46,10 @@ public:
 	void Just_A_Demo();	//just to show a demo and should be removed in phase1 1 & 2
 	void AddtoDemoQueue(Order* po);	//adds an order to the demo queue
 	Order* getDemoOrder();			//return the front order from demo queue
+
+	void AddVipOrder(Order* o);
+	void AddFrozenOrder(Order* o);
+	void AddNormalOrder(Order* o);
 	/// ==> 
 
 

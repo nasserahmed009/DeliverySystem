@@ -27,4 +27,18 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 	///Remove the next code lines in phase 1&2
 	Order* pOrd = new Order(OrderID,OrdType,OrdRegion);
 	pRest->AddtoDemoQueue(pOrd);
+
+	switch (OrdType) {
+		case TYPE_NRM:
+			pRest->AddNormalOrder(pOrd);
+			break;
+		case TYPE_FROZ:
+			pRest->AddFrozenOrder(pOrd);
+			break;
+		case TYPE_VIP:
+			pRest->AddVipOrder(pOrd);
+			break;
+	}
+		
+			
 }
