@@ -36,7 +36,7 @@ public:
 	//
 	// TODO: Add More Member Functions As Needed
 	//
-
+	void promote();
 };
 
 #endif

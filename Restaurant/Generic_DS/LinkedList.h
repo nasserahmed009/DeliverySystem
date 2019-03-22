@@ -118,4 +118,3 @@ void LinkedList<T> ::test() {
 	}
 	cout << endl; 
 }
-

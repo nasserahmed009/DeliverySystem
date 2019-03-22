@@ -178,5 +178,22 @@ void Restaurant::AddNormalOrder(Order * o)
 	NormalOrders.insert_at_end(o);
 }
 
+Order * Restaurant::getOrderById(int i)
+{
+	return nullptr;
+}
+
+void Restaurant::cancelOrder(Order * o)
+{
+	NormalOrders.remove(o);
+}
+
+void Restaurant::promote(Order * o)
+{
+	NormalOrders.remove(o);
+	o->promote();
+	vipOrders.enqueue(o);
+}
+
 
 /// ==> end of DEMO-related function

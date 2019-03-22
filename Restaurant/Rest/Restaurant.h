@@ -50,6 +50,10 @@ public:
 	void AddVipOrder(Order* o);
 	void AddFrozenOrder(Order* o);
 	void AddNormalOrder(Order* o);
+
+	Order* getOrderById(int i);
+	void cancelOrder(Order* o);
+	void promote(Order* o);
 	/// ==> 
 
 
