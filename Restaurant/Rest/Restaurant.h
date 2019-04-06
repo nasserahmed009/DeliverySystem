@@ -8,7 +8,7 @@
 #include "..\Events\Event.h"
 #include "..\Generic_DS\LinkedList.h"
 #include "..\Generic_DS\PriorityQueue.h"
-
+#include "Motorcycle.h"
 #include "Order.h"
 
 // it is the maestro of the project
@@ -54,6 +54,7 @@ public:
 	Order* getOrderById(int i);
 	void cancelOrder(Order* o);
 	void promoteOrder(Order* o);
+	void creat_motor_cycles(int *speed, int *regA, int *regB, int *regC, int *regD); 
 	/// ==> 
 
 

@@ -14,8 +14,13 @@ class Motorcycle
 	STATUS	status;	//idle or in-service
 
 public:
-	Motorcycle();
+	Motorcycle(int id, ORD_TYPE ot, int sp, REGION reg);
 	virtual ~Motorcycle();
+	Motorcycle();
+	void set_id(int id);
+	void set_type(ORD_TYPE ot);
+	void set_speed(int sp);
+	void  set_REG(REGION reg); 
 };
 
 #endif
