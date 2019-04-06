@@ -64,6 +64,23 @@ Restaurant::~Restaurant()
 
 
 
+void Restaurant::Simulate()
+{
+	int timeStep = 0; 
+	
+	/* ADD MORE INITIALIZATIONS */
+
+	/* READ INPUT FROM pIn */
+
+	while (timeStep++)
+	{
+
+	}
+
+
+
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 /// ==> 
