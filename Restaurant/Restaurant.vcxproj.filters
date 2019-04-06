@@ -120,6 +120,9 @@
     <ClInclude Include="Generic_DS\LinkedList.h">
       <Filter>Restaurant</Filter>
     </ClInclude>
+    <ClInclude Include="InputClass\ReadInput.h">
+      <Filter>Restaurant</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Demo_Main.cpp" />
@@ -248,6 +251,7 @@
     </ClCompile>
     <ClCompile Include="Events\CancellationEvent.cpp" />
     <ClCompile Include="Events\PromotionEvent.cpp" />
+    <ClCompile Include="InputClass\ReadInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMUgraphicsLib\Manual.txt">
