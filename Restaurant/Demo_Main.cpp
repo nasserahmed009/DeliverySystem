@@ -19,8 +19,11 @@ int main()
 	pIn.read("input", pRest);
 	pRest->Simulate();
 	pRest->RunSimulation();
-
+	
 	delete pRest;
+
+
+	system("pause");
 	return 0;
 }
  
