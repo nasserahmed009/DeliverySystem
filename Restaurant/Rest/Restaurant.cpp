@@ -157,7 +157,8 @@ void Restaurant::Simulate()
 			Event* junk;
 			EventsQueue.dequeue(junk);
 		}
-
+		// NASSER HERE SHOULD DRAW THE ORDERS THAT IS ALREADY IN ALL LIST (VIP / NORMAL / FROZEN)
+		// YOU HAVE TO LOOP ON THESE STRUCTURES UNTIL THEY ARE EMPTY AND ADD THEM FOR DRAWING (BE CAREFUL TO READ THE GUI FUNCTION IN THE DOCUMENT)
 		pGUI->waitForClick();
 	}
 
@@ -303,18 +304,6 @@ void Restaurant::promoteOrder(Order * o)
 	vipOrders[o->GetRegion()].enqueue(o);
 }
 void Restaurant::creat_motor_cycles(int *speed, int *regA, int *regB, int *regC, int *regD) {
-	Queue <Motorcycle> M_NormalA; 
-	Queue <Motorcycle> M_FrozenA;
-	Queue <Motorcycle> M_VIPA;
-	Queue <Motorcycle> M_NormalB;
-	Queue <Motorcycle> M_FrozenB;
-	Queue <Motorcycle> M_VIPB;
-	Queue <Motorcycle> M_NormalC;
-	Queue <Motorcycle> M_FrozenC;
-	Queue <Motorcycle> M_VIPC;
-	Queue <Motorcycle> M_NormalD;
-	Queue <Motorcycle> M_FrozenD;
-	Queue <Motorcycle> M_VIPD;
 	int i;
 	int x1 = regA[0] + regB[0] + regC[0] + regD[0];
 	int x2 = regA[1] + regB[1] + regC[1] + regD[1];

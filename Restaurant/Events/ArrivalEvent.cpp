@@ -36,7 +36,7 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 	///For the sake of demo, this function will just create an order and add it to DemoQueue
 	///Remove the next code lines in phase 1&2
 	Order* pOrd = new Order(OrderID,OrdType,OrdRegion);
-	pRest->AddtoDemoQueue(pOrd);
+//	pRest->AddtoDemoQueue(pOrd); for demo only no need to be excuted in phase 1 
 
 	switch (OrdType) {
 		case TYPE_NRM:
@@ -46,6 +46,11 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 			pRest->AddFrozenOrder(pOrd);
 			break;
 		case TYPE_VIP:
+			// Calculation the weight of this viP order 
+			double mon = pOrd->get_money();
+			int dis = pOrd->GetDistance(); 
+			int tim = this->getEventTime(); 
+			pOrd->set_wieght(2 * mon + dis + tim);
 			pRest->AddVipOrder(pOrd);
 			break;
 	}

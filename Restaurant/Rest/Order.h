@@ -13,6 +13,7 @@ protected:
 	int Distance;	//The distance (in meters) between the order location and the resturant 
 	                
 	double totalMoney;	//Total order money
+	int weight; // to calculate the weight for VIP orders only  
 
 	int ArrTime, ServTime, FinishTime;	//arrival, service start, and finish times
 	
@@ -32,6 +33,10 @@ public:
 
 	void SetDistance(int d);
 	int GetDistance() const;
+	double get_money(); 
+	void set_wieght(int x); 
+	bool operator > (Order O);
+	int get_wight(); 
 
 	//
 	// TODO: Add More Member Functions As Needed

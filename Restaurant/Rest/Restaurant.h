@@ -28,6 +28,19 @@ private:
 
 	int NumberOfActiveOrders[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
 	int NumberOfMotorcycles[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
+	// Motor cycle data structures; 
+	Queue <Motorcycle> M_NormalA;
+	Queue <Motorcycle> M_FrozenA;
+	Queue <Motorcycle> M_VIPA;
+	Queue <Motorcycle> M_NormalB;
+	Queue <Motorcycle> M_FrozenB;
+	Queue <Motorcycle> M_VIPB;
+	Queue <Motorcycle> M_NormalC;
+	Queue <Motorcycle> M_FrozenC;
+	Queue <Motorcycle> M_VIPC;
+	Queue <Motorcycle> M_NormalD;
+	Queue <Motorcycle> M_FrozenD;
+	Queue <Motorcycle> M_VIPD;
 	
 	/// ==>
 	
