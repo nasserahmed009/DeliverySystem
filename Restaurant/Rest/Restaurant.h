@@ -26,6 +26,7 @@ private:
 	Queue<Order*> FrozenOrders[4];
 	LinkedList<Order*> NormalOrders[4];
 
+	PriorityQueue<Order*> inServicsOrder[4];
 	int NumberOfActiveOrders[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
 	int NumberOfMotorcycles[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
 	// Motor cycle data structures; 

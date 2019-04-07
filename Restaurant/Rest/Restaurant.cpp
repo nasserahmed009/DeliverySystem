@@ -13,7 +13,7 @@ using namespace std;
 Restaurant::Restaurant() 
 {
 	pGUI = NULL;
-	creat_motor_cycles();
+	//creat_motor_cycles();
 }
 
 void Restaurant::RunSimulation()
@@ -30,7 +30,7 @@ void Restaurant::RunSimulation()
 	case MODE_SLNT:
 		break;
 	case MODE_DEMO:
-		Just_A_Demo();
+		Simulate();
 
 	};
 
@@ -70,7 +70,7 @@ Restaurant::~Restaurant()
 
 void Restaurant::Simulate()
 {
-	int timeStep = 0;
+	int timeStep = 6;
 	ReadInput pIn;
 	pIn.read("input",this);
 	for(int i=0;i<4;i++)
@@ -114,10 +114,10 @@ void Restaurant::Simulate()
 	/* ADD MORE INITIALIZATIONS */
 
 	/* READ INPUT FROM pIn */
-
-	while (timeStep++)
+	
+	while (++timeStep)
 	{
-
+		
 		Event* tempPtr;
 		while (EventsQueue.peekFront(tempPtr))
 		{
@@ -133,6 +133,8 @@ void Restaurant::Simulate()
 				int region = dynamic_cast<ArrivalEvent*>(tempPtr)->getOrderRegion();
 				int type = dynamic_cast<ArrivalEvent*>(tempPtr)->getOrderType();
 				NumberOfActiveOrders[region][type]++;
+
+				
 			}
 			else if (dynamic_cast<CancellationEvent*>(tempPtr)) {
 				int id = tempPtr->getOrderID();
@@ -142,14 +144,33 @@ void Restaurant::Simulate()
 			}
 
 
-			string s = "Region 1 : NormalOrders = " + NumberOfActiveOrders[0][0]; s += " FrozenOrders = " + NumberOfActiveOrders[0][1]; s += " vipOrders = " + NumberOfActiveOrders[0][2];
-			s += " NormalMotorcycles = " + NumberOfMotorcycles[0][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[0][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[0][2];
-			s += "/nRegion 2 : NormalOrders = " + NumberOfActiveOrders[1][0]; s += " FrozenOrders = " + NumberOfActiveOrders[1][1]; s += " vipOrders = " + NumberOfActiveOrders[1][2];
-			s += " NormalMotorcycles = " + NumberOfMotorcycles[1][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[1][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[1][2];
-			s += "/nRegion 3 : NormalOrders = " + NumberOfActiveOrders[2][0]; s += " FrozenOrders = " + NumberOfActiveOrders[2][1]; s += " vipOrders = " + NumberOfActiveOrders[2][2];
-			s += " NormalMotorcycles = " + NumberOfMotorcycles[2][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[2][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[2][2];
-			s += "/nRegion 4 : NormalOrders = " + NumberOfActiveOrders[3][0]; s += " FrozenOrders = " + NumberOfActiveOrders[3][1]; s += " vipOrders = " + NumberOfActiveOrders[3][2];
-			s += " NormalMotorcycles = " + NumberOfMotorcycles[3][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[3][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[3][2];
+		
+			
+
+			string s = "Region 1 : NormalOrders = " + to_string(NumberOfActiveOrders[0][0]); 
+			s += " FrozenOrders = " + to_string(NumberOfActiveOrders[0][1]); 
+			s += " vipOrders = " + to_string(NumberOfActiveOrders[0][2]);
+			s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[0][0]);
+			s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[0][1]);
+			s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[0][2]);
+			s += "/nRegion 2 : NormalOrders = " + to_string(NumberOfActiveOrders[1][0]);
+			s += " FrozenOrders = " + to_string(NumberOfActiveOrders[1][1]);
+			s += " vipOrders = " + to_string(NumberOfActiveOrders[1][2]);
+			s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[1][0]);
+			s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[1][1]);
+			s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[1][2]);
+			s += "/nRegion 3 : NormalOrders = " + to_string(NumberOfActiveOrders[2][0]);
+			s += " FrozenOrders = " + to_string(NumberOfActiveOrders[2][1]);
+			s += " vipOrders = " + to_string(NumberOfActiveOrders[2][2]);
+			s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[2][0]);
+			s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[2][1]);
+			s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[2][2]);
+			s += "/nRegion 4 : NormalOrders = " + to_string(NumberOfActiveOrders[3][0]);
+			s += " FrozenOrders = " + to_string(NumberOfActiveOrders[3][1]);
+			s += " vipOrders = " + to_string(NumberOfActiveOrders[3][2]);
+			s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[3][0]);
+			s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[3][1]);
+			s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[3][2]);
 			
 			pGUI->PrintMessage(s);
 
@@ -158,13 +179,26 @@ void Restaurant::Simulate()
 			Event* junk;
 			EventsQueue.dequeue(junk);
 		}
-		// NASSER HERE SHOULD DRAW THE ORDERS THAT IS ALREADY IN ALL LIST (VIP / NORMAL / FROZEN)
-		// YOU HAVE TO LOOP ON THESE STRUCTURES UNTIL THEY ARE EMPTY AND ADD THEM FOR DRAWING (BE CAREFUL TO READ THE GUI FUNCTION IN THE DOCUMENT)
-		// DO NOT FORGET TO ADD THE DRAWN ORDERS IN THE IN-SERVICE LIST THAT SOULD BE A PERIORTY QUEUE (YOU HAVE TO ADD IT AS A DATA MEMBER IN RESTAURANT)
+		Order* pOrd;
+		for (int i = 0; i < 4; i++) {
+			while (vipOrders[i].dequeue(pOrd)) {
+				pGUI->AddOrderForDrawing(pOrd);
+				pGUI->UpdateInterface();
+			}
+			while (FrozenOrders[i].dequeue(pOrd)) {
+				pGUI->AddOrderForDrawing(pOrd);
+				pGUI->UpdateInterface();
+			}
+			
+			while (!NormalOrders[i].is_empty()) {
+				pOrd = (NormalOrders[i].getHead())->getItem();
+				pGUI->AddOrderForDrawing(pOrd);
+				pGUI->UpdateInterface();
+				NormalOrders[i].remove(pOrd);
+			}
+		}
 		pGUI->waitForClick();
 	}
-
-
 
 }
 
@@ -177,12 +211,12 @@ void Restaurant::Simulate()
 //It should be removed starting phase 1
 void Restaurant::Just_A_Demo()
 {
-	
+
 	//
 	// THIS IS JUST A DEMO FUNCTION
 	// IT SHOULD BE REMOVED IN PHASE 1 AND PHASE 2
-	
-	int EventCnt;	
+
+	int EventCnt;
 	Order* pOrd;
 	Event* pEv;
 	srand(time(NULL));
@@ -193,42 +227,42 @@ void Restaurant::Just_A_Demo()
 	pGUI->UpdateInterface();
 
 	pGUI->PrintMessage("Generating orders randomly... In next phases, orders should be loaded from a file");
-		
+
 	int EvTime = 0;
-	
+
 	//Create Random events
 	//All generated event will be "ArrivalEvents" for the demo
-	for(int i=0; i<EventCnt; i++)
+	for (int i = 0; i < EventCnt; i++)
 	{
-		int O_id = i+1;
-		
+		int O_id = i + 1;
+
 		//Rendomize order type
 		int OType;
-		if(i<EventCnt*0.2)	//let 1st 20% of orders be VIP (just for sake of demo)
+		if (i < EventCnt*0.2)	//let 1st 20% of orders be VIP (just for sake of demo)
 			OType = TYPE_VIP;
-		else if(i<EventCnt*0.5)	
+		else if (i < EventCnt*0.5)
 			OType = TYPE_FROZ;	//let next 30% be Frozen
 		else
 			OType = TYPE_NRM;	//let the rest be normal
 
-		
-		int reg = rand()% REG_CNT;	//randomize region
+
+		int reg = rand() % REG_CNT;	//randomize region
 
 
 		//Randomize event time
-		EvTime += rand()%4;
-		pEv = new ArrivalEvent(EvTime,O_id,(ORD_TYPE)OType,(REGION)reg);
+		EvTime += rand() % 4;
+		pEv = new ArrivalEvent(EvTime, O_id, (ORD_TYPE)OType, (REGION)reg);
 		AddEvent(pEv);
 
-	}	
+	}
 
 	int CurrentTimeStep = 1;
 	//as long as events queue is not empty yet
-	while(!EventsQueue.isEmpty())
+	while (!EventsQueue.isEmpty())
 	{
 		//print current timestep
 		char timestep[10];
-		itoa(CurrentTimeStep,timestep,10);	
+		itoa(CurrentTimeStep, timestep, 10);
 		pGUI->PrintMessage(timestep);
 
 
@@ -237,7 +271,7 @@ void Restaurant::Just_A_Demo()
 
 		//Let's draw all arrived orders by passing them to the GUI to draw
 
-		while(DEMO_Queue.dequeue(pOrd))
+		while (DEMO_Queue.dequeue(pOrd))
 		{
 			pGUI->AddOrderForDrawing(pOrd);
 			pGUI->UpdateInterface();
@@ -250,7 +284,7 @@ void Restaurant::Just_A_Demo()
 	pGUI->PrintMessage("generation done, click to END program");
 	pGUI->waitForClick();
 
-	
+
 }
 ////////////////
 
