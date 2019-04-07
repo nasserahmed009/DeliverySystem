@@ -15,7 +15,7 @@ int main()
 {
 	// here you should creat instance of inputfile and read data from it 
 	Restaurant* pRest = new Restaurant;
-	pRest->Simulate();
+	pRest->RunSimulation();
 	//pRest->RunSimulation(); no Need to be excuted in phase 1
 	
 	delete pRest;

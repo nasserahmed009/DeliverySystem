@@ -19,6 +19,7 @@ void Restaurant::RunSimulation()
 {
 	pGUI = new GUI;
 	PROG_MODE	mode = pGUI->getGUIMode();
+	Simulate();
 		
 	switch (mode)	//Add a function for each mode in next phases
 	{
@@ -109,12 +110,22 @@ void Restaurant::Simulate()
 			NumberOfMotorcycles[i][j] = pIn.getMotorCyclesInRegion(type,region);
 		}
 	}
+	/*string s = "Region 1 : NormalOrders = " + NumberOfActiveOrders[0][0]; s += " FrozenOrders = " + NumberOfActiveOrders[0][1]; s += " vipOrders = " + NumberOfActiveOrders[0][2];
+	s += " NormalMotorcycles = " + NumberOfMotorcycles[0][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[0][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[0][2];
+	s += "/nRegion 2 : NormalOrders = " + NumberOfActiveOrders[1][0]; s += " FrozenOrders = " + NumberOfActiveOrders[1][1]; s += " vipOrders = " + NumberOfActiveOrders[1][2];
+	s += " NormalMotorcycles = " + NumberOfMotorcycles[1][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[1][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[1][2];
+	s += "/nRegion 3 : NormalOrders = " + NumberOfActiveOrders[2][0]; s += " FrozenOrders = " + NumberOfActiveOrders[2][1]; s += " vipOrders = " + NumberOfActiveOrders[2][2];
+	s += " NormalMotorcycles = " + NumberOfMotorcycles[2][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[2][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[2][2];
+	s += "/nRegion 4 : NormalOrders = " + NumberOfActiveOrders[3][0]; s += " FrozenOrders = " + NumberOfActiveOrders[3][1]; s += " vipOrders = " + NumberOfActiveOrders[3][2];
+	s += " NormalMotorcycles = " + NumberOfMotorcycles[3][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[3][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[3][2];*/
+
+	//pGUI->PrintMessage(s);
 
 	/* ADD MORE INITIALIZATIONS */
 
 	/* READ INPUT FROM pIn */
 
-	while (timeStep++)
+	while (!EventsQueue.isEmpty())
 	{
 
 		Event* tempPtr;
@@ -139,32 +150,38 @@ void Restaurant::Simulate()
 				int region = orderPtr->GetRegion();
 				NumberOfActiveOrders[region][0]--;
 			}
-
-
-			string s = "Region 1 : NormalOrders = " + NumberOfActiveOrders[0][0]; s += " FrozenOrders = " + NumberOfActiveOrders[0][1]; s += " vipOrders = " + NumberOfActiveOrders[0][2];
-			s += " NormalMotorcycles = " + NumberOfMotorcycles[0][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[0][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[0][2];
-			s += "/nRegion 2 : NormalOrders = " + NumberOfActiveOrders[1][0]; s += " FrozenOrders = " + NumberOfActiveOrders[1][1]; s += " vipOrders = " + NumberOfActiveOrders[1][2];
-			s += " NormalMotorcycles = " + NumberOfMotorcycles[1][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[1][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[1][2];
-			s += "/nRegion 3 : NormalOrders = " + NumberOfActiveOrders[2][0]; s += " FrozenOrders = " + NumberOfActiveOrders[2][1]; s += " vipOrders = " + NumberOfActiveOrders[2][2];
-			s += " NormalMotorcycles = " + NumberOfMotorcycles[2][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[2][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[2][2];
-			s += "/nRegion 4 : NormalOrders = " + NumberOfActiveOrders[3][0]; s += " FrozenOrders = " + NumberOfActiveOrders[3][1]; s += " vipOrders = " + NumberOfActiveOrders[3][2];
-			s += " NormalMotorcycles = " + NumberOfMotorcycles[3][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[3][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[3][2];
-			
-			pGUI->PrintMessage(s);
-
-			
-
 			Event* junk;
 			EventsQueue.dequeue(junk);
 		}
 		// NASSER HERE SHOULD DRAW THE ORDERS THAT IS ALREADY IN ALL LIST (VIP / NORMAL / FROZEN)
 		// YOU HAVE TO LOOP ON THESE STRUCTURES UNTIL THEY ARE EMPTY AND ADD THEM FOR DRAWING (BE CAREFUL TO READ THE GUI FUNCTION IN THE DOCUMENT)
 		// DO NOT FORGET TO ADD THE DRAWN ORDERS IN THE IN-SERVICE LIST THAT SOULD BE A PERIORTY QUEUE (YOU HAVE TO ADD IT AS A DATA MEMBER IN RESTAURANT)
-		pGUI->waitForClick();
+		Order *pOrd;
+		for (int i = 0; i < 4; i++) {
+			while (vipOrders[i].dequeue(pOrd))
+			{
+				pGUI->AddOrderForDrawing(pOrd);
+				
+			}
+		}
+		for (int i = 0; i < 4; i++) {
+			while (FrozenOrders[i].dequeue(pOrd))
+			{
+				pGUI->AddOrderForDrawing(pOrd);
+			}
+		}
+		for (int i = 0; i < 4; i++) {
+			while (NormalOrders[i].remove_at_end(pOrd))
+			{
+				pGUI->AddOrderForDrawing(pOrd);
+			}
+		}
+		pGUI->UpdateInterface();
+		Sleep(1000);
+		timeStep++;
 	}
-
-
-
+	pGUI->PrintMessage("Simulation Finished Thanks for watching");
+	cout << "Ended successfully" << endl; 
 }
 
 
@@ -355,6 +372,7 @@ void Restaurant::creat_motor_cycles(int *speed, int *regA, int *regB, int *regC,
 		Motorcycle * M = new Motorcycle;
 		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIPD.enqueue(M);   k++;
 	}
+
 }
 
 

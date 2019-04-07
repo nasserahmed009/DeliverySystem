@@ -11,7 +11,7 @@ public:
 	~LinkedList();
 	bool insert_at_end(T item) ; 
 	bool remove (T item); 
-	bool remove_at_end();
+	bool remove_at_end(T& item);
 	bool is_empty(); 
 	Node<T>* getHead();
 	void test(); // to print elements (for test only );
@@ -49,11 +49,12 @@ bool LinkedList <T>::insert_at_end (T item) {
 	return false;
 }
 template<typename T>
-bool LinkedList<T>::remove_at_end() { //to remove an order when it's served 
+bool LinkedList<T>::remove_at_end(T &item) { //to remove an order when it's served 
 	if (is_empty()) {
 	return false;
 	}
 	else if (Head == Tail ) {
+		item = Head->getItem();
 	delete Head;
 	Head= Tail = NULL;
 	return true; 
@@ -61,6 +62,7 @@ bool LinkedList<T>::remove_at_end() { //to remove an order when it's served
 	else {
 		Node <T> * temp;
 	temp = Head->getNext();
+	item = Head->getItem();
 	delete Head;
 	Head = temp;
 	if (!Head) {
@@ -107,7 +109,8 @@ return false;
 template <typename T> 
 LinkedList<T> ::~LinkedList() {
 	while (!is_empty()) {
-		remove_at_end();
+		T junk;
+		remove_at_end(junk);
 	}
 }
 template <typename T>
