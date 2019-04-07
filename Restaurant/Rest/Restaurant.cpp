@@ -18,10 +18,10 @@ Restaurant::Restaurant()
 void Restaurant::RunSimulation()
 {
 	pGUI = new GUI;
-	PROG_MODE	mode = pGUI->getGUIMode();
+	//PROG_MODE	mode = pGUI->getGUIMode();
 	Simulate();
 		
-	switch (mode)	//Add a function for each mode in next phases
+	/*switch (mode)	//Add a function for each mode in next phases
 	{
 	case MODE_INTR:
 		break;
@@ -32,7 +32,7 @@ void Restaurant::RunSimulation()
 	case MODE_DEMO:
 		Just_A_Demo();
 
-	};
+	};*/
 
 }
 
@@ -153,9 +153,6 @@ void Restaurant::Simulate()
 			Event* junk;
 			EventsQueue.dequeue(junk);
 		}
-		// NASSER HERE SHOULD DRAW THE ORDERS THAT IS ALREADY IN ALL LIST (VIP / NORMAL / FROZEN)
-		// YOU HAVE TO LOOP ON THESE STRUCTURES UNTIL THEY ARE EMPTY AND ADD THEM FOR DRAWING (BE CAREFUL TO READ THE GUI FUNCTION IN THE DOCUMENT)
-		// DO NOT FORGET TO ADD THE DRAWN ORDERS IN THE IN-SERVICE LIST THAT SOULD BE A PERIORTY QUEUE (YOU HAVE TO ADD IT AS A DATA MEMBER IN RESTAURANT)
 		Order *pOrd;
 		for (int i = 0; i < 4; i++) {
 			while (vipOrders[i].dequeue(pOrd))
@@ -183,8 +180,9 @@ void Restaurant::Simulate()
 	pGUI->PrintMessage("Simulation Finished Thanks for watching");
 	cout << "Ended successfully" << endl; 
 }
-
-
+/* STILL NEED TO BE ADDED THE IN-SERVICE LIST FOR SERVICED ORDERS*/
+/*INPUT FUNCTION SHOULD READ FROM EL MAIN NOT FROM SIMULATION FUNCTION*/
+/* NEED TO DISPLAY NUMBER OF EVERY THING ON THE DISPLAY ON SEPARATE LINE*/
 ////////////////////////////////////////////////////////////////////////////////
 /// ==> 
 ///  DEMO-related functions. Should be removed in phases 1&2
