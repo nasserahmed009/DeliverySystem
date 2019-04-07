@@ -7,6 +7,7 @@ using namespace std;
 #include "..\Events\ArrivalEvent.h"
 #include"../Events/CancellationEvent.h"
 #include"../Events/PromotionEvent.h"
+#include"../InputClass/ReadInput.h"
 
 
 Restaurant::Restaurant() 
@@ -68,13 +69,34 @@ Restaurant::~Restaurant()
 
 void Restaurant::Simulate()
 {
-	int timeStep = 0; 
+	int timeStep = 0;
+	ReadInput pIn;
 	for(int i=0;i<4;i++)
 		for (int j = 0; j < 3; j++)
 		{
 			NumberOfActiveOrders[i][j] = 0;
-			NumberOfMotorcycles[i][j] = 0; /* INITIALIZE FROM pIn ARRAYS*/
 		}
+
+	for (int i = 0; i < 4; i++) {
+		int* motorCyclesInRegion;
+		switch (i) {
+		case 0:
+			motorCyclesInRegion=pIn.getMotorCyclesInRegion(A_REG);
+			break;
+		case 1:
+			motorCyclesInRegion = pIn.getMotorCyclesInRegion(B_REG);
+			break;
+		case 2:
+			motorCyclesInRegion = pIn.getMotorCyclesInRegion(C_REG);
+			break;
+		case 3:
+			motorCyclesInRegion = pIn.getMotorCyclesInRegion(D_REG);
+			break;
+		}
+		for (int j = 0; j < 3; j++) {
+			NumberOfMotorcycles[i][j] = motorCyclesInRegion[j];
+		}
+	}
 
 	/* ADD MORE INITIALIZATIONS */
 

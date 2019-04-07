@@ -13,8 +13,12 @@ using namespace std;
 
 class ReadInput
 {
+private:
 	int NormalSpeed, FrozenSpeed, VipSpeed, AutoPromotionLimit,NumberOfEvents;
-	int	motorCyclesInA[3], motorCyclesInB[3], motorCyclesInC[3], motorCyclesInD[3];
+	int motorCyclesInA[3];
+	int motorCyclesInB[3];
+	int motorCyclesInC[3];
+	int motorCyclesInD[3];
 
 public:
 	ReadInput();
@@ -25,6 +29,7 @@ public:
 	int getAutoPromotionLimit();
 	int getNumberOfEvents();
 	int getMotorCyclesInRegion(ORD_TYPE,REGION);
+	int* getMotorCyclesInRegion(REGION);
 	~ReadInput();
 };
 

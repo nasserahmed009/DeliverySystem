@@ -2,6 +2,12 @@
 
 ReadInput::ReadInput() :NormalSpeed(0), FrozenSpeed(0), VipSpeed(0), AutoPromotionLimit(0), NumberOfEvents(0)
 {
+	for (int i = 0; i < 3; i++) {
+		motorCyclesInA[i] = 0;
+		motorCyclesInB[i] = 0;
+		motorCyclesInC[i] = 0;
+		motorCyclesInD[i] = 0;
+	}
 }
 
 bool ReadInput::read(string fileName,Restaurant* R) {
@@ -225,6 +231,18 @@ int ReadInput::getMotorCyclesInRegion(ORD_TYPE O, REGION R)
 			break;
 	}
 	return -1;
+}
+
+int* ReadInput::getMotorCyclesInRegion(REGION region)
+{
+	if (region == A_REG)
+		return &motorCyclesInA[0];
+	else if (region == B_REG)
+		return &motorCyclesInB[0];
+	else if (region == C_REG)
+		return &motorCyclesInC[0];
+	else
+		return &motorCyclesInD[0];
 }
 
 

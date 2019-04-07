@@ -15,8 +15,9 @@ int main()
 {
 	Restaurant RestaurantA, RestaurantB, RestaurantC, RestaurantD;
 	Restaurant* pRest = new Restaurant;
-	ReadInput R;
-	R.read("input", pRest);
+	ReadInput pIn;
+	pIn.read("input", pRest);
+	pRest->Simulate();
 	pRest->RunSimulation();
 
 	delete pRest;
