@@ -233,18 +233,6 @@ int ReadInput::getMotorCyclesInRegion(ORD_TYPE O, REGION R)
 	return -1;
 }
 
-int* ReadInput::getMotorCyclesInRegion(REGION region)
-{
-	if (region == A_REG)
-		return &motorCyclesInA[0];
-	else if (region == B_REG)
-		return &motorCyclesInB[0];
-	else if (region == C_REG)
-		return &motorCyclesInC[0];
-	else
-		return &motorCyclesInD[0];
-}
-
 
 
 ReadInput::~ReadInput()

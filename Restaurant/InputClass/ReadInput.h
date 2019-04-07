@@ -29,7 +29,6 @@ public:
 	int getAutoPromotionLimit();
 	int getNumberOfEvents();
 	int getMotorCyclesInRegion(ORD_TYPE,REGION);
-	int* getMotorCyclesInRegion(REGION);
 	~ReadInput();
 };
 

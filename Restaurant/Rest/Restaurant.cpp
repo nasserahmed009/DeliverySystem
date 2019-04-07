@@ -71,6 +71,7 @@ void Restaurant::Simulate()
 {
 	int timeStep = 0;
 	ReadInput pIn;
+	pIn.read("input",this);
 	for(int i=0;i<4;i++)
 		for (int j = 0; j < 3; j++)
 		{
@@ -78,23 +79,34 @@ void Restaurant::Simulate()
 		}
 
 	for (int i = 0; i < 4; i++) {
-		int* motorCyclesInRegion;
+		REGION region;
+		ORD_TYPE type;
 		switch (i) {
 		case 0:
-			motorCyclesInRegion=pIn.getMotorCyclesInRegion(A_REG);
+			region = A_REG;
 			break;
 		case 1:
-			motorCyclesInRegion = pIn.getMotorCyclesInRegion(B_REG);
+			region = B_REG;
 			break;
 		case 2:
-			motorCyclesInRegion = pIn.getMotorCyclesInRegion(C_REG);
+			region = C_REG;
 			break;
 		case 3:
-			motorCyclesInRegion = pIn.getMotorCyclesInRegion(D_REG);
+			region = D_REG;
 			break;
 		}
 		for (int j = 0; j < 3; j++) {
-			NumberOfMotorcycles[i][j] = motorCyclesInRegion[j];
+			switch (j) {
+			case(0):
+				type = TYPE_NRM;
+				break;
+			case(1):
+				type = TYPE_FROZ;
+				break;
+			case(2):
+				type = TYPE_VIP;
+			}
+			NumberOfMotorcycles[i][j] = pIn.getMotorCyclesInRegion(type,region);
 		}
 	}
 
