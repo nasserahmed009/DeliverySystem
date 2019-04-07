@@ -17,15 +17,17 @@ class Restaurant
 private:
 	GUI *pGUI;
 	Queue<Event*> EventsQueue;	//Queue of all events that will be loaded from file
-
 	
 	/// ==> 
 	//	DEMO-related members. Should be removed in phases 1&2
 	Queue<Order*> DEMO_Queue;	//Important: This is just for demo
 	
-	PriorityQueue<Order*> vipOrders;
-	Queue<Order*> FrozenOrders;
-	LinkedList<Order*> NormalOrders;
+	PriorityQueue<Order*> vipOrders[4];
+	Queue<Order*> FrozenOrders[4];
+	LinkedList<Order*> NormalOrders[4];
+
+	int NumberOfActiveOrders[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
+	int NumberOfMotorcycles[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
 	
 	/// ==>
 	

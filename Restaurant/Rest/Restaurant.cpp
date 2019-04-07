@@ -5,6 +5,8 @@ using namespace std;
 
 #include "Restaurant.h"
 #include "..\Events\ArrivalEvent.h"
+#include"../Events/CancellationEvent.h"
+#include"../Events/PromotionEvent.h"
 
 
 Restaurant::Restaurant() 
@@ -67,7 +69,13 @@ Restaurant::~Restaurant()
 void Restaurant::Simulate()
 {
 	int timeStep = 0; 
-	
+	for(int i=0;i<4;i++)
+		for (int j = 0; j < 3; j++)
+		{
+			NumberOfActiveOrders[i][j] = 0;
+			NumberOfMotorcycles[i][j] = 0; /* INITIALIZE FROM pIn ARRAYS*/
+		}
+
 	/* ADD MORE INITIALIZATIONS */
 
 	/* READ INPUT FROM pIn */
@@ -75,6 +83,48 @@ void Restaurant::Simulate()
 	while (timeStep++)
 	{
 
+		Event* tempPtr;
+		while (EventsQueue.peekFront(tempPtr))
+		{
+			if (tempPtr->getEventTime() > timeStep)
+				break;
+
+			tempPtr->Execute(this);
+			
+			/* UPDATE INTERFACE TO DISPLAY ACTIVE ORDERS IN EACH REGION */
+
+			if (dynamic_cast<ArrivalEvent*>(tempPtr)) //Update the number of active orders according to region and type
+			{
+				int region = dynamic_cast<ArrivalEvent*>(tempPtr)->getOrderRegion();
+				int type = dynamic_cast<ArrivalEvent*>(tempPtr)->getOrderType();
+				NumberOfActiveOrders[region][type]++;
+			}
+			else if (dynamic_cast<CancellationEvent*>(tempPtr)) {
+				int id = tempPtr->getOrderID();
+				Order* orderPtr = getOrderById(id);
+				int region = orderPtr->GetRegion();
+				NumberOfActiveOrders[region][0]--;
+			}
+
+
+			string s = "Region 1 : NormalOrders = " + NumberOfActiveOrders[0][0]; s += " FrozenOrders = " + NumberOfActiveOrders[0][1]; s += " vipOrders = " + NumberOfActiveOrders[0][2];
+			s += " NormalMotorcycles = " + NumberOfMotorcycles[0][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[0][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[0][2];
+			s += "/nRegion 2 : NormalOrders = " + NumberOfActiveOrders[1][0]; s += " FrozenOrders = " + NumberOfActiveOrders[1][1]; s += " vipOrders = " + NumberOfActiveOrders[1][2];
+			s += " NormalMotorcycles = " + NumberOfMotorcycles[1][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[1][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[1][2];
+			s += "/nRegion 3 : NormalOrders = " + NumberOfActiveOrders[2][0]; s += " FrozenOrders = " + NumberOfActiveOrders[2][1]; s += " vipOrders = " + NumberOfActiveOrders[2][2];
+			s += " NormalMotorcycles = " + NumberOfMotorcycles[2][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[2][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[2][2];
+			s += "/nRegion 4 : NormalOrders = " + NumberOfActiveOrders[3][0]; s += " FrozenOrders = " + NumberOfActiveOrders[3][1]; s += " vipOrders = " + NumberOfActiveOrders[3][2];
+			s += " NormalMotorcycles = " + NumberOfMotorcycles[3][0]; s += " FrozenMotorcycles = " + NumberOfMotorcycles[3][1]; s += " vipMotorcycles = " + NumberOfMotorcycles[3][2];
+			
+			pGUI->PrintMessage(s);
+
+			
+
+			Event* junk;
+			EventsQueue.dequeue(junk);
+		}
+
+		pGUI->waitForClick();
 	}
 
 
@@ -182,38 +232,41 @@ Order* Restaurant::getDemoOrder()
 
 void Restaurant::AddVipOrder(Order * o)
 {
-	vipOrders.enqueue(o);
+	vipOrders[o->GetRegion()].enqueue(o);
 }
 
 void Restaurant::AddFrozenOrder(Order * o)
 {
-	FrozenOrders.enqueue(o);
+	FrozenOrders[o->GetRegion()].enqueue(o);
 }
 
 void Restaurant::AddNormalOrder(Order * o)
 {
-	NormalOrders.insert_at_end(o);
+	NormalOrders[o->GetRegion()].insert_at_end(o);
 }
 
 Order* Restaurant::getOrderById(int i)
 {
-	Node<Order*>* temp = NormalOrders.getHead();
-	while (temp) {
-		if ((temp->getItem())->GetID() == i) return temp->getItem();
-		temp = temp->getNext();
+	for (int i = 0; i < 4; i++)
+	{
+		Node<Order*>* temp = NormalOrders[i].getHead();
+		while (temp) {
+			if ((temp->getItem())->GetID() == i) return temp->getItem();
+			temp = temp->getNext();
+		}
 	}
 	return NULL;
 }
 
 void Restaurant::cancelOrder(Order * o)
 {
-	NormalOrders.remove(o);
+	NormalOrders[o->GetRegion()].remove(o);
 }
 
 void Restaurant::promoteOrder(Order * o)
 {
-	NormalOrders.remove(o);
-	vipOrders.enqueue(o);
+	NormalOrders[o->GetRegion()].remove(o);
+	vipOrders[o->GetRegion()].enqueue(o);
 }
 void Restaurant::creat_motor_cycles(int *speed, int *regA, int *regB, int *regC, int *regD) {
 	Queue <Motorcycle> M_NormalA; 

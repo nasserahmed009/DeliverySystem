@@ -16,6 +16,16 @@ ArrivalEvent::ArrivalEvent(int eTime, int O_id, ORD_TYPE OType, REGION reg):Even
 	OrdRegion = reg;
 }
 
+ORD_TYPE ArrivalEvent::getOrderType()
+{
+	return OrdType;
+}
+
+REGION ArrivalEvent::getOrderRegion()
+{
+	return OrdRegion;
+}
+
 void ArrivalEvent::Execute(Restaurant* pRest)
 {
 	//This function should create and order and and fills its data 
