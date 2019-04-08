@@ -154,6 +154,12 @@ bool ReadInput::read(string fileName,Restaurant* R) {
 		cout << "File not found";
 		return false;
 	}
+	// BY MOHY here i called the fuction creat motor cycle from restaurnat to creat them after read their data. (it will not affect any thing in your work shoma XD)
+	int x[3];
+	x[0] = NormalSpeed; 
+	x[1] = FrozenSpeed; 
+	x[2] = VipSpeed;
+	R->creat_motor_cycles(x, motorCyclesInA, motorCyclesInB, motorCyclesInC , motorCyclesInD);
 	infile.close();
 	cout << "File loaded successfully";
 	return true;
