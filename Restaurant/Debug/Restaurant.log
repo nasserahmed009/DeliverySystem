@@ -1,2 +1,48 @@
-﻿  Demo_Main.cpp
-  Restaurant.vcxproj -> F:\Git Repo\nasserahmed009\deliverySystem\Debug\Restaurant.exe
+﻿  Restaurant.cpp
+c:\users\nasser\desktop\deliverysystemproject\deliverysystem\restaurant\rest\restaurant.cpp(236): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\nasser\desktop\deliverysystemproject\deliverysystem\restaurant\rest\restaurant.cpp(279): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _itoa. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdlib.h(1323): note: see declaration of 'itoa'
+c:\users\nasser\desktop\deliverysystemproject\deliverysystem\restaurant\generic_ds\linkedlist.h(108): warning C4715: 'LinkedList<Order *>::remove': not all control paths return a value
+  jcomapi.c
+  jcparam.c
+  jdapimin.c
+  jdapistd.c
+  jdatasrc.c
+  jdcoefct.c
+  jdcolor.c
+  jddctmgr.c
+  jdhuff.c
+  jdinput.c
+  jdmainct.c
+  jdmarker.c
+  jdmaster.c
+  jdmerge.c
+  jdphuff.c
+  jdpostct.c
+  jdsample.c
+  jdtrans.c
+  jerror.c
+c:\users\nasser\desktop\deliverysystemproject\deliverysystem\restaurant\cmugraphicslib\jpeg\jerror.c(169): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+c:\users\nasser\desktop\deliverysystemproject\deliverysystem\restaurant\cmugraphicslib\jpeg\jerror.c(171): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+  jidctflt.c
+  Generating Code...
+  Compiling...
+  jidctfst.c
+  jidctint.c
+  jidctred.c
+  jmemmgr.c
+c:\users\nasser\desktop\deliverysystemproject\deliverysystem\restaurant\cmugraphicslib\jpeg\jmemmgr.c(1103): warning C4996: 'getenv': This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdlib.h(1191): note: see declaration of 'getenv'
+c:\users\nasser\desktop\deliverysystemproject\deliverysystem\restaurant\cmugraphicslib\jpeg\jmemmgr.c(1106): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+  jmemnobs.c
+  jquant1.c
+  jquant2.c
+  jutils.c
+  jpegload.c
+c:\users\nasser\desktop\deliverysystemproject\deliverysystem\restaurant\cmugraphicslib\jpegload.c(23): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+  Generating Code...
+  Restaurant.vcxproj -> C:\Users\nasser\Desktop\deliverySystemProject\deliverySystem\Debug\Restaurant.exe

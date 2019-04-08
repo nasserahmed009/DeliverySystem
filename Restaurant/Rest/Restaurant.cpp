@@ -10,18 +10,18 @@ using namespace std;
 #include"../InputClass/ReadInput.h"
 
 
-Restaurant::Restaurant() 
+Restaurant::Restaurant()
 {
 	pGUI = NULL;
-	//creat_motor_cycles();
 }
 
 void Restaurant::RunSimulation()
 {
 	pGUI = new GUI;
-	PROG_MODE	mode = pGUI->getGUIMode();
-		
-	switch (mode)	//Add a function for each mode in next phases
+	//PROG_MODE	mode = pGUI->getGUIMode();
+	Simulate();
+
+	/*switch (mode)	//Add a function for each mode in next phases
 	{
 	case MODE_INTR:
 		break;
@@ -30,9 +30,8 @@ void Restaurant::RunSimulation()
 	case MODE_SLNT:
 		break;
 	case MODE_DEMO:
-		Simulate();
-
-	};
+		Just_A_Demo();
+	};*/
 
 }
 
@@ -48,9 +47,9 @@ void Restaurant::AddEvent(Event* pE)	//adds a new event to the queue of events
 void Restaurant::ExecuteEvents(int CurrentTimeStep)
 {
 	Event *pE;
-	while( EventsQueue.peekFront(pE) )	//as long as there are more events
+	while (EventsQueue.peekFront(pE))	//as long as there are more events
 	{
-		if(pE->getEventTime() > CurrentTimeStep )	//no more events at current time
+		if (pE->getEventTime() > CurrentTimeStep)	//no more events at current time
 			return;
 
 		pE->Execute(this);
@@ -63,17 +62,17 @@ void Restaurant::ExecuteEvents(int CurrentTimeStep)
 
 Restaurant::~Restaurant()
 {
-		delete pGUI;
+	delete pGUI;
 }
 
 
 
 void Restaurant::Simulate()
 {
-	int timeStep = 6;
+	int timeStep = 0;
 	ReadInput pIn;
-	pIn.read("input",this);
-	for(int i=0;i<4;i++)
+	pIn.read("input", this);
+	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 3; j++)
 		{
 			NumberOfActiveOrders[i][j] = 0;
@@ -107,17 +106,43 @@ void Restaurant::Simulate()
 			case(2):
 				type = TYPE_VIP;
 			}
-			NumberOfMotorcycles[i][j] = pIn.getMotorCyclesInRegion(type,region);
+			NumberOfMotorcycles[i][j] = pIn.getMotorCyclesInRegion(type, region);
 		}
 	}
+	string s = "Region 1 : NormalOrders = " + to_string(NumberOfActiveOrders[0][0]);
+	s += " FrozenOrders = " + to_string(NumberOfActiveOrders[0][1]);
+	s += " vipOrders = " + to_string(NumberOfActiveOrders[0][2]);
+	s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[0][0]);
+	s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[0][1]);
+	s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[0][2]);
+	s += "/nRegion 2 : NormalOrders = " + to_string(NumberOfActiveOrders[1][0]);
+	s += " FrozenOrders = " + to_string(NumberOfActiveOrders[1][1]);
+	s += " vipOrders = " + to_string(NumberOfActiveOrders[1][2]);
+	s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[1][0]);
+	s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[1][1]);
+	s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[1][2]);
+	s += "/nRegion 3 : NormalOrders = " + to_string(NumberOfActiveOrders[2][0]);
+	s += " FrozenOrders = " + to_string(NumberOfActiveOrders[2][1]);
+	s += " vipOrders = " + to_string(NumberOfActiveOrders[2][2]);
+	s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[2][0]);
+	s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[2][1]);
+	s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[2][2]);
+	s += "/nRegion 4 : NormalOrders = " + to_string(NumberOfActiveOrders[3][0]);
+	s += " FrozenOrders = " + to_string(NumberOfActiveOrders[3][1]);
+	s += " vipOrders = " + to_string(NumberOfActiveOrders[3][2]);
+	s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[3][0]);
+	s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[3][1]);
+	s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[3][2]);
+
+	pGUI->PrintMessage(s);
 
 	/* ADD MORE INITIALIZATIONS */
 
 	/* READ INPUT FROM pIn */
-	
-	while (++timeStep)
+
+	while (!EventsQueue.isEmpty())
 	{
-		
+
 		Event* tempPtr;
 		while (EventsQueue.peekFront(tempPtr))
 		{
@@ -125,7 +150,7 @@ void Restaurant::Simulate()
 				break;
 
 			tempPtr->Execute(this);
-			
+
 			/* UPDATE INTERFACE TO DISPLAY ACTIVE ORDERS IN EACH REGION */
 
 			if (dynamic_cast<ArrivalEvent*>(tempPtr)) //Update the number of active orders according to region and type
@@ -133,8 +158,6 @@ void Restaurant::Simulate()
 				int region = dynamic_cast<ArrivalEvent*>(tempPtr)->getOrderRegion();
 				int type = dynamic_cast<ArrivalEvent*>(tempPtr)->getOrderType();
 				NumberOfActiveOrders[region][type]++;
-
-				
 			}
 			else if (dynamic_cast<CancellationEvent*>(tempPtr)) {
 				int id = tempPtr->getOrderID();
@@ -142,67 +165,58 @@ void Restaurant::Simulate()
 				int region = orderPtr->GetRegion();
 				NumberOfActiveOrders[region][0]--;
 			}
-
-
-		
-			
-
-			string s = "Region 1 : NormalOrders = " + to_string(NumberOfActiveOrders[0][0]); 
-			s += " FrozenOrders = " + to_string(NumberOfActiveOrders[0][1]); 
-			s += " vipOrders = " + to_string(NumberOfActiveOrders[0][2]);
-			s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[0][0]);
-			s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[0][1]);
-			s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[0][2]);
-			s += "/nRegion 2 : NormalOrders = " + to_string(NumberOfActiveOrders[1][0]);
-			s += " FrozenOrders = " + to_string(NumberOfActiveOrders[1][1]);
-			s += " vipOrders = " + to_string(NumberOfActiveOrders[1][2]);
-			s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[1][0]);
-			s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[1][1]);
-			s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[1][2]);
-			s += "/nRegion 3 : NormalOrders = " + to_string(NumberOfActiveOrders[2][0]);
-			s += " FrozenOrders = " + to_string(NumberOfActiveOrders[2][1]);
-			s += " vipOrders = " + to_string(NumberOfActiveOrders[2][2]);
-			s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[2][0]);
-			s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[2][1]);
-			s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[2][2]);
-			s += "/nRegion 4 : NormalOrders = " + to_string(NumberOfActiveOrders[3][0]);
-			s += " FrozenOrders = " + to_string(NumberOfActiveOrders[3][1]);
-			s += " vipOrders = " + to_string(NumberOfActiveOrders[3][2]);
-			s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[3][0]);
-			s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[3][1]);
-			s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[3][2]);
-			
-			pGUI->PrintMessage(s);
-
-			
-
 			Event* junk;
 			EventsQueue.dequeue(junk);
 		}
-		Order* pOrd;
+		Order *pOrd;
+		for (int i = 0; i < 4; i++) {
+			while (vipOrders[i].dequeue(pOrd))
+			{
+				pGUI->AddOrderForDrawing(pOrd);
+
+			}
+		}
+		for (int i = 0; i < 4; i++) {
+			while (FrozenOrders[i].dequeue(pOrd))
+			{
+				pGUI->AddOrderForDrawing(pOrd);
+			}
+		}
+		for (int i = 0; i < 4; i++) {
+			while (NormalOrders[i].remove_at_end(pOrd))
+			{
+				pGUI->AddOrderForDrawing(pOrd);
+			}
+		}
+		pGUI->UpdateInterface();
+		Sleep(1000);
+		timeStep++;
+	}
+	pGUI->PrintMessage("Simulation Finished Thanks for watching");
+	cout << "Ended successfully" << endl;
+
+
+	Order* pOrd;
 		for (int i = 0; i < 4; i++) {
 			while (vipOrders[i].dequeue(pOrd)) {
 				pGUI->AddOrderForDrawing(pOrd);
-				pGUI->UpdateInterface();
 			}
 			while (FrozenOrders[i].dequeue(pOrd)) {
 				pGUI->AddOrderForDrawing(pOrd);
-				pGUI->UpdateInterface();
 			}
 			
 			while (!NormalOrders[i].is_empty()) {
 				pOrd = (NormalOrders[i].getHead())->getItem();
 				pGUI->AddOrderForDrawing(pOrd);
-				pGUI->UpdateInterface();
 				NormalOrders[i].remove(pOrd);
 			}
 		}
+		pGUI->UpdateInterface();
 		pGUI->waitForClick();
-	}
-
 }
-
-
+/* STILL NEED TO BE ADDED THE IN-SERVICE LIST FOR SERVICED ORDERS*/
+/*INPUT FUNCTION SHOULD READ FROM EL MAIN NOT FROM SIMULATION FUNCTION*/
+/* NEED TO DISPLAY NUMBER OF EVERY THING ON THE DISPLAY ON SEPARATE LINE*/
 ////////////////////////////////////////////////////////////////////////////////
 /// ==> 
 ///  DEMO-related functions. Should be removed in phases 1&2
@@ -340,146 +354,55 @@ void Restaurant::promoteOrder(Order * o)
 	vipOrders[o->GetRegion()].enqueue(o);
 }
 void Restaurant::creat_motor_cycles(int *speed, int *regA, int *regB, int *regC, int *regD) {
-	int i;
-	int x1 = regA[0] + regB[0] + regC[0] + regD[0];
-	int x2 = regA[1] + regB[1] + regC[1] + regD[1];
-	int x3 = regA[2] + regB[2] + regC[2] + regD[2];
-	Motorcycle *MN = new Motorcycle[x1];
-	Motorcycle *MF = new Motorcycle[x2];
-	Motorcycle *MV = new Motorcycle[x3];
-
-	// filling the data of type normal 
+	int i = 0;
 	for (i = 0; i < regA[0]; i++) {
-		MN[i].set_id(i);
-		MN[i].set_REG(A_REG);
-		MN[i].set_speed(speed[0]);
-		MN[i].set_type(TYPE_NRM);
+		Motorcycle * M = new Motorcycle;
+		M->set_id(i);  M->set_REG(A_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_NormalA.enqueue(M);
 	}
-	int temp1 = i+regB[0];
-	for (i; i < temp1; i++) {
-		MN[i].set_id(i);
-		MN[i].set_REG(B_REG);
-		MN[i].set_speed(speed[0]);
-		MN[i].set_type(TYPE_NRM);
+	int k = i;
+	for (i = 0; i < regB[0]; i++) {
+		Motorcycle * M = new Motorcycle;
+		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_NormalB.enqueue(M); k++;
 	}
-	int temp2 = i+regC[0]; 
-	for (i ; i < temp2; i++) {
-		MN[i].set_id(i);
-		MN[i].set_REG(C_REG);
-		MN[i].set_speed(speed[0]);
-		MN[i].set_type(TYPE_NRM);
+	for (i = 0; i < regC[0]; i++) {
+		Motorcycle * M = new Motorcycle;
+		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_NormalC.enqueue(M);  k++;
 	}
-	int temp3 = i+regD[0];
-	for (i ; i < temp3; i++) {
-		MN[i].set_id(i);
-		MN[i].set_REG(D_REG);
-		MN[i].set_speed(speed[0]);
-		MN[i].set_type(TYPE_NRM);
+	for (i = 0; i < regD[0]; i++) {
+		Motorcycle * M = new Motorcycle;
+		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_NormalD.enqueue(M);  k++;
 	}
-	// enqueing the normal order each in region 
-	int j;
-	for (j= 0; j < regA[0]; j++) {
-		M_NormalA.enqueue(MN[j]);
-	}
-	for (j; j  < regB[0]; j++) {
-		M_NormalB.enqueue(MN[j]);
-	}
-	for (j; j < regC[0]; j++) {
-		M_NormalC.enqueue(MN[j]);
-	}
-	for (j; j< regD[0]; j++) {
-		M_NormalD.enqueue(MN[j]);
-	}
-	// filling the data of motorcycles of type frozen
-	int k = i; 
 	for (i = 0; i < regA[1]; i++) {
-		MF[i].set_id(k);
-		MF[i].set_REG(A_REG);
-		MF[i].set_speed(speed[1]);
-		MF[i].set_type(TYPE_FROZ);
-		k++;
+		Motorcycle * M = new Motorcycle;
+		M->set_id(k);  M->set_REG(A_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_FrozenA.enqueue(M);   k++;
 	}
-	temp1=  i+regB[1] ;
-	for (i; i < temp1; i++) {
-		MF[i].set_id(k);
-		MF[i].set_REG(B_REG);
-		MF[i].set_speed(speed[1]);
-		MF[i].set_type(TYPE_FROZ);
-		k++;
+	for (i = 0; i < regB[1]; i++) {
+		Motorcycle * M = new Motorcycle;
+		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_FrozenB.enqueue(M);   k++;
 	}
-	temp2 = i + regC[1];
-	for (i; i < temp2; i++) {
-		MF[i].set_id(k);
-		MF[i].set_REG(C_REG);
-		MF[i].set_speed(speed[1]);
-		MF[i].set_type(TYPE_FROZ);
-		k++;
+	for (i = 0; i < regC[1]; i++) {
+		Motorcycle * M = new Motorcycle;
+		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_FrozenC.enqueue(M);   k++;
 	}
-	temp3 = i + regD[1];
-	for (i; i < temp3; i++) {
-		MF[i].set_id(k);
-		MF[i].set_REG(D_REG);
-		MF[i].set_speed(speed[1]);
-		MF[i].set_type(TYPE_FROZ);
-		k++;
+	for (i = 0; i < regD[1]; i++) {
+		Motorcycle * M = new Motorcycle;
+		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_FrozenD.enqueue(M);   k++;
 	}
-	// enqueing The frozen order each in specific zone 
-	for (j = 0; j < regA[1]; j++) {
-		M_FrozenA.enqueue(MF[j]);
-	}
-	for (j; j < regB[1]; j++) {
-		M_FrozenB.enqueue(MF[j]);
-	}
-	for (j; j < regC[1]; j++) {
-		M_FrozenC.enqueue(MF[j]);
-	}
-	for (j; j < regD[1]; j++) {
-		M_FrozenD.enqueue(MF[j]);
-	}
-	// filling the data of type VIP 
 	for (i = 0; i < regA[2]; i++) {
-		MV[i].set_id(k);
-		MV[i].set_REG(A_REG);
-		MV[i].set_speed(speed[2]);
-		MV[i].set_type(TYPE_VIP);
-		k++;
+		Motorcycle * M = new Motorcycle;
+		M->set_id(i);  M->set_REG(A_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIPA.enqueue(M);   k++;
 	}
-	temp1 = i + regB[2];
-	for (i; i < temp1; i++) {
-		MV[i].set_id(k);
-		MV[i].set_REG(B_REG);
-		MV[i].set_speed(speed[2]);
-		MV[i].set_type(TYPE_VIP);
-		k++;
+	for (i = 0; i < regB[2]; i++) {
+		Motorcycle * M = new Motorcycle;
+		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIPB.enqueue(M);   k++;
 	}
-	temp2 = i + regC[2];
-	for (i; i < temp2; i++) {
-		MV[i].set_id(k);
-		MV[i].set_REG(C_REG);
-		MV[i].set_speed(speed[2]);
-		MV[i].set_type(TYPE_VIP);
-		k++;
+	for (i = 0; i < regC[2]; i++) {
+		Motorcycle * M = new Motorcycle;
+		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIPC.enqueue(M);   k++;
 	}
-	temp3 = i + regD[2];
-	for (i; i < temp3; i++) {
-		MV[i].set_id(k);
-		MV[i].set_REG(D_REG);
-		MV[i].set_speed(speed[2]);
-		MV[i].set_type(TYPE_VIP);
-		k++;
-	}
-	// enqueing The VIP orders each in specific zone 
-	for (j = 0; j < regA[2]; j++) {
-		M_VIPA.enqueue(MV[j]);
-	}
-	for (j; j < regB[2]; j++) {
-		M_VIPB.enqueue(MV[j]);
-	}
-	for (j; j < regC[2]; j++) {
-		M_VIPC.enqueue(MV[j]);
-	}
-	for (j; j < regD[2]; j++) {
-		M_VIPD.enqueue(MV[j]);
+	for (i = 0; i < regD[2]; i++) {
+		Motorcycle * M = new Motorcycle;
+		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIPD.enqueue(M);   k++;
 	}
 
 }
