@@ -20,7 +20,7 @@ private:
 	// Some Static Constant Data Members: ---------------------
 
 	static const int	
-		WindWidth=2000, WindHeight=1000,		//Window width and height
+		WindWidth=1200, WindHeight=650,		//Window width and height
 		StatusBarHeight = 150,	//Status Bar Height
 		MenuBarHeight = 50,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
 		MenuItemWidth = 80,		//Width of each item in menu bar menu
@@ -93,6 +93,7 @@ public:
 
 	// Output Functions  ---------------------------
 	void PrintMessage(string msg) const; // prints a message in the status bar
+	void print_msg_multi(string s1, string s2, string s3,string s4);
 
 
 	void UpdateInterface();
