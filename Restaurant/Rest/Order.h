@@ -29,6 +29,7 @@ public:
 	int GetID();
 
 	int GetType() const;
+	void setType(ORD_TYPE ordType);
 	REGION GetRegion() const;
 
 	void SetDistance(int d);

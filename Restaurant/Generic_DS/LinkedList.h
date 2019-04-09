@@ -21,6 +21,7 @@ LinkedList<T> ::LinkedList() {
 	Head = NULL; 
 	Tail = NULL; 
 }
+
 template<typename T>
 bool LinkedList<T> ::is_empty() {
 	if (Head == NULL) 
@@ -74,37 +75,37 @@ bool LinkedList<T>::remove_at_end(T &item) { //to remove an order when it's serv
 }
 template <typename T> 
 bool LinkedList <T> ::remove (T item) { // to delete an order if it's cancelled or promoted to VIP
-Node <T> * temp = Head; 
-if (is_empty()) {
-return false;
-}
-else if (Head->getItem () == item) {
-	temp = Head->getNext(); 
-	delete Head;
-	Head = temp; 
-	if (!Head) {
-	Tail =NULL;
+	Node <T> * temp = Head; 
+	if (is_empty()) {
+	return false;
 	}
-}
-
-else 
-{
-while (temp != NULL ) {
-	if (temp->getNext()!= NULL &&  temp->getNext()->getItem() == item) {
-		Node <T> * temp2= temp->getNext();
-		temp->setNext(temp2->getNext());
-		delete temp2;
-		if (!temp->getNext()) {
-		Tail = Head;
+	else if (Head->getItem () == item) {
+		temp = Head->getNext(); 
+		delete Head;
+		Head = temp; 
+		if (!Head) {
+		Tail =NULL;
 		}
-		return true;
 	}
-	else {
-		temp = temp->getNext();
+
+	else 
+	{
+	while (temp != NULL ) {
+		if (temp->getNext()!= NULL &&  temp->getNext()->getItem() == item) {
+			Node <T> * temp2= temp->getNext();
+			temp->setNext(temp2->getNext());
+			delete temp2;
+			if (!temp->getNext()) {
+			Tail = Head;
+			}
+			return true;
+		}
+		else {
+			temp = temp->getNext();
+		}
 	}
-}
-return false;
-}
+	return false;
+	}
 }
 template <typename T> 
 LinkedList<T> ::~LinkedList() {

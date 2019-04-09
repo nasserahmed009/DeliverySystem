@@ -69,7 +69,7 @@ public:
 	void AddFrozenOrder(Order* o);
 	void AddNormalOrder(Order* o);
 
-	Order* getOrderById(int i);
+	Order* getOrderById(int orderID);
 	void cancelOrder(Order* o);
 	void promoteOrder(Order* o);
 	void creat_motor_cycles(int *speed, int *regA, int *regB, int *regC, int *regD); 

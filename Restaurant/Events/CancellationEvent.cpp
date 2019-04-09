@@ -8,7 +8,8 @@ CancellationEvent::CancellationEvent(int eTime,int oID):Event(eTime,oID)
 
 void CancellationEvent::Execute(Restaurant * pRest)
 {
-	pRest->cancelOrder( pRest->getOrderById(OrderID) );
+	Order* pOrd = pRest->getOrderById(OrderID);
+	pRest->cancelOrder( pOrd );
 }
 
 

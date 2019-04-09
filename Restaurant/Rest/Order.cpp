@@ -22,6 +22,11 @@ int Order::GetType() const
 	return type;
 }
 
+void Order::setType(ORD_TYPE ordType)
+{
+	type = ordType;
+}
+
 REGION Order::GetRegion() const
 {
 	return Region;

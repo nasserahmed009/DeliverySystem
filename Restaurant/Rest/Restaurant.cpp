@@ -69,7 +69,7 @@ Restaurant::~Restaurant()
 
 void Restaurant::Simulate()
 {
-	int timeStep = 0;
+	int timeStep = 6;
 	ReadInput pIn;
 	pIn.read("input", this);
 	for (int i = 0; i < 4; i++)
@@ -159,12 +159,7 @@ void Restaurant::Simulate()
 				int type = dynamic_cast<ArrivalEvent*>(tempPtr)->getOrderType();
 				NumberOfActiveOrders[region][type]++;
 			}
-			else if (dynamic_cast<CancellationEvent*>(tempPtr)) {
-				int id = tempPtr->getOrderID();
-				Order* orderPtr = getOrderById(id);
-				int region = orderPtr->GetRegion();
-				NumberOfActiveOrders[region][0]--;
-			}
+
 			Event* junk;
 			EventsQueue.dequeue(junk);
 		}
@@ -181,11 +176,13 @@ void Restaurant::Simulate()
 				pGUI->AddOrderForDrawing(pOrd);
 			}
 
-			while (!NormalOrders[i].is_empty()) {
-				pOrd = (NormalOrders[i].getHead())->getItem();
+			Node<Order*>* tempNormal = NormalOrders[i].getHead();
+			while (tempNormal) {
+				pOrd = tempNormal ->getItem();
 				pGUI->AddOrderForDrawing(pOrd);
-				NormalOrders[i].remove(pOrd);
+				tempNormal = tempNormal->getNext();
 			}
+			
 		}
 
 
@@ -312,13 +309,13 @@ void Restaurant::AddNormalOrder(Order * o)
 	NormalOrders[o->GetRegion()].insert_at_end(o);
 }
 
-Order* Restaurant::getOrderById(int i)
+Order* Restaurant::getOrderById(int orderID)
 {
 	for (int i = 0; i < 4; i++)
 	{
 		Node<Order*>* temp = NormalOrders[i].getHead();
 		while (temp) {
-			if ((temp->getItem())->GetID() == i) return temp->getItem();
+			if ((temp->getItem())->GetID() == orderID) return temp->getItem();
 			temp = temp->getNext();
 		}
 	}
@@ -327,13 +324,18 @@ Order* Restaurant::getOrderById(int i)
 
 void Restaurant::cancelOrder(Order * o)
 {
+	if (o == NULL) return;
+	NumberOfActiveOrders[o->GetRegion()][0]--;
 	NormalOrders[o->GetRegion()].remove(o);
 }
 
 void Restaurant::promoteOrder(Order * o)
 {
-	NormalOrders[o->GetRegion()].remove(o);
+	if (o == NULL) return;
+	o->setType(TYPE_VIP);
 	vipOrders[o->GetRegion()].enqueue(o);
+	NormalOrders[o->GetRegion()].remove(o);
+	
 }
 void Restaurant::creat_motor_cycles(int *speed, int *regA, int *regB, int *regC, int *regD) {
 	int i = 0;
