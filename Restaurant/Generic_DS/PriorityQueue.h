@@ -24,11 +24,13 @@ public:
 template<typename T, bool c>
 PriorityQueue<T,c>::PriorityQueue(const PriorityQueue<T,c>& origQ)
 {
+	this->frontPtr = NULL;
+	this->backPtr = NULL;
 	Node<T>* tempPtr = origQ.frontPtr;
-	while (frontPtr)
+	while (tempPtr)
 	{
-		this->enqueue(frontPtr->getItem());
-		frontPtr = frontPtr->getNext();
+		this->enqueue(tempPtr->getItem());
+		tempPtr = tempPtr->getNext();
 	}
 
 }

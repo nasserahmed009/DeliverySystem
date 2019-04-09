@@ -168,51 +168,33 @@ void Restaurant::Simulate()
 			Event* junk;
 			EventsQueue.dequeue(junk);
 		}
-		Order *pOrd;
+		
+		pGUI->ResetDrawingList();
+		Order* pOrd;
 		for (int i = 0; i < 4; i++) {
-			while (vipOrders[i].dequeue(pOrd))
-			{
+			PriorityQueue<Order*> tempVip = vipOrders[i];
+			while (tempVip.dequeue(pOrd)) {
 				pGUI->AddOrderForDrawing(pOrd);
+			}
+			Queue<Order*> tempFrozen = FrozenOrders[i];
+			while (tempFrozen.dequeue(pOrd)) {
+				pGUI->AddOrderForDrawing(pOrd);
+			}
 
-			}
-		}
-		for (int i = 0; i < 4; i++) {
-			while (FrozenOrders[i].dequeue(pOrd))
-			{
-				pGUI->AddOrderForDrawing(pOrd);
-			}
-		}
-		for (int i = 0; i < 4; i++) {
-			while (NormalOrders[i].remove_at_end(pOrd))
-			{
-				pGUI->AddOrderForDrawing(pOrd);
-			}
-		}
-		pGUI->UpdateInterface();
-		Sleep(1000);
-		timeStep++;
-	}
-	pGUI->PrintMessage("Simulation Finished Thanks for watching");
-	cout << "Ended successfully" << endl;
-
-
-	Order* pOrd;
-		for (int i = 0; i < 4; i++) {
-			while (vipOrders[i].dequeue(pOrd)) {
-				pGUI->AddOrderForDrawing(pOrd);
-			}
-			while (FrozenOrders[i].dequeue(pOrd)) {
-				pGUI->AddOrderForDrawing(pOrd);
-			}
-			
 			while (!NormalOrders[i].is_empty()) {
 				pOrd = (NormalOrders[i].getHead())->getItem();
 				pGUI->AddOrderForDrawing(pOrd);
 				NormalOrders[i].remove(pOrd);
 			}
 		}
+
+
 		pGUI->UpdateInterface();
 		pGUI->waitForClick();
+		timeStep++;
+	}
+	pGUI->PrintMessage("Simulation Finished Thanks for watching");
+	cout << "Ended successfully" << endl;
 }
 /* STILL NEED TO BE ADDED THE IN-SERVICE LIST FOR SERVICED ORDERS*/
 /*INPUT FUNCTION SHOULD READ FROM EL MAIN NOT FROM SIMULATION FUNCTION*/

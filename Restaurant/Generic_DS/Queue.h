@@ -52,7 +52,8 @@ private :
 	Node<T>* backPtr;
 	Node<T>* frontPtr;
 public :
-	Queue();	
+	Queue();
+	Queue(const Queue<T>&);
 	bool isEmpty() const ;
 	bool enqueue(const T& newEntry);
 	bool dequeue(T& frntEntry);  
@@ -75,7 +76,16 @@ Queue<T>::Queue()
 
 }
 /////////////////////////////////////////////////////////////////////////////////////////
-
+template <typename T>
+Queue<T>::Queue(const Queue<T>& origQ) {
+	backPtr = NULL;
+	frontPtr = NULL;
+	Node<T>* temp = origQ.frontPtr;
+	while (temp) {
+		this->enqueue(temp->getItem());
+		temp = temp->getNext();
+	}
+}
 /*
 Function: isEmpty
 Sees whether this queue is empty.
