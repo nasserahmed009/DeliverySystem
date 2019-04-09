@@ -20,7 +20,7 @@ private:
 	// Some Static Constant Data Members: ---------------------
 
 	static const int	
-		WindWidth=1200, WindHeight=650,		//Window width and height
+		WindWidth=2000, WindHeight=1000,		//Window width and height
 		StatusBarHeight = 150,	//Status Bar Height
 		MenuBarHeight = 50,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
 		MenuItemWidth = 80,		//Width of each item in menu bar menu
