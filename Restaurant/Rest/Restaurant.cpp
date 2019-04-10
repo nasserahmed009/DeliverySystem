@@ -112,31 +112,7 @@ void Restaurant::Simulate()
 	string s2;
 	string s3;
 	string s4;
-	string s = "Region 1 : NormalOrders = " + to_string(NumberOfActiveOrders[0][0]);
-	s += " FrozenOrders = " + to_string(NumberOfActiveOrders[0][1]);
-	s += " vipOrders = " + to_string(NumberOfActiveOrders[0][2]);
-	s += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[0][0]);
-	s += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[0][1]);
-	s += " vipMotorcycles = " + to_string(NumberOfMotorcycles[0][2]);
-	s2= "Region 2 : NormalOrders = " + to_string(NumberOfActiveOrders[1][0]);
-	s2 += " FrozenOrders = " + to_string(NumberOfActiveOrders[1][1]);
-	s2 += " vipOrders = " + to_string(NumberOfActiveOrders[1][2]);
-	s2 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[1][0]);
-	s2 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[1][1]);
-	s2 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[1][2]);
-	s3 = "Region 3 : NormalOrders = " + to_string(NumberOfActiveOrders[2][0]);
-	s3 += " FrozenOrders = " + to_string(NumberOfActiveOrders[2][1]);
-	s3 += " vipOrders = " + to_string(NumberOfActiveOrders[2][2]);
-	s3 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[2][0]);
-	s3 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[2][1]);
-	s3 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[2][2]);
-	s4 = "Region 4 : NormalOrders = " + to_string(NumberOfActiveOrders[3][0]);
-	s4 += " FrozenOrders = " + to_string(NumberOfActiveOrders[3][1]);
-	s4 += " vipOrders = " + to_string(NumberOfActiveOrders[3][2]);
-	s4 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[3][0]);
-	s4 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[3][1]);
-	s4 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[3][2]);
-	pGUI->print_msg_multi(s, s2, s3, s4);
+	string s1;
 
 	/* ADD MORE INITIALIZATIONS */
 
@@ -146,6 +122,8 @@ void Restaurant::Simulate()
 	{
 
 		Event* tempPtr;
+
+		//check if there is more than one event at the same timeStep
 		while (EventsQueue.peekFront(tempPtr))
 		{
 			if (tempPtr->getEventTime() > timeStep)
@@ -153,19 +131,39 @@ void Restaurant::Simulate()
 
 			tempPtr->Execute(this);
 
-			/* UPDATE INTERFACE TO DISPLAY ACTIVE ORDERS IN EACH REGION */
-
-			if (dynamic_cast<ArrivalEvent*>(tempPtr)) //Update the number of active orders according to region and type
-			{
-				int region = dynamic_cast<ArrivalEvent*>(tempPtr)->getOrderRegion();
-				int type = dynamic_cast<ArrivalEvent*>(tempPtr)->getOrderType();
-				NumberOfActiveOrders[region][type]++;
-			}
-
 			Event* junk;
 			EventsQueue.dequeue(junk);
 		}
 		
+		s1 = "Region 1 : NormalOrders = " + to_string(NumberOfActiveOrders[0][0]);
+		s1 += " FrozenOrders = " + to_string(NumberOfActiveOrders[0][1]);
+		s1 += " vipOrders = " + to_string(NumberOfActiveOrders[0][2]);
+		s1 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[0][0]);
+		s1 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[0][1]);
+		s1 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[0][2]);
+
+		s2 = "Region 2 : NormalOrders = " + to_string(NumberOfActiveOrders[1][0]);
+		s2 += " FrozenOrders = " + to_string(NumberOfActiveOrders[1][1]);
+		s2 += " vipOrders = " + to_string(NumberOfActiveOrders[1][2]);
+		s2 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[1][0]);
+		s2 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[1][1]);
+		s2 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[1][2]);
+
+		s3 = "Region 3 : NormalOrders = " + to_string(NumberOfActiveOrders[2][0]);
+		s3 += " FrozenOrders = " + to_string(NumberOfActiveOrders[2][1]);
+		s3 += " vipOrders = " + to_string(NumberOfActiveOrders[2][2]);
+		s3 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[2][0]);
+		s3 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[2][1]);
+		s3 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[2][2]);
+
+		s4 = "Region 4 : NormalOrders = " + to_string(NumberOfActiveOrders[3][0]);
+		s4 += " FrozenOrders = " + to_string(NumberOfActiveOrders[3][1]);
+		s4 += " vipOrders = " + to_string(NumberOfActiveOrders[3][2]);
+		s4 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[3][0]);
+		s4 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[3][1]);
+		s4 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[3][2]);
+		pGUI->print_msg_multi(s1, s2, s3, s4);
+
 		pGUI->ResetDrawingList();
 		Order* pOrd;
 		for (int i = 0; i < 4; i++) {
@@ -195,6 +193,8 @@ void Restaurant::Simulate()
 	pGUI->PrintMessage("Simulation Finished Thanks for watching");
 	//cout << "Ended successfully" << endl;
 }
+
+
 /* STILL NEED TO BE ADDED THE IN-SERVICE LIST FOR SERVICED ORDERS*/
 /*INPUT FUNCTION SHOULD READ FROM EL MAIN NOT FROM SIMULATION FUNCTION*/
 /* NEED TO DISPLAY NUMBER OF EVERY THING ON THE DISPLAY ON SEPARATE LINE*/
@@ -298,16 +298,19 @@ Order* Restaurant::getDemoOrder()
 
 void Restaurant::AddVipOrder(Order * o)
 {
+	NumberOfActiveOrders[o->GetRegion()][o->GetType()]++;
 	vipOrders[o->GetRegion()].enqueue(o);
 }
 
 void Restaurant::AddFrozenOrder(Order * o)
 {
+	NumberOfActiveOrders[o->GetRegion()][o->GetType()]++;
 	FrozenOrders[o->GetRegion()].enqueue(o);
 }
 
 void Restaurant::AddNormalOrder(Order * o)
 {
+	NumberOfActiveOrders[o->GetRegion()][o->GetType()]++;
 	NormalOrders[o->GetRegion()].insert_at_end(o);
 }
 
