@@ -109,10 +109,8 @@ void Restaurant::Simulate()
 			NumberOfMotorcycles[i][j] = pIn.getMotorCyclesInRegion(type, region);
 		}
 	}
-	string s2;
-	string s3;
-	string s4;
-	string s1;
+	
+	
 
 	/* ADD MORE INITIALIZATIONS */
 
@@ -135,33 +133,12 @@ void Restaurant::Simulate()
 			EventsQueue.dequeue(junk);
 		}
 		
-		s1 = "Region 1 : NormalOrders = " + to_string(NumberOfActiveOrders[0][0]);
-		s1 += " FrozenOrders = " + to_string(NumberOfActiveOrders[0][1]);
-		s1 += " vipOrders = " + to_string(NumberOfActiveOrders[0][2]);
-		s1 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[0][0]);
-		s1 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[0][1]);
-		s1 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[0][2]);
+		string s1;
+		string s2;
+		string s3;
+		string s4;
 
-		s2 = "Region 2 : NormalOrders = " + to_string(NumberOfActiveOrders[1][0]);
-		s2 += " FrozenOrders = " + to_string(NumberOfActiveOrders[1][1]);
-		s2 += " vipOrders = " + to_string(NumberOfActiveOrders[1][2]);
-		s2 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[1][0]);
-		s2 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[1][1]);
-		s2 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[1][2]);
-
-		s3 = "Region 3 : NormalOrders = " + to_string(NumberOfActiveOrders[2][0]);
-		s3 += " FrozenOrders = " + to_string(NumberOfActiveOrders[2][1]);
-		s3 += " vipOrders = " + to_string(NumberOfActiveOrders[2][2]);
-		s3 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[2][0]);
-		s3 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[2][1]);
-		s3 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[2][2]);
-
-		s4 = "Region 4 : NormalOrders = " + to_string(NumberOfActiveOrders[3][0]);
-		s4 += " FrozenOrders = " + to_string(NumberOfActiveOrders[3][1]);
-		s4 += " vipOrders = " + to_string(NumberOfActiveOrders[3][2]);
-		s4 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[3][0]);
-		s4 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[3][1]);
-		s4 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[3][2]);
+		updateRestaurantsInfo(s1, s2, s3, s4);
 		pGUI->print_msg_multi(s1, s2, s3, s4);
 
 		pGUI->ResetDrawingList();
@@ -393,6 +370,39 @@ void Restaurant::creat_motor_cycles(int *speed, int *regA, int *regB, int *regC,
 		Motorcycle * M = new Motorcycle;
 		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIPD.enqueue(M);   k++;
 	}
+
+}
+
+void Restaurant::updateRestaurantsInfo(string & s1, string & s2, string & s3, string & s4)
+{
+
+	s1 = "Region 1 : NormalOrders = " + to_string(NumberOfActiveOrders[0][0]);
+	s1 += " FrozenOrders = " + to_string(NumberOfActiveOrders[0][1]);
+	s1 += " vipOrders = " + to_string(NumberOfActiveOrders[0][2]);
+	s1 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[0][0]);
+	s1 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[0][1]);
+	s1 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[0][2]);
+
+	s2 = "Region 2 : NormalOrders = " + to_string(NumberOfActiveOrders[1][0]);
+	s2 += " FrozenOrders = " + to_string(NumberOfActiveOrders[1][1]);
+	s2 += " vipOrders = " + to_string(NumberOfActiveOrders[1][2]);
+	s2 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[1][0]);
+	s2 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[1][1]);
+	s2 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[1][2]);
+
+	s3 = "Region 3 : NormalOrders = " + to_string(NumberOfActiveOrders[2][0]);
+	s3 += " FrozenOrders = " + to_string(NumberOfActiveOrders[2][1]);
+	s3 += " vipOrders = " + to_string(NumberOfActiveOrders[2][2]);
+	s3 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[2][0]);
+	s3 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[2][1]);
+	s3 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[2][2]);
+
+	s4 = "Region 4 : NormalOrders = " + to_string(NumberOfActiveOrders[3][0]);
+	s4 += " FrozenOrders = " + to_string(NumberOfActiveOrders[3][1]);
+	s4 += " vipOrders = " + to_string(NumberOfActiveOrders[3][2]);
+	s4 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[3][0]);
+	s4 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[3][1]);
+	s4 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[3][2]);
 
 }
 
