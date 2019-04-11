@@ -161,7 +161,7 @@ bool ReadInput::read(string fileName,Restaurant* R) {
 	x[2] = VipSpeed;
 	R->creat_motor_cycles(x, motorCyclesInA, motorCyclesInB, motorCyclesInC , motorCyclesInD);
 	infile.close();
-	cout << "File loaded successfully";
+	cout << "File loaded successfully\n";
 	return true;
 }
 

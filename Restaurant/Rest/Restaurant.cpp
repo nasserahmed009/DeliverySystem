@@ -71,7 +71,10 @@ void Restaurant::Simulate()
 {
 	int timeStep = 0;
 	ReadInput pIn;
-	pIn.read("input", this);
+	string name;
+	pGUI->PrintMessage("Enter the name of the input file");
+	name = pGUI->GetString();
+	pIn.read(name, this);
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 3; j++)
 		{
@@ -376,28 +379,28 @@ void Restaurant::creat_motor_cycles(int *speed, int *regA, int *regB, int *regC,
 void Restaurant::updateRestaurantsInfo(string & s1, string & s2, string & s3, string & s4)
 {
 
-	s1 = "Region 1 : NormalOrders = " + to_string(NumberOfActiveOrders[0][0]);
+	s1 = "Region A : NormalOrders = " + to_string(NumberOfActiveOrders[0][0]);
 	s1 += " FrozenOrders = " + to_string(NumberOfActiveOrders[0][1]);
 	s1 += " vipOrders = " + to_string(NumberOfActiveOrders[0][2]);
 	s1 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[0][0]);
 	s1 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[0][1]);
 	s1 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[0][2]);
 
-	s2 = "Region 2 : NormalOrders = " + to_string(NumberOfActiveOrders[1][0]);
+	s2 = "Region B : NormalOrders = " + to_string(NumberOfActiveOrders[1][0]);
 	s2 += " FrozenOrders = " + to_string(NumberOfActiveOrders[1][1]);
 	s2 += " vipOrders = " + to_string(NumberOfActiveOrders[1][2]);
 	s2 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[1][0]);
 	s2 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[1][1]);
 	s2 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[1][2]);
 
-	s3 = "Region 3 : NormalOrders = " + to_string(NumberOfActiveOrders[2][0]);
+	s3 = "Region C : NormalOrders = " + to_string(NumberOfActiveOrders[2][0]);
 	s3 += " FrozenOrders = " + to_string(NumberOfActiveOrders[2][1]);
 	s3 += " vipOrders = " + to_string(NumberOfActiveOrders[2][2]);
 	s3 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[2][0]);
 	s3 += " FrozenMotorcycles = " + to_string(NumberOfMotorcycles[2][1]);
 	s3 += " vipMotorcycles = " + to_string(NumberOfMotorcycles[2][2]);
 
-	s4 = "Region 4 : NormalOrders = " + to_string(NumberOfActiveOrders[3][0]);
+	s4 = "Region D : NormalOrders = " + to_string(NumberOfActiveOrders[3][0]);
 	s4 += " FrozenOrders = " + to_string(NumberOfActiveOrders[3][1]);
 	s4 += " vipOrders = " + to_string(NumberOfActiveOrders[3][2]);
 	s4 += " NormalMotorcycles = " + to_string(NumberOfMotorcycles[3][0]);
