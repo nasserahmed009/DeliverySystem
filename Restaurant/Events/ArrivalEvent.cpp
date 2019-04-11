@@ -47,8 +47,8 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 			break;
 		case TYPE_VIP:
 			// Calculation the weight of this viP order 
-			double mon = pOrd->get_money();
-			int dis = pOrd->GetDistance(); 
+			double mon = get_ord_money();
+			int dis = get_ord_dis();
 			int tim = this->getEventTime(); 
 			pOrd->set_wieght(2 * mon + dis + tim);
 			pRest->AddVipOrder(pOrd);
@@ -56,4 +56,10 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 	}
 		
 			
+}
+double ArrivalEvent::get_ord_money() {
+	return OrdMoney; 
+}
+int ArrivalEvent::get_ord_dis() {
+	return OrdDistance;
 }

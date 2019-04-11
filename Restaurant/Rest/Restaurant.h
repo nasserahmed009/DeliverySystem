@@ -30,19 +30,19 @@ private:
 	int NumberOfActiveOrders[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
 	int NumberOfMotorcycles[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
 	// Motor cycle data structures; 
-	Queue <Motorcycle *> M_NormalA;
-	Queue <Motorcycle*> M_FrozenA;
-	Queue <Motorcycle*> M_VIPA;
-	Queue <Motorcycle*> M_NormalB;
-	Queue <Motorcycle*> M_FrozenB;
-	Queue <Motorcycle*> M_VIPB;
-	Queue <Motorcycle*> M_NormalC;
-	Queue <Motorcycle*> M_FrozenC;
-	Queue <Motorcycle*> M_VIPC;
-	Queue <Motorcycle*> M_NormalD;
-	Queue <Motorcycle*> M_FrozenD;
-	Queue <Motorcycle *> M_VIPD;
-	
+	PriorityQueue <Motorcycle *> M_NormalA;
+	PriorityQueue <Motorcycle*> M_FrozenA;
+	PriorityQueue <Motorcycle*> M_VIPA;
+	PriorityQueue <Motorcycle*> M_NormalB;
+	PriorityQueue <Motorcycle*> M_FrozenB;
+	PriorityQueue <Motorcycle*> M_VIPB;
+	PriorityQueue <Motorcycle*> M_NormalC;
+	PriorityQueue <Motorcycle*> M_FrozenC;
+	PriorityQueue <Motorcycle*> M_VIPC;
+	PriorityQueue <Motorcycle*> M_NormalD;
+	PriorityQueue <Motorcycle*> M_FrozenD;
+	PriorityQueue <Motorcycle *> M_VIPD;
+	PriorityQueue <Motorcycle *> in_service_Motorcyles[4]; 
 	/// ==>
 	
 	//

@@ -24,6 +24,7 @@ protected:
 
 public:
 	Order(int ID, ORD_TYPE r_Type, REGION r_region);
+	Order(); 
 	virtual ~Order();
 
 	int GetID();
@@ -36,8 +37,9 @@ public:
 	int GetDistance() const;
 	double get_money(); 
 	void set_wieght(int x); 
-	bool operator > (Order O);
-	int get_wight(); 
+	bool operator > (const Order  &O) const ;
+	bool operator < (const Order  &O) const ;
+	int get_wight()const ; 
 
 	//
 	// TODO: Add More Member Functions As Needed

@@ -9,46 +9,46 @@
 #include"Events/PromotionEvent.h"
 #include<iostream>
 using namespace std;
+void testPQ()
+{
+	PriorityQueue<Order> pq;
+	//int x;
+	Order O(1, TYPE_VIP, A_REG);
+	O.set_wieght(100);
+	Order O2(2, TYPE_VIP, A_REG);
+	O2.set_wieght(200);
+	Order O3(3, TYPE_VIP, A_REG);
+	O3.set_wieght(150);
+	pq.enqueue(O);
+	pq.enqueue(O3);
+	pq.enqueue(O2);
+	if (pq.isEmpty()) cout << "empty" << endl;
+	else cout << "not empty" << endl;
 
+	Order pord(4, TYPE_VIP, A_REG);
+	while (!pq.isEmpty()) {
+		pq.dequeue(pord);
+		cout << pord.get_wight() << "         ";
+	}
+	cout << endl;
+	if (pq.isEmpty()) cout << "empty" << endl;
+	else cout << "not empty" << endl;
+}
 
 int main()
 {
+	
 	// here you should creat instance of inputfile and read data from it 
 	Restaurant* pRest = new Restaurant;
 	pRest->RunSimulation();
 	//pRest->RunSimulation(); no Need to be excuted in phase 1
 	
 	delete pRest;
-
+	
+	//testPQ(); 
 
 	system("pause");
+	
 	return 0;
 }
  
-
-void testPQ()
-{
-	PriorityQueue<int> pq;
-	int x;
-
-	if (pq.isEmpty()) cout << "empty" << endl;
-	else cout << "not empty" << endl;
-
-	pq.enqueue(1);
-	pq.enqueue(0);
-	pq.enqueue(5);
-	pq.enqueue(3);
-	pq.enqueue(2);
-	pq.dequeue(x);
-	pq.enqueue(-1);
-	pq.dequeue(x);
-	pq.dequeue(x);
-	pq.dequeue(x);
-	pq.dequeue(x);
-	pq.dequeue(x);
-
-	if (pq.isEmpty()) cout << "empty" << endl;
-	else cout << "not empty" << endl;
-
-	pq.dequeue(x);
-}

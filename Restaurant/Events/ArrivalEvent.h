@@ -17,6 +17,8 @@ public:
 	ArrivalEvent(int eTime, int O_id, ORD_TYPE OType, REGION reg);
 	ORD_TYPE getOrderType();
 	REGION getOrderRegion();
+	double get_ord_money(); 
+	int get_ord_dis(); 
 	//Add more constructors if needed
 	
 	virtual void Execute(Restaurant *pRest);	//override execute function

@@ -10,7 +10,8 @@ Order::Order(int id, ORD_TYPE r_Type, REGION r_region)
 Order::~Order()
 {
 }
-
+Order::Order() {
+}
 int Order::GetID()
 {
 	return ID;
@@ -47,12 +48,18 @@ double Order::get_money() {
 void Order::set_wieght(int x) {
 	weight = x; 
 }
-bool Order::operator> (Order O) {
-	if (weight > O.get_wight()) {
+bool Order::operator > (const Order &O) const{
+	if (weight > O.get_wight()){
 		return true;
 	}
 	else return false; 
 }
-int  Order::get_wight() {
+bool Order::operator < (const Order &O) const {
+	if (weight < O.get_wight()) {
+		return true;
+	}
+	else return false;
+}
+int  Order::get_wight() const  {
 	return weight;
 }

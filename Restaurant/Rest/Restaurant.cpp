@@ -69,7 +69,7 @@ Restaurant::~Restaurant()
 
 void Restaurant::Simulate()
 {
-	int timeStep = 6;
+	int timeStep = 0;
 	ReadInput pIn;
 	pIn.read("input", this);
 	for (int i = 0; i < 4; i++)
