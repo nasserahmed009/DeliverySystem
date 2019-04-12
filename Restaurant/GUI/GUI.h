@@ -93,7 +93,7 @@ public:
 
 	// Output Functions  ---------------------------
 	void PrintMessage(string msg) const; // prints a message in the status bar
-	void print_msg_multi(string s1, string s2, string s3,string s4);
+	void print_msg_multi(string s,string s1, string s2, string s3,string s4,string s5);
 
 
 	void UpdateInterface();
