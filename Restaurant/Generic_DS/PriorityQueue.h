@@ -162,21 +162,13 @@ bool PriorityQueue<T,c>::peekFront(T& frntEntry) const
 // Destructor, deletes all nodes
 
 template<typename T,bool c>
-PriorityQueue<T,c>::~PriorityQueue()
+PriorityQueue<T, c>::~PriorityQueue()
 {
-	Node<T>* toBeDeleted;
-	while (frontPtr)
+	T tmp;
+	while (!(this->isEmpty()))
 	{
-		toBeDeleted = frontPtr;
-		frontPtr = frontPtr->getNext();
-
-		toBeDeleted->setNext(NULL);
-		delete toBeDeleted;
+		this->dequeue(tmp);
 	}
-
-	toBeDeleted = NULL;
-	frontPtr = NULL;
-	backPtr = NULL;
 }
 
 

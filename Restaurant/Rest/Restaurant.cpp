@@ -18,10 +18,10 @@ Restaurant::Restaurant()
 void Restaurant::RunSimulation()
 {
 	pGUI = new GUI;
-	//PROG_MODE	mode = pGUI->getGUIMode();
-	Simulate();
+	PROG_MODE	mode = pGUI->getGUIMode();
+	//Simulate();
 
-	/*switch (mode)	//Add a function for each mode in next phases
+	switch (mode)	//Add a function for each mode in next phases
 	{
 	case MODE_INTR:
 		break;
@@ -30,8 +30,8 @@ void Restaurant::RunSimulation()
 	case MODE_SLNT:
 		break;
 	case MODE_DEMO:
-		Just_A_Demo();
-	};*/
+		Simulate();
+	};
 
 }
 
