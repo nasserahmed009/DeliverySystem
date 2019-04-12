@@ -97,9 +97,21 @@ void Restaurant::Simulate()
 		//remove one order from each type each timeStep
 		Order* pOrd;
 		for (int i = 0; i < 4; i++) {
-			if(vipOrders[i].dequeue(pOrd)) NumberOfActiveOrders[i][2]--;
-			if(FrozenOrders[i].dequeue(pOrd)) NumberOfActiveOrders[i][1]--;
-			if(NormalOrders[i].removeFront(pOrd)) NumberOfActiveOrders[i][0]--;
+			if (vipOrders[i].dequeue(pOrd))
+			{
+				NumberOfActiveOrders[i][2]--;
+				delete pOrd;
+			}
+			if (FrozenOrders[i].dequeue(pOrd))
+			{
+				NumberOfActiveOrders[i][1]--;
+				delete pOrd;
+			}
+			if (NormalOrders[i].removeFront(pOrd))
+			{
+				NumberOfActiveOrders[i][0]--;
+				delete pOrd;
+			}
 		}
 
 
@@ -283,6 +295,7 @@ void Restaurant::cancelOrder(Order * o)
 	if (o == NULL || ( o->GetType() != 0)) return;
 	NumberOfActiveOrders[o->GetRegion()][0]--;
 	NormalOrders[o->GetRegion()].remove(o);
+	delete o;
 }
 
 void Restaurant::promoteOrder(Order * o)
