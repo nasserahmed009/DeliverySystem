@@ -119,10 +119,17 @@ void Restaurant::Simulate()
 
 	/* READ INPUT FROM pIn */
 
-	while (!EventsQueue.isEmpty())
+	while (++timeStep)
 	{
 
 		Event* tempPtr;
+		Order* pOrd;
+		for (int i = 0; i < 4; i++) {
+			vipOrders[i].dequeue(pOrd);
+			FrozenOrders[i].dequeue(pOrd);
+			NormalOrders[i].remove_at_end(pOrd);
+		}
+		
 
 		//check if there is more than one event at the same timeStep
 		while (EventsQueue.peekFront(tempPtr))
@@ -145,8 +152,10 @@ void Restaurant::Simulate()
 		pGUI->print_msg_multi(s1, s2, s3, s4);
 
 		pGUI->ResetDrawingList();
-		Order* pOrd;
+		
 		for (int i = 0; i < 4; i++) {
+			
+
 			PriorityQueue<Order*> tempVip = vipOrders[i];
 			while (tempVip.dequeue(pOrd)) {
 				pGUI->AddOrderForDrawing(pOrd);
@@ -168,7 +177,6 @@ void Restaurant::Simulate()
 
 		pGUI->UpdateInterface();
 		pGUI->waitForClick();
-		timeStep++;
 	}
 	pGUI->PrintMessage("Simulation Finished Thanks for watching");
 	//cout << "Ended successfully" << endl;
