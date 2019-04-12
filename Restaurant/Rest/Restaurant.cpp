@@ -123,10 +123,11 @@ void Restaurant::Simulate()
 	
 	while (true)
 	{
-		updateRestaurantsInfo();
+
 
 		if (timeStep == 0)
 		{
+			updateRestaurantsInfo();
 			timeStep++;
 			pGUI->waitForClick();
 			continue;
@@ -179,7 +180,7 @@ void Restaurant::Simulate()
 			}
 			
 		}
-
+		updateRestaurantsInfo();
 
 		pGUI->UpdateInterface();
 		pGUI->waitForClick();
