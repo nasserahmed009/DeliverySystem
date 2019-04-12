@@ -69,12 +69,14 @@ Restaurant::~Restaurant()
 
 void Restaurant::Simulate()
 {
-	int timeStep = 0;
 	ReadInput pIn;
 	string name;
 	pGUI->PrintMessage("Enter the name of the input file");
 	name = pGUI->GetString();
 	pIn.read(name, this);
+
+	timeStep = 0;
+
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 3; j++)
 		{
@@ -118,21 +120,28 @@ void Restaurant::Simulate()
 	/* ADD MORE INITIALIZATIONS */
 
 	/* READ INPUT FROM pIn */
-
-	while (++timeStep)
+	
+	while (true)
 	{
+		updateRestaurantsInfo();
 
+		if (timeStep == 0)
+		{
+			timeStep++;
+			pGUI->waitForClick();
+			continue;
+		}
 		Event* tempPtr;
 		Order* pOrd;
 		for (int i = 0; i < 4; i++) {
-			vipOrders[i].dequeue(pOrd);
-			NumberOfActiveOrders[i][2]--;
-			FrozenOrders[i].dequeue(pOrd);
-			NumberOfActiveOrders[i][1]--;
-			NormalOrders[i].remove_at_end(pOrd);
-			NumberOfActiveOrders[i][0]--;
+			if(vipOrders[i].dequeue(pOrd))
+				NumberOfActiveOrders[i][2]--;
+			if(FrozenOrders[i].dequeue(pOrd))
+				NumberOfActiveOrders[i][1]--;
+			if(NormalOrders[i].remove_at_end(pOrd))
+				NumberOfActiveOrders[i][0]--;
 		}
-		
+
 
 		//check if there is more than one event at the same timeStep
 		while (EventsQueue.peekFront(tempPtr))
@@ -146,10 +155,7 @@ void Restaurant::Simulate()
 			EventsQueue.dequeue(junk);
 		}
 		
-		string s,s1, s2, s3, s4,s5;
 
-		updateRestaurantsInfo(s,s1, s2, s3, s4, s5);
-		pGUI->print_msg_multi(s,s1, s2, s3, s4, s5);
 
 		pGUI->ResetDrawingList();
 		
@@ -177,6 +183,7 @@ void Restaurant::Simulate()
 
 		pGUI->UpdateInterface();
 		pGUI->waitForClick();
+		timeStep++;
 	}
 	pGUI->PrintMessage("Simulation Finished Thanks for watching");
 	//cout << "Ended successfully" << endl;
@@ -384,7 +391,16 @@ void Restaurant::creat_motor_cycles(int *speed, int *regA, int *regB, int *regC,
 
 }
 
-void Restaurant::updateRestaurantsInfo(string& s,string & s1, string & s2, string & s3, string & s4, string & s5)
+void Restaurant::updateRestaurantsInfo()
+{
+	string s, s1, s2, s3, s4, s5, s6;
+
+	updateStringsInfo(s, s1, s2, s3, s4, s5, s6, timeStep);
+	pGUI->print_msg_multi(s, s1, s2, s3, s4, s5, s6);
+}
+
+
+void Restaurant::updateStringsInfo(string& s,string & s1, string & s2, string & s3, string & s4, string & s5,string &s6,int timeStep)
 {
 	s = "                                   Orders                Motorcycles";
 	s1 = "                                   N   F   V                    N   F   V";
@@ -418,7 +434,8 @@ void Restaurant::updateRestaurantsInfo(string& s,string & s1, string & s2, strin
 	s5 += "                     " + to_string(NumberOfMotorcycles[3][0]);
 	s5 += "   " + to_string(NumberOfMotorcycles[3][1]);
 	s5 += "   " + to_string(NumberOfMotorcycles[3][2]);
-
+	
+	s6 = "Timestep: " + to_string(timeStep);
 }
 
 

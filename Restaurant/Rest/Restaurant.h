@@ -45,6 +45,8 @@ private:
 	PriorityQueue <Motorcycle *> in_service_Motorcyles[4]; 
 	/// ==>
 	
+	int timeStep;
+
 	//
 	// TODO: Add More Data Members As Needed
 	//
@@ -73,7 +75,8 @@ public:
 	void cancelOrder(Order* o);
 	void promoteOrder(Order* o);
 	void creat_motor_cycles(int *speed, int *regA, int *regB, int *regC, int *regD); 
-	void updateRestaurantsInfo(string& s,string& s1, string& s2, string& s3, string& s4,string& s5);
+	void updateStringsInfo(string& s, string& s1, string& s2, string& s3, string& s4, string& s5, string &s6, int timeStep);
+	void updateRestaurantsInfo();
 	/// ==> 
 
 
