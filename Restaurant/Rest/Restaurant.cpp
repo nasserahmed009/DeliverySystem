@@ -130,34 +130,23 @@ void Restaurant::Simulate()
 
 	/* READ INPUT FROM pIn */
 	
-	while (true)
+	while (!EventsQueue.isEmpty())
 	{
-
-
-		if (timeStep == 0)
-		{
-			updateRestaurantsInfo();
-			timeStep++;
-			pGUI->waitForClick();
-			continue;
-		}
 		Event* tempPtr;
+
+		//remove one order from each type each timeStep
 		Order* pOrd;
 		for (int i = 0; i < 4; i++) {
-			if(vipOrders[i].dequeue(pOrd))
-				NumberOfActiveOrders[i][2]--;
-			if(FrozenOrders[i].dequeue(pOrd))
-				NumberOfActiveOrders[i][1]--;
-			if(NormalOrders[i].remove_at_end(pOrd))
-				NumberOfActiveOrders[i][0]--;
+			if(vipOrders[i].dequeue(pOrd)) NumberOfActiveOrders[i][2]--;
+			if(FrozenOrders[i].dequeue(pOrd)) NumberOfActiveOrders[i][1]--;
+			if(NormalOrders[i].removeFront(pOrd)) NumberOfActiveOrders[i][0]--;
 		}
 
 
 		//check if there is more than one event at the same timeStep
 		while (EventsQueue.peekFront(tempPtr))
 		{
-			if (tempPtr->getEventTime() > timeStep)
-				break;
+			if (tempPtr->getEventTime() > timeStep) break;
 
 			tempPtr->Execute(this);
 
@@ -165,8 +154,6 @@ void Restaurant::Simulate()
 			EventsQueue.dequeue(junk);
 		}
 		
-
-
 		pGUI->ResetDrawingList();
 		
 		for (int i = 0; i < 4; i++) {
@@ -190,7 +177,6 @@ void Restaurant::Simulate()
 			
 		}
 		updateRestaurantsInfo();
-
 		pGUI->UpdateInterface();
 		pGUI->waitForClick();
 		timeStep++;
@@ -334,7 +320,7 @@ Order* Restaurant::getOrderById(int orderID)
 
 void Restaurant::cancelOrder(Order * o)
 {
-	if (o == NULL) return;
+	if (o == NULL || ( o->GetType() != 0)) return;
 	NumberOfActiveOrders[o->GetRegion()][0]--;
 	NormalOrders[o->GetRegion()].remove(o);
 }
@@ -345,7 +331,8 @@ void Restaurant::promoteOrder(Order * o)
 	o->setType(TYPE_VIP);
 	vipOrders[o->GetRegion()].enqueue(o);
 	NormalOrders[o->GetRegion()].remove(o);
-	
+	NumberOfActiveOrders[o->GetRegion()][0]--;
+	NumberOfActiveOrders[o->GetRegion()][2]++;
 }
 void Restaurant::creat_motor_cycles(int *speed, int *regA, int *regB, int *regC, int *regD) {
 	int i = 0;
