@@ -126,8 +126,11 @@ void Restaurant::Simulate()
 		Order* pOrd;
 		for (int i = 0; i < 4; i++) {
 			vipOrders[i].dequeue(pOrd);
+			NumberOfActiveOrders[i][2]--;
 			FrozenOrders[i].dequeue(pOrd);
+			NumberOfActiveOrders[i][1]--;
 			NormalOrders[i].remove_at_end(pOrd);
+			NumberOfActiveOrders[i][0]--;
 		}
 		
 
