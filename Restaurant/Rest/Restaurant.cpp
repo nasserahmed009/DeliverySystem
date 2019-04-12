@@ -71,9 +71,18 @@ void Restaurant::Simulate()
 {
 	ReadInput pIn;
 	string name;
-	pGUI->PrintMessage("Enter the name of the input file");
-	name = pGUI->GetString();
-	pIn.read(name, this);
+	bool load = true;
+	do {
+		if (load) {
+			pGUI->PrintMessage("Enter the name of the input file");
+		}
+		else {
+			pGUI->PrintMessage("File not found , Please enter the name of a valid input file");
+		}
+		name = pGUI->GetString();
+		load=pIn.read(name, this);
+	} while (!load);
+	
 
 	timeStep = 0;
 
