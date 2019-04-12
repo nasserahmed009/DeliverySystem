@@ -10,9 +10,18 @@ ReadInput::ReadInput() :NormalSpeed(0), FrozenSpeed(0), VipSpeed(0), AutoPromoti
 	}
 }
 
-bool ReadInput::read(string fileName,Restaurant* R) {
+bool ReadInput::read(Restaurant* R) {
 	ifstream infile;
-	infile.open(fileName + ".txt");
+	string name;
+	GUI pGUI;
+	pGUI.PrintMessage("Enter the name of the input file");
+	name=pGUI.GetString();
+	infile.open(name + ".txt");
+	while (!infile.is_open()) {
+		pGUI.PrintMessage("File not found, please write a valid input file name");
+		name=pGUI.GetString();
+		infile.open(name + ".txt");
+	}
 	int j;
 	string token, word[10];
 	stringstream line_ss;
@@ -150,10 +159,6 @@ bool ReadInput::read(string fileName,Restaurant* R) {
 			}
 		}
 	}
-	else {
-		cout << "\nFile not found";
-		return false;
-	}
 	// BY MOHY here i called the fuction creat motor cycle from restaurnat to creat them after read their data. (it will not affect any thing in your work shoma XD)
 	int x[3];
 	x[0] = NormalSpeed; 
@@ -161,7 +166,6 @@ bool ReadInput::read(string fileName,Restaurant* R) {
 	x[2] = VipSpeed;
 	R->creat_motor_cycles(x, motorCyclesInA, motorCyclesInB, motorCyclesInC , motorCyclesInD);
 	infile.close();
-	cout << "\nFile loaded successfully\n";
 	return true;
 }
 

@@ -9,6 +9,7 @@
 #include "../Defs.h"
 #include<string>
 #include<sstream>
+#include"../GUI/GUI.h"
 using namespace std;
 
 class ReadInput
@@ -22,7 +23,7 @@ private:
 
 public:
 	ReadInput();
-	bool read(string,Restaurant*);
+	bool read(Restaurant*);
 	int getNormalSpeed();
 	int getFrozenSpeed();
 	int getVipSpeed();
