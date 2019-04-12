@@ -92,37 +92,9 @@ void Restaurant::Simulate()
 			NumberOfActiveOrders[i][j] = 0;
 		}
 
-	for (int i = 0; i < 4; i++) {
-		REGION region;
-		ORD_TYPE type;
-		switch (i) {
-		case 0:
-			region = A_REG;
-			break;
-		case 1:
-			region = B_REG;
-			break;
-		case 2:
-			region = C_REG;
-			break;
-		case 3:
-			region = D_REG;
-			break;
-		}
-		for (int j = 0; j < 3; j++) {
-			switch (j) {
-			case(0):
-				type = TYPE_NRM;
-				break;
-			case(1):
-				type = TYPE_FROZ;
-				break;
-			case(2):
-				type = TYPE_VIP;
-			}
-			NumberOfMotorcycles[i][j] = pIn.getMotorCyclesInRegion(type, region);
-		}
-	}
+	for (int i = 0; i < 4; i++) 
+		for (int j = 0; j < 3; j++) 
+			NumberOfMotorcycles[i][j] = pIn.getMotorCyclesInRegion(static_cast<ORD_TYPE>(j), static_cast<REGION>(i));
 	
 	
 
