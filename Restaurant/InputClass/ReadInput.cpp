@@ -10,16 +10,15 @@ ReadInput::ReadInput() :NormalSpeed(0), FrozenSpeed(0), VipSpeed(0), AutoPromoti
 	}
 }
 
-bool ReadInput::read(Restaurant* R) {
+bool ReadInput::read(Restaurant* R, GUI*& pGUI) {
 	ifstream infile;
 	string name;
-	GUI pGUI;
-	pGUI.PrintMessage("Enter the name of the input file");
-	name=pGUI.GetString();
+	pGUI->PrintMessage("Enter the name of the input file");
+	name=pGUI->GetString();
 	infile.open(name + ".txt");
 	while (!infile.is_open()) {
-		pGUI.PrintMessage("File not found, please write a valid input file name");
-		name=pGUI.GetString();
+		pGUI->PrintMessage("File not found, please write a valid input file name");
+		name=pGUI->GetString();
 		infile.open(name + ".txt");
 	}
 	int j;

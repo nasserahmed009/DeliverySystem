@@ -23,7 +23,7 @@ private:
 
 public:
 	ReadInput();
-	bool read(Restaurant*);
+	bool read(Restaurant*,GUI*& pGUI);
 	int getNormalSpeed();
 	int getFrozenSpeed();
 	int getVipSpeed();

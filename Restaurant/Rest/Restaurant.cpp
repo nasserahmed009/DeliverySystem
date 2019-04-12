@@ -71,7 +71,7 @@ void Restaurant::Simulate()
 {
 	ReadInput pIn;
 	string name;
-	pIn.read(this);
+	pIn.read(this,pGUI);
 	timeStep = 0;
 
 	for (int i = 0; i < 4; i++)
