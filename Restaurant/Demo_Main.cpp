@@ -47,7 +47,7 @@ int main()
 	
 	//testPQ(); 
 
-	system("pause");
+	//system("pause");
 	
 	return 0;
 }

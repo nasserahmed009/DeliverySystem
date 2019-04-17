@@ -56,6 +56,8 @@ public:
 	Restaurant();
 	~Restaurant();
 
+	void DeleteMotorcycles();
+
 	void AddEvent(Event* pE);	//adds a new event to the queue of events
 	void ExecuteEvents(int TimeStep);	//executes all events at current timestep
 	void RunSimulation();

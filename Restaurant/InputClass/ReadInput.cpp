@@ -22,7 +22,7 @@ bool ReadInput::read(Restaurant* R, GUI*& pGUI) {
 		infile.open(name + ".txt");
 	}
 	int j;
-	string token, word[10];
+	string word[10];
 	stringstream line_ss;
 	int lineNumber = 1;
 	if (infile.is_open()) {
@@ -33,8 +33,7 @@ bool ReadInput::read(Restaurant* R, GUI*& pGUI) {
 			j = 0;
 			switch (lineNumber) {
 			case(1): {
-				while (getline(line_ss, token, ' ')) {
-					word[j] = token;
+				while (getline(line_ss, word[j], ' ')) {
 					j++;
 				}
 				NormalSpeed = stoi(word[0]);
@@ -44,8 +43,7 @@ bool ReadInput::read(Restaurant* R, GUI*& pGUI) {
 			}
 					 break;
 			case(2): {
-				while (getline(line_ss, token, ' ')) {
-					word[j] = token;
+				while (getline(line_ss, word[j], ' ')) {
 					j++;
 				}
 				// first element represents normal motorcycles, second is frozen and third is Vip
@@ -56,8 +54,7 @@ bool ReadInput::read(Restaurant* R, GUI*& pGUI) {
 			}
 					 break;
 			case(3): {
-				while (getline(line_ss, token, ' ')) {
-					word[j] = token;
+				while (getline(line_ss, word[j], ' ')) {
 					j++;
 				}
 				motorCyclesInB[0] = stoi(word[0]);
@@ -67,8 +64,7 @@ bool ReadInput::read(Restaurant* R, GUI*& pGUI) {
 			}
 					 break;
 			case(4): {
-				while (getline(line_ss, token, ' ')) {
-					word[j] = token;
+				while (getline(line_ss, word[j], ' ')) {
 					j++;
 				}
 				motorCyclesInC[0] = stoi(word[0]);
@@ -78,8 +74,7 @@ bool ReadInput::read(Restaurant* R, GUI*& pGUI) {
 			}
 					 break;
 			case(5): {
-				while (getline(line_ss, token, ' ')) {
-					word[j] = token;
+				while (getline(line_ss, word[j], ' ')) {
 					j++;
 				}
 				motorCyclesInD[0] = stoi(word[0]);
@@ -101,15 +96,14 @@ bool ReadInput::read(Restaurant* R, GUI*& pGUI) {
 			 break;
 			default: {
 				int i = 0;
-				while (getline(line_ss, token, ' ')) {
-					word[j] = token;
-					j++;
-					if (token == "R")
+				while (getline(line_ss, word[j], ' ')) {
+					if (word[j] == "R")
 						i = 1; //Arrival Event
-					else if (token == "X")
+					else if (word[j] == "X")
 						i = 2; //Cancellation Event
-					else if (token == "P")
+					else if (word[j]== "P")
 						i = 3; //promotion Event
+					j++;
 				}
 				switch (i) {
 				case(1): {

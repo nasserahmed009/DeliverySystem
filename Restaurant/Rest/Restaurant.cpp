@@ -62,7 +62,71 @@ void Restaurant::ExecuteEvents(int CurrentTimeStep)
 
 Restaurant::~Restaurant()
 {
+	DeleteMotorcycles();
 	delete pGUI;
+}
+
+void Restaurant::DeleteMotorcycles()
+{
+	Motorcycle* Pord;
+	while (!M_NormalA.isEmpty()) {
+		M_NormalA.dequeue(Pord);
+		delete Pord;
+	}
+
+	while (!M_NormalB.isEmpty()) {
+		M_NormalB.dequeue(Pord);
+		delete Pord;
+	}
+
+	while (!M_NormalC.isEmpty()) {
+		M_NormalC.dequeue(Pord);
+		delete Pord;
+	}
+
+	while (!M_NormalD.isEmpty()) {
+		M_NormalD.dequeue(Pord);
+		delete Pord;
+	}
+
+	while (!M_FrozenA.isEmpty()) {
+		M_FrozenA.dequeue(Pord);
+		delete Pord;
+	}
+
+	while (!M_FrozenB.isEmpty()) {
+		M_FrozenB.dequeue(Pord);
+		delete Pord;
+	}
+	while (!M_FrozenC.isEmpty()) {
+		M_FrozenC.dequeue(Pord);
+		delete Pord;
+	}
+
+	while (!M_FrozenD.isEmpty()) {
+		M_FrozenD.dequeue(Pord);
+		delete Pord;
+	}
+
+	while (!M_VIPA.isEmpty()) {
+		M_VIPA.dequeue(Pord);
+		delete Pord;
+	}
+
+	while (!M_VIPB.isEmpty()) {
+		M_VIPB.dequeue(Pord);
+		delete Pord;
+	}
+
+	while (!M_VIPC.isEmpty()) {
+		M_VIPC.dequeue(Pord);
+		delete Pord;
+	}
+
+	while (!M_VIPD.isEmpty()) {
+		M_VIPD.dequeue(Pord);
+		delete Pord;
+	}
 }
 
 
@@ -113,7 +177,7 @@ void Restaurant::Simulate()
 				delete pOrd;
 			}
 		}
-
+		
 
 		//check if there is more than one event at the same timeStep
 		while (EventsQueue.peekFront(tempPtr))
