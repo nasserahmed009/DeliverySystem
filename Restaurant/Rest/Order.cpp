@@ -58,7 +58,12 @@ bool Order::operator < (const Order &O) const {
 	if (FinishTime < O.FinishTime) {
 		return true;
 	}
-	else return false;
+	else if (ServTime < O.ServTime) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 int  Order::get_wight() const  {
 	return weight;

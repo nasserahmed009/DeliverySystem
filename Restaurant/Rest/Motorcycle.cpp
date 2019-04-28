@@ -47,7 +47,7 @@ bool Motorcycle:: operator <  (const Motorcycle  &M) const {
 	}
 }
 bool Motorcycle:: operator > (const Motorcycle  &M) const {
-	if (again_use > M.again_use) {
+	if (speed > M.speed) {
 		return true;
 	}
 	else {

@@ -605,26 +605,26 @@ void Restaurant::output_file() {
 		ofile << "......................................................................................................" << endl;
 		if (i == 0) {
 			ofile << "REGION A" << endl;
-			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] << endl;
-			ofile<<"MOROTC:  "<<NumberOfMotorcycles[0][0]+ NumberOfMotorcycles[0][1]+ NumberOfMotorcycles[0][2]<<"   " << "[" << "NORM: " << NumberOfMotorcycles[0][0] << "   " << ", FROZ: " << NumberOfMotorcycles[0][1] << "  VIP: " << NumberOfMotorcycles[0][2] << endl;
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] <<"]"<< endl;
+			ofile<<"MOROTC:  "<<NumberOfMotorcycles[0][0]+ NumberOfMotorcycles[0][1]+ NumberOfMotorcycles[0][2]<<"   " << "[" << "NORM: " << NumberOfMotorcycles[0][0] << "   " << ", FROZ: " << NumberOfMotorcycles[0][1] << "  VIP: " << NumberOfMotorcycles[0][2] <<"]"<< endl;
 			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl; 
 		}
 		else if (i == 1) {
 			ofile << "REGION B" << endl;
-			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] << endl;
-			ofile << "MOROTC:  " << NumberOfMotorcycles[1][0] + NumberOfMotorcycles[1][1] + NumberOfMotorcycles[1][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[1][0] << "   " << ", FROZ: " << NumberOfMotorcycles[1][1] << "  VIP: " << NumberOfMotorcycles[1][2] << endl;
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] <<"]"<< endl;
+			ofile << "MOROTC:  " << NumberOfMotorcycles[1][0] + NumberOfMotorcycles[1][1] + NumberOfMotorcycles[1][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[1][0] << "   " << ", FROZ: " << NumberOfMotorcycles[1][1] << "  VIP: " << NumberOfMotorcycles[1][2] <<"]"<< endl;
 			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl;
 		}
 		else if (i == 2) {
 			ofile << "REGION C" << endl;
-			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] << endl;
-			ofile << "MOROTC:  " << NumberOfMotorcycles[2][0] + NumberOfMotorcycles[2][1] + NumberOfMotorcycles[2][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[2][0] << "   " << ", FROZ: " << NumberOfMotorcycles[2][1] << "  VIP: " << NumberOfMotorcycles[2][2] << endl;
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] <<"]"<< endl;
+			ofile << "MOROTC:  " << NumberOfMotorcycles[2][0] + NumberOfMotorcycles[2][1] + NumberOfMotorcycles[2][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[2][0] << "   " << ", FROZ: " << NumberOfMotorcycles[2][1] << "  VIP: " << NumberOfMotorcycles[2][2] <<"]"<< endl;
 			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl;
 		}
 		else {
 			ofile << "REGION D" << endl;
-			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] << endl;
-			ofile << "MOROTC:  " << NumberOfMotorcycles[3][0] + NumberOfMotorcycles[3][1] + NumberOfMotorcycles[3][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[3][0] << "   " << ", FROZ: " << NumberOfMotorcycles[3][1] << "  VIP: " << NumberOfMotorcycles[3][2] << endl;
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] <<"]"<< endl;
+			ofile << "MOROTC:  " << NumberOfMotorcycles[3][0] + NumberOfMotorcycles[3][1] + NumberOfMotorcycles[3][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[3][0] << "   " << ", FROZ: " << NumberOfMotorcycles[3][1] << "  VIP: " << NumberOfMotorcycles[3][2] << "]" << endl; ;
 			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl;
 		}
 	}
@@ -638,8 +638,8 @@ void Restaurant::output_file() {
 		}
 	}
 	
-	ofile << "Orders" << "  :" << orders[0]+ orders[1]+ orders[2]+ orders[3] << "[" << "NORM: " << types[0][0]+ types[1][0]+ types[2][0]+ types[3][0] << "   " << ", FROZ: " << types[1][1]+ types[2][1]+ types[3][1]+ types[0][1] << "  VIP: " << types[0][2]+ types[1][2]+ types[2][2]+ types[3][2] << endl;
-	ofile << "MOROTC:  " << total_sum_of_MC << "   " << "[" << "NORM: " << NumberOfMotorcycles[3][0]+ NumberOfMotorcycles[0][0] + NumberOfMotorcycles[1][0] + NumberOfMotorcycles[2][0] << "   " << ", FROZ: " << NumberOfMotorcycles[3][1]+ NumberOfMotorcycles[2][1] + NumberOfMotorcycles[1][1] + NumberOfMotorcycles[1][0] << "  VIP: " << NumberOfMotorcycles[3][2] + NumberOfMotorcycles[2][2] + NumberOfMotorcycles[1][2] + NumberOfMotorcycles[0][2] << endl;
+	ofile << "Orders" << "  :" << orders[0]+ orders[1]+ orders[2]+ orders[3] << "[" << "NORM: " << types[0][0]+ types[1][0]+ types[2][0]+ types[3][0] << "   " << ", FROZ: " << types[1][1]+ types[2][1]+ types[3][1]+ types[0][1] << "  VIP: " << types[0][2]+ types[1][2]+ types[2][2]+ types[3][2] <<"]"<< endl;
+	ofile << "MOROTC:  " << total_sum_of_MC << "   " << "[" << "NORM: " << NumberOfMotorcycles[3][0]+ NumberOfMotorcycles[0][0] + NumberOfMotorcycles[1][0] + NumberOfMotorcycles[2][0] << "   " << ", FROZ: " << NumberOfMotorcycles[3][1]+ NumberOfMotorcycles[2][1] + NumberOfMotorcycles[1][1] + NumberOfMotorcycles[1][0] << "  VIP: " << NumberOfMotorcycles[3][2] + NumberOfMotorcycles[2][2] + NumberOfMotorcycles[1][2] + NumberOfMotorcycles[0][2] <<"]"<< endl;
 	ofile << "AVG Wait" << "      " << (avgwait[0]+ avgwait[1]+ avgwait[2]+ avgwait[3])/4 << "           " << "AVG SERVICE TIME     " << (avgser[0] + avgser[1] + avgser[2] + avgser[3]) / 4 << endl;
 	ofile.close();
 }
