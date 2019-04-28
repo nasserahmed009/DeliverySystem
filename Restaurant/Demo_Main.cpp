@@ -39,13 +39,13 @@ int main()
 {
 	
 	// here you should creat instance of inputfile and read data from it 
-	//Restaurant* pRest = new Restaurant;
-	//pRest->RunSimulation();
+	Restaurant* pRest = new Restaurant;
+	pRest->RunSimulation();
 	//pRest->RunSimulation(); no Need to be excuted in phase 1
 	
-//	delete pRest;
+	delete pRest;
 	
-	testPQ(); 
+	//testPQ(); 
 
 	//system("pause");
 	
