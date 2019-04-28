@@ -635,6 +635,8 @@ void Restaurant::output_file() {
 			Order*ord;
 			Delivered_orders[i].dequeue(ord);
 			ofile << ord->get_FT() << "      " << ord->GetID() << "      " << ord->get_AVT() <<"       "<< ord->get_WT() <<"        " << ord->get_SVT() << endl;
+			delete  ord; 
+			ord = NULL; 
 		}
 	}
 	
