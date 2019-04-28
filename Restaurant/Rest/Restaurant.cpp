@@ -297,7 +297,7 @@ void Restaurant::Simulate()
 		pGUI->ResetDrawingList();
 		
 		for (int i = 0; i < 4; i++) {
-			PriorityQueue<Order*,1> tempVip = inServicsOrder[i];
+			PriorityQueue<Order*,less_ptrs<Order*>> tempVip = inServicsOrder[i];
 			while (tempVip.dequeue(pOrd)) {
 				pGUI->AddOrderForDrawing(pOrd);
 			}	

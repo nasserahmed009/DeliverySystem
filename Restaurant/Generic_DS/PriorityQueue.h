@@ -1,16 +1,18 @@
 #pragma once
 #include "Node.h"
+#include <functional>
+using namespace std;
 
-
-template <typename T,bool c = 0>
+template <class T, class C = greater<T>>
 class PriorityQueue
 {
 private:
 	Node<T>* frontPtr;
 	Node<T>* backPtr;
+	C comp;
 public:
 	PriorityQueue();
-	PriorityQueue(const PriorityQueue<T, c>& origQ);
+	PriorityQueue(const PriorityQueue<T, C>& origQ);
 	bool isEmpty() const;
 	bool enqueue(const T& newEntry);
 	bool dequeue(T& frntEntry);
@@ -21,8 +23,8 @@ public:
 
 // copy constructor
 
-template<typename T, bool c>
-PriorityQueue<T,c>::PriorityQueue(const PriorityQueue<T,c>& origQ)
+template <class T, class C>
+PriorityQueue<T, C>::PriorityQueue(const PriorityQueue<T, C>& origQ)
 {
 	this->frontPtr = NULL;
 	this->backPtr = NULL;
@@ -35,36 +37,36 @@ PriorityQueue<T,c>::PriorityQueue(const PriorityQueue<T,c>& origQ)
 
 }
 
-template<typename T,bool c>
-PriorityQueue<T,c>::PriorityQueue() :frontPtr(NULL), backPtr(NULL)
+template <class T, class C>
+PriorityQueue<T, C>::PriorityQueue() :frontPtr(NULL), backPtr(NULL)
 {
 
 }
 
 /*
-	Checks whether the priority queue is empty or not
-	@pre none
-	@post none
-	@param none
-	@return true if the PriorityQueue is empty, false otherwise
+Checks whether the priority queue is empty or not
+@pre none
+@post none
+@param none
+@return true if the PriorityQueue is empty, false otherwise
 */
 
-template <class T,bool c>
-bool PriorityQueue<T,c>::isEmpty() const
+template <class T, class C>
+bool PriorityQueue<T, C>::isEmpty() const
 {
 	return (frontPtr == NULL);
 }
 
 /*
-	Inserts an element into the priority queue according to it's priority (sorted)
-	@pre none
-	@post An element is added in the priority queue according to the priority
-	@param The element to be added
-	@return Returns true if the element is added successfully, false otherwise
+Inserts an element into the priority queue according to it's priority (sorted)
+@pre none
+@post An element is added in the priority queue according to the priority
+@param The element to be added
+@return Returns true if the element is added successfully, false otherwise
 */
 
-template <class T, bool c >
-bool PriorityQueue<T, c>::enqueue(const T& newEntry)
+template <class T, class C>
+bool PriorityQueue<T, C>::enqueue(const T& newEntry)
 {
 	Node<T>* tempPtr;
 	tempPtr = new Node<T>(newEntry);
@@ -77,31 +79,21 @@ bool PriorityQueue<T, c>::enqueue(const T& newEntry)
 	{
 		Node<T>* l_ptr;
 		Node<T>* r_ptr;
-		if (c == 0)
+
+		if (comp(newEntry, frontPtr->getItem())) // checks if the element is to be inserted in the front
 		{
-			if (newEntry > frontPtr->getItem()) // checks if the element is to be inserted in the front
-			{
-				tempPtr->setNext(frontPtr);
-				frontPtr = tempPtr;
-				return true;
-			}
+			tempPtr->setNext(frontPtr);
+			frontPtr = tempPtr;
+			return true;
 		}
-		else if (c == 1)
-		{
-			if (newEntry < frontPtr->getItem()) // checks if the element is to be inserted in the front
-			{
-				tempPtr->setNext(frontPtr);
-				frontPtr = tempPtr;
-				return true;
-			}
-		}
+
 
 		l_ptr = frontPtr;
 		r_ptr = frontPtr->getNext();
 
 		while (r_ptr) // loops until next element is bigger
 		{
-			if (c == 0 && newEntry > r_ptr->getItem() || c == 1 && newEntry < r_ptr->getItem())
+			if (comp(newEntry, r_ptr->getItem()))
 				break;
 			l_ptr = l_ptr->getNext();
 			r_ptr = r_ptr->getNext();
@@ -117,17 +109,17 @@ bool PriorityQueue<T, c>::enqueue(const T& newEntry)
 }
 
 /*
-	Removes an element from the front of the queue
-	@pre PriorityQueue is not empty
-	@post An element is removed from the front of the queue
-		  and it is returned as a parameter
-	@param Dummy variable to return the element removed in it
-	@return True if the element is removed successfully, false otherwise
+Removes an element from the front of the queue
+@pre PriorityQueue is not empty
+@post An element is removed from the front of the queue
+and it is returned as a parameter
+@param Dummy variable to return the element removed in it
+@return True if the element is removed successfully, false otherwise
 
 */
 
-template <class T,bool c>
-bool PriorityQueue<T,c>::dequeue(T& frntEntry)
+template <class T, class C>
+bool PriorityQueue<T, C>::dequeue(T& frntEntry)
 {
 	if (this->isEmpty())
 		return false;
@@ -141,16 +133,16 @@ bool PriorityQueue<T,c>::dequeue(T& frntEntry)
 }
 
 /*
-	Returns the element in the front of the queue
-	@pre The PriorityQueue is not empty
-	@post none
-	@param Dummy variable to return the element in
-	@return true if the element is returned successfully
-			false if the queue is empty (element not returned) 
+Returns the element in the front of the queue
+@pre The PriorityQueue is not empty
+@post none
+@param Dummy variable to return the element in
+@return true if the element is returned successfully
+false if the queue is empty (element not returned)
 */
 
-template <class T,bool c>
-bool PriorityQueue<T,c>::peekFront(T& frntEntry) const
+template <class T, class C>
+bool PriorityQueue<T, C>::peekFront(T& frntEntry) const
 {
 	if (this->isEmpty())
 		return false;
@@ -161,8 +153,8 @@ bool PriorityQueue<T,c>::peekFront(T& frntEntry) const
 
 // Destructor, deletes all nodes
 
-template<typename T,bool c>
-PriorityQueue<T, c>::~PriorityQueue()
+template <class T, class C>
+PriorityQueue<T, C>::~PriorityQueue()
 {
 	T tmp;
 	while (!(this->isEmpty()))
