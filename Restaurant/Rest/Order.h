@@ -16,7 +16,7 @@ protected:
 	int weight; // to calculate the weight for VIP orders only  
 
 	int ArrTime, ServTime, FinishTime;	//arrival, service start, and finish times
-	
+	int waiting_time; 
 	
 	//
 	// TODO: Add More Data Members As Needed
@@ -36,6 +36,15 @@ public:
 	void SetDistance(int d);
 	int GetDistance() const;
 	double get_money(); 
+	void set_money(double mon); 
+	void set_ARivval_time(int tim);
+	void set_Service_time(int tim); 
+	void set_Finish_time(int tim); 
+	int get_AVT(); 
+	int get_SVT(); 
+	int get_FT(); 
+	void set_wait_time(int time); 
+	int get_WT(); 
 	void set_wieght(int x); 
 	bool operator > (const Order  &O) const ;
 	bool operator < (const Order  &O) const ;

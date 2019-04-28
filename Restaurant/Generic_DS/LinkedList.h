@@ -10,7 +10,7 @@ public:
 	LinkedList(); 
 	~LinkedList();
 	bool insert_at_end(T item) ; 
-	bool remove (T item); 
+	bool remove (T& item); 
 	bool removeFront(T& item);
 	bool remove_at_end(T& item);
 	bool is_empty(); 
@@ -89,13 +89,14 @@ bool LinkedList<T>::remove_at_end(T &item) { //to remove an order when it's serv
 	return false;
 }
 template <typename T> 
-bool LinkedList <T> ::remove (T item) { // to delete an order if it's cancelled or promoted to VIP
+bool LinkedList <T> ::remove (T &item) { // to delete an order if it's cancelled or promoted to VIP
 	Node <T> * temp = Head; 
 	if (is_empty()) {
 	return false;
 	}
 	else if (Head->getItem () == item) {
 		temp = Head->getNext(); 
+		item = Head->getItem(); 
 		delete Head;
 		Head = temp; 
 		if (!Head) {
@@ -109,6 +110,7 @@ bool LinkedList <T> ::remove (T item) { // to delete an order if it's cancelled 
 		if (temp->getNext()!= NULL &&  temp->getNext()->getItem() == item) {
 			Node <T> * temp2= temp->getNext();
 			temp->setNext(temp2->getNext());
+			item = temp2->getItem();
 			delete temp2;
 			if (!temp->getNext()) {
 			Tail = Head;

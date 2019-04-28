@@ -55,11 +55,39 @@ bool Order::operator > (const Order &O) const{
 	else return false; 
 }
 bool Order::operator < (const Order &O) const {
-	if (weight < O.get_wight()) {
+	if (FinishTime < O.FinishTime) {
 		return true;
 	}
 	else return false;
 }
 int  Order::get_wight() const  {
 	return weight;
+}
+void Order::set_ARivval_time(int tim) {
+	ArrTime = tim;
+}
+void Order::set_Service_time(int tim) {
+	ServTime= tim;
+}
+
+void Order::set_Finish_time(int tim) {
+	FinishTime = tim;
+}
+void Order::set_money(double money) {
+	totalMoney = money; 
+}
+int Order::get_AVT() {
+	return ArrTime; 
+}
+int Order::get_FT() {
+	return FinishTime;
+}
+int Order::get_SVT() {
+	return ServTime; 
+}
+void Order::set_wait_time(int time) {
+	waiting_time = time; 
+}
+int Order::get_WT() {
+	return waiting_time; 
 }

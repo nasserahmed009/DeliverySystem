@@ -23,3 +23,38 @@ void Motorcycle::set_REG(REGION reg) {
 void Motorcycle::set_type(ORD_TYPE ot) {
 	type = ot;
 }
+void Motorcycle::set_status(STATUS S) {
+	status = S; 
+}
+STATUS Motorcycle::get_status() {
+	return status; 
+}
+int Motorcycle::get_speed() {
+	return speed; 
+}
+void Motorcycle::set_again_use(int time) {
+	again_use = time; 
+}
+int Motorcycle::get_again_use() {
+	return again_use; 
+}
+bool Motorcycle:: operator <  (const Motorcycle  &M) const {
+	if (again_use < M.again_use) {
+		return true; 
+}
+	else {
+		return false; 
+	}
+}
+bool Motorcycle:: operator > (const Motorcycle  &M) const {
+	if (again_use > M.again_use) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+int Motorcycle::GetType() const
+{
+	return type;
+}

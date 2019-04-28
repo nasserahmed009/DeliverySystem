@@ -36,6 +36,9 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 	///For the sake of demo, this function will just create an order and add it to DemoQueue
 	///Remove the next code lines in phase 1&2
 	Order* pOrd = new Order(OrderID,OrdType,OrdRegion);
+	pOrd->SetDistance(get_ord_dis());
+	pOrd->set_ARivval_time(getEventTime());
+	pOrd->set_money(get_ord_money());
 //	pRest->AddtoDemoQueue(pOrd); for demo only no need to be excuted in phase 1 
 
 	switch (OrdType) {

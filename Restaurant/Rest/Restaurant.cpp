@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <time.h>
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 #include "Restaurant.h"
@@ -24,18 +25,25 @@ void Restaurant::RunSimulation()
 	switch (mode)	//Add a function for each mode in next phases
 	{
 	case MODE_INTR:
+		GUI_mode = 0;
+		Simulate(); 
 		break;
 	case MODE_STEP:
-		break;
-	case MODE_SLNT:
-		break;
-	case MODE_DEMO:
+		GUI_mode = 1; 
 		Simulate();
+		break;
+	case MODE_SLNT: 
+		// Need to only extract output file without graphing the window
+		GUI_mode = 2; 
+		Simulate();
+		break;
 	};
 
 }
+void Restaurant::go_without_simulation() {
+	// Here We should Write the code for the silent mode and call it in the other two modes to produce the output file . 
 
-
+}
 
 //////////////////////////////////  Event handling functions   /////////////////////////////
 void Restaurant::AddEvent(Event* pE)	//adds a new event to the queue of events
@@ -68,68 +76,37 @@ Restaurant::~Restaurant()
 
 void Restaurant::DeleteMotorcycles()
 {
-	Motorcycle* Pord;
-	while (!M_NormalA.isEmpty()) {
-		M_NormalA.dequeue(Pord);
-		delete Pord;
-	}
-
-	while (!M_NormalB.isEmpty()) {
-		M_NormalB.dequeue(Pord);
-		delete Pord;
-	}
-
-	while (!M_NormalC.isEmpty()) {
-		M_NormalC.dequeue(Pord);
-		delete Pord;
-	}
-
-	while (!M_NormalD.isEmpty()) {
-		M_NormalD.dequeue(Pord);
-		delete Pord;
-	}
-
-	while (!M_FrozenA.isEmpty()) {
-		M_FrozenA.dequeue(Pord);
-		delete Pord;
-	}
-
-	while (!M_FrozenB.isEmpty()) {
-		M_FrozenB.dequeue(Pord);
-		delete Pord;
-	}
-	while (!M_FrozenC.isEmpty()) {
-		M_FrozenC.dequeue(Pord);
-		delete Pord;
-	}
-
-	while (!M_FrozenD.isEmpty()) {
-		M_FrozenD.dequeue(Pord);
-		delete Pord;
-	}
-
-	while (!M_VIPA.isEmpty()) {
-		M_VIPA.dequeue(Pord);
-		delete Pord;
-	}
-
-	while (!M_VIPB.isEmpty()) {
-		M_VIPB.dequeue(Pord);
-		delete Pord;
-	}
-
-	while (!M_VIPC.isEmpty()) {
-		M_VIPC.dequeue(Pord);
-		delete Pord;
-	}
-
-	while (!M_VIPD.isEmpty()) {
-		M_VIPD.dequeue(Pord);
-		delete Pord;
+	for (int i = 0; i < 4; i++) {
+		Motorcycle* Pord;
+		while (!M_Normal[i].isEmpty()) {
+			M_Normal[i].dequeue(Pord);
+			delete Pord;
+		}
+		while (!M_VIP[i].isEmpty()) {
+			M_VIP[i].dequeue(Pord);
+			delete Pord;
+		}
+		while (!M_Frozen[i].isEmpty()) {
+			M_Frozen[i].dequeue(Pord);
+			delete Pord;
+		}
 	}
 }
 
 
+bool Restaurant::checker() {
+	bool temp = false; 
+	if (!in_service_Motorcyles[0].isEmpty() || !in_service_Motorcyles[1].isEmpty() || !in_service_Motorcyles[2].isEmpty() || !in_service_Motorcyles[3].isEmpty()) {
+		temp = true;
+	}
+	bool temp2[4] = { 0,0,0,0 };
+	for (int i = 0; i < 4; i++){
+		if (!vipOrders[i].isEmpty()|| !FrozenOrders[i].isEmpty() || !NormalOrders[i].is_empty()) {
+			temp2[i] = true;
+	}	
+	}
+	return (temp || temp2[0] || temp2[1] || temp2[2] || temp2[3]);
+}
 
 void Restaurant::Simulate()
 {
@@ -153,31 +130,16 @@ void Restaurant::Simulate()
 	/* ADD MORE INITIALIZATIONS */
 
 	/* READ INPUT FROM pIn */
+		// Here i should write the assignment process. 
+
+	bool ch = false;
 	
-	while (!EventsQueue.isEmpty())
+	while (!EventsQueue.isEmpty() || ch)
 	{
 		Event* tempPtr;
 
 		//remove one order from each type each timeStep
 		Order* pOrd;
-		for (int i = 0; i < 4; i++) {
-			if (vipOrders[i].dequeue(pOrd))
-			{
-				NumberOfActiveOrders[i][2]--;
-				delete pOrd;
-			}
-			if (FrozenOrders[i].dequeue(pOrd))
-			{
-				NumberOfActiveOrders[i][1]--;
-				delete pOrd;
-			}
-			if (NormalOrders[i].removeFront(pOrd))
-			{
-				NumberOfActiveOrders[i][0]--;
-				delete pOrd;
-			}
-		}
-		
 
 		//check if there is more than one event at the same timeStep
 		while (EventsQueue.peekFront(tempPtr))
@@ -189,48 +151,179 @@ void Restaurant::Simulate()
 			Event* junk;
 			EventsQueue.dequeue(junk);
 		}
-		
-		pGUI->ResetDrawingList();
-		
-		for (int i = 0; i < 4; i++) {
-			
+		for (int i = 0; i < 4; i++) {// Here i should loop to assign motor cycles to VIP orders (i the iteration for each region ) 
+			bool i_could = true; 
+			Motorcycle * temp_Motor; 
 
-			PriorityQueue<Order*> tempVip = vipOrders[i];
-			while (tempVip.dequeue(pOrd)) {
-				pGUI->AddOrderForDrawing(pOrd);
+			while (!vipOrders[i].isEmpty()&&i_could) { // Here add another condition to exit the loop if there is no motor cycles now. 
+				if (M_VIP[i].dequeue(temp_Motor)) {
+					temp_Motor->set_status(SERV);
+					in_service_Motorcyles[i].enqueue(temp_Motor); 
+					i_could = true;
+					vipOrders[i].dequeue(pOrd);
+					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
+					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
+					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
+					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT()); 
+					//NumberOfActiveOrders[i][2]--;
+					inServicsOrder[i].enqueue(pOrd);
+				}
+				else if (M_Normal[i].dequeue(temp_Motor)) {
+					temp_Motor->set_status(SERV);
+					in_service_Motorcyles[i].enqueue(temp_Motor);
+					i_could = true;
+					vipOrders[i].dequeue(pOrd);
+					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
+					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
+					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
+					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
+					//NumberOfActiveOrders[i][2]--;
+					inServicsOrder[i].enqueue(pOrd);
+				}
+				else if (M_Frozen[i].dequeue(temp_Motor)) {
+					temp_Motor->set_status(SERV);
+					in_service_Motorcyles[i].enqueue(temp_Motor);
+					i_could = true;
+					vipOrders[i].dequeue(pOrd);
+					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
+					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
+					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
+					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
+					//NumberOfActiveOrders[i][2]--;
+					inServicsOrder[i].enqueue(pOrd);
+				}
+				else {
+					i_could = false;
+				}
 			}
-			Queue<Order*> tempFrozen = FrozenOrders[i];
-			while (tempFrozen.dequeue(pOrd)) {
-				pGUI->AddOrderForDrawing(pOrd);
+			// Here trying to serve normal orders after serving VIP orders 
+			i_could = true; 
+			while (!FrozenOrders[i].isEmpty() && i_could) {
+			 if (M_Frozen[i].dequeue(temp_Motor)) {
+				 temp_Motor->set_status(SERV);
+					in_service_Motorcyles[i].enqueue(temp_Motor);
+					i_could = true;
+					FrozenOrders[i].dequeue(pOrd);
+					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
+					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
+					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
+					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
+					//NumberOfActiveOrders[i][3]--;
+					inServicsOrder[i].enqueue(pOrd);
+				}
+			 else {
+				 i_could = false; 
+			 }
 			}
-
-			Node<Order*>* tempNormal = NormalOrders[i].getHead();
-			while (tempNormal) {
-				pOrd = tempNormal ->getItem();
-				pGUI->AddOrderForDrawing(pOrd);
-				tempNormal = tempNormal->getNext();
+			// Here trying to serve normal Orders after serving VIP first and frozen
+			i_could = true; 
+			while (!NormalOrders[i].is_empty() &&i_could) {
+				if (M_Normal[i].dequeue(temp_Motor)) {
+					temp_Motor->set_status(SERV);
+					in_service_Motorcyles[i].enqueue(temp_Motor);
+					i_could = true;
+					NormalOrders[i].removeFront(pOrd);
+					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
+					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
+					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
+					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
+					//NumberOfActiveOrders[i][0]--;
+					inServicsOrder[i].enqueue(pOrd);
+				}
+				
+				
+				else if (M_VIP[i].dequeue(temp_Motor)) {
+					temp_Motor->set_status(SERV);
+					in_service_Motorcyles[i].enqueue(temp_Motor);
+					i_could = true;
+					NormalOrders[i].removeFront(pOrd);
+					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
+					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
+					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
+					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
+					//NumberOfActiveOrders[i][0]--;
+					inServicsOrder[i].enqueue(pOrd);
+				}
+				else {
+					i_could = false; 
+				}
 			}
 			
 		}
+		// Here i should remove orders which have arrived to the customer as well as the availmotorcyles 
+		for (int i = 0; i < 4; i++) {
+			Order *ord;
+			while (inServicsOrder[i].peekFront(ord)) {
+				if (ord->get_FT() <= timeStep) {
+					inServicsOrder[i].dequeue(ord); 
+					Delivered_orders[i].enqueue(ord);
+					if (ord->GetType() == TYPE_NRM) {
+						NumberOfActiveOrders[i][0]--;
+					}
+					else if (ord->GetType() == TYPE_FROZ) {
+						NumberOfActiveOrders[i][1]--;
+					}
+					else {
+						NumberOfActiveOrders[i][2]--;
+					}
+				}
+				else {
+					break; 
+				}
+			}
+		}
+		for (int i = 0; i < 4; i++) {
+			Motorcycle *ord;
+			while (in_service_Motorcyles[i].peekFront(ord)) {
+				if (ord->get_again_use()<= timeStep) {
+					in_service_Motorcyles[i].dequeue(ord);
+					ord->set_status(IDLE);
+					if (ord->GetType() == TYPE_NRM) {
+						M_Normal[i].enqueue(ord);
+					}
+					else if (ord->GetType() == TYPE_FROZ) {
+						M_Frozen[i].enqueue(ord);
+					}
+					else {
+						M_VIP[i].enqueue(ord);
+					}
+				}
+				else {
+					break;
+				}
+			}
+		}
+	
+		pGUI->ResetDrawingList();
+		
+		for (int i = 0; i < 4; i++) {
+			PriorityQueue<Order*,1> tempVip = inServicsOrder[i];
+			while (tempVip.dequeue(pOrd)) {
+				pGUI->AddOrderForDrawing(pOrd);
+			}	
+		}
 		updateRestaurantsInfo();
 		pGUI->UpdateInterface();
-		pGUI->waitForClick();
-		timeStep++;
+		if (GUI_mode == 0) {
+			pGUI->waitForClick();
+			timeStep++;
+			ch = checker();
+		}
+		else if (GUI_mode == 1) {
+			Sleep(1000);
+			timeStep++; 
+			ch = checker(); 
+		}
+		else {
+			timeStep++;
+			ch = checker();
+		}
 	}
+	output_file(); 
 	pGUI->PrintMessage("Simulation Finished Thanks for watching");
 	//cout << "Ended successfully" << endl;
 }
 
-
-/* STILL NEED TO BE ADDED THE IN-SERVICE LIST FOR SERVICED ORDERS*/
-/*INPUT FUNCTION SHOULD READ FROM EL MAIN NOT FROM SIMULATION FUNCTION*/
-/* NEED TO DISPLAY NUMBER OF EVERY THING ON THE DISPLAY ON SEPARATE LINE*/
-////////////////////////////////////////////////////////////////////////////////
-/// ==> 
-///  DEMO-related functions. Should be removed in phases 1&2
-
-//This is just a demo function for project introductory phase
-//It should be removed starting phase 1
 void Restaurant::Just_A_Demo()
 {
 
@@ -375,52 +468,52 @@ void Restaurant::creat_motor_cycles(int *speed, int *regA, int *regB, int *regC,
 	int i = 0;
 	for (i = 0; i < regA[0]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(i);  M->set_REG(A_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_NormalA.enqueue(M);
+		M->set_id(i);  M->set_REG(A_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_Normal[0].enqueue(M);
 	}
 	int k = i;
 	for (i = 0; i < regB[0]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_NormalB.enqueue(M); k++;
+		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_Normal[1].enqueue(M); k++;
 	}
 	for (i = 0; i < regC[0]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_NormalC.enqueue(M);  k++;
+		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_Normal[2].enqueue(M);  k++;
 	}
 	for (i = 0; i < regD[0]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_NormalD.enqueue(M);  k++;
+		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_Normal[3].enqueue(M);  k++;
 	}
 	for (i = 0; i < regA[1]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(A_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_FrozenA.enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(A_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_Frozen[0].enqueue(M);   k++;
 	}
 	for (i = 0; i < regB[1]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_FrozenB.enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_Frozen[1].enqueue(M);   k++;
 	}
 	for (i = 0; i < regC[1]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_FrozenC.enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_Frozen[2].enqueue(M);   k++;
 	}
 	for (i = 0; i < regD[1]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_FrozenD.enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_Frozen[3].enqueue(M);   k++;
 	}
 	for (i = 0; i < regA[2]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(i);  M->set_REG(A_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIPA.enqueue(M);   k++;
+		M->set_id(i);  M->set_REG(A_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIP[0].enqueue(M);   k++;
 	}
 	for (i = 0; i < regB[2]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIPB.enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIP[1].enqueue(M);   k++;
 	}
 	for (i = 0; i < regC[2]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIPC.enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIP[2].enqueue(M);   k++;
 	}
 	for (i = 0; i < regD[2]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIPD.enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIP[3].enqueue(M);   k++;
 	}
 
 }
@@ -471,7 +564,85 @@ void Restaurant::updateStringsInfo(string& s,string & s1, string & s2, string & 
 	
 	s6 = "Timestep: " + to_string(timeStep);
 }
-
+void Restaurant::output_file() {
+	ofstream ofile;
+	ofile.open("OUTPUT.txt");
+	int types[4][3];
+	int total_sum_of_MC = 0; 
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 3; j++) {
+			types[i][j] = 0;
+			total_sum_of_MC += NumberOfMotorcycles[i][j];
+		}
+	}
+	double avgwait[4] = { 0,0,0,0 };
+	double avgser[4] = { 0,0,0,0 };
+	int orders[4] = { 0,0,0,0 }; // for each region; 
+	for (int i = 0; i < 4; i++) {
+		Queue<Order*> temp = Delivered_orders[i];
+		ofile << "FT" << "      " << "ID" << "     " << "AT" << "     " << "WT" << "      " << "ST" << endl;
+		while (!temp.isEmpty()) {
+			orders[i]++;
+			Order*ord;
+			temp.dequeue(ord);
+			avgwait[i] += ord->get_WT();
+			avgser[i] += ord->get_SVT();
+			if (ord->GetType() == TYPE_NRM) {
+				types[i][0]++;
+			}
+			else if (ord->GetType() == TYPE_FROZ) {
+				types[i][1]++;
+			}
+			else {
+				types[i][2]++;
+			}
+			avgwait[i] /= orders[i];
+			avgser[i] /= orders[i];
+			//Delivered_orders[i].dequeue(ord);
+			ofile << ord->get_FT() << "      " << ord->GetID() << "      " << ord->get_AVT() << "     " << ord->get_SVT() << endl; 
+		}
+		ofile << "......................................................................................................" << endl; 
+		ofile << "......................................................................................................" << endl;
+		if (i == 0) {
+			ofile << "REGION A" << endl;
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] << endl;
+			ofile<<"MOROTC:  "<<NumberOfMotorcycles[0][0]+ NumberOfMotorcycles[0][1]+ NumberOfMotorcycles[0][2]<<"   " << "[" << "NORM: " << NumberOfMotorcycles[0][0] << "   " << ", FROZ: " << NumberOfMotorcycles[0][1] << "  VIP: " << NumberOfMotorcycles[0][2] << endl;
+			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl; 
+		}
+		else if (i == 1) {
+			ofile << "REGION B" << endl;
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] << endl;
+			ofile << "MOROTC:  " << NumberOfMotorcycles[1][0] + NumberOfMotorcycles[1][1] + NumberOfMotorcycles[1][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[1][0] << "   " << ", FROZ: " << NumberOfMotorcycles[1][1] << "  VIP: " << NumberOfMotorcycles[1][2] << endl;
+			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl;
+		}
+		else if (i == 2) {
+			ofile << "REGION C" << endl;
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] << endl;
+			ofile << "MOROTC:  " << NumberOfMotorcycles[2][0] + NumberOfMotorcycles[2][1] + NumberOfMotorcycles[2][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[2][0] << "   " << ", FROZ: " << NumberOfMotorcycles[2][1] << "  VIP: " << NumberOfMotorcycles[2][2] << endl;
+			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl;
+		}
+		else {
+			ofile << "REGION D" << endl;
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] << endl;
+			ofile << "MOROTC:  " << NumberOfMotorcycles[3][0] + NumberOfMotorcycles[3][1] + NumberOfMotorcycles[3][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[3][0] << "   " << ", FROZ: " << NumberOfMotorcycles[3][1] << "  VIP: " << NumberOfMotorcycles[3][2] << endl;
+			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl;
+		}
+	}
+	ofile << "For the Hole Restaurant " << endl;
+	ofile << "FT" << "      " << "ID" << "     " << "AT" << "     " << "WT" << "      " << "ST" << endl;
+	for (int i = 0; i < 4; i++) {
+		while (!Delivered_orders[i].isEmpty()) {
+			Order*ord;
+			Delivered_orders[i].dequeue(ord);
+			ofile << ord->get_FT() << "      " << ord->GetID() << "      " << ord->get_AVT() << "     " << ord->get_SVT() << endl;
+		}
+	}
+	
+	ofile << "Orders" << "  :" << orders[0]+ orders[1]+ orders[2]+ orders[3] << "[" << "NORM: " << types[0][0]+ types[1][0]+ types[2][0]+ types[3][0] << "   " << ", FROZ: " << types[1][1]+ types[2][1]+ types[3][1]+ types[0][1] << "  VIP: " << types[0][2]+ types[1][2]+ types[2][2]+ types[3][2] << endl;
+	ofile << "MOROTC:  " << total_sum_of_MC << "   " << "[" << "NORM: " << NumberOfMotorcycles[3][0]+ NumberOfMotorcycles[0][0] + NumberOfMotorcycles[1][0] + NumberOfMotorcycles[2][0] << "   " << ", FROZ: " << NumberOfMotorcycles[3][1]+ NumberOfMotorcycles[2][1] + NumberOfMotorcycles[1][1] + NumberOfMotorcycles[1][0] << "  VIP: " << NumberOfMotorcycles[3][2] + NumberOfMotorcycles[2][2] + NumberOfMotorcycles[1][2] + NumberOfMotorcycles[0][2] << endl;
+	ofile << "AVG Wait" << "      " << (avgwait[0]+ avgwait[1]+ avgwait[2]+ avgwait[3])/4 << "           " << "AVG SERVICE TIME     " << (avgser[0] + avgser[1] + avgser[2] + avgser[3]) / 4 << endl;
+	ofile.close();
+}
 
 
 /// ==> end of DEMO-related function

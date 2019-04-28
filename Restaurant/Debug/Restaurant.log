@@ -1,8 +1,6 @@
-﻿  Demo_Main.cpp
-  Restaurant.cpp
-d:\deliverysystem\restaurant\rest\restaurant.cpp(194): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-d:\deliverysystem\restaurant\rest\restaurant.cpp(237): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _itoa. See online help for details.
+﻿  Restaurant.cpp
+d:\deliverysystem\restaurant\rest\restaurant.cpp(337): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+d:\deliverysystem\restaurant\rest\restaurant.cpp(380): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _itoa. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdlib.h(1323): note: see declaration of 'itoa'
-  Generating Code...
-d:\deliverysystem\restaurant\generic_ds\linkedlist.h(109): warning C4715: 'LinkedList<Order *>::remove': not all control paths return a value
+d:\deliverysystem\restaurant\generic_ds\linkedlist.h(126): warning C4715: 'LinkedList<Order *>::remove': not all control paths return a value
   Restaurant.vcxproj -> D:\deliverySystem\Debug\Restaurant.exe

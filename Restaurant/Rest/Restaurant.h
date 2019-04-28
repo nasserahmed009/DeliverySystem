@@ -26,27 +26,19 @@ private:
 	Queue<Order*> FrozenOrders[4];
 	LinkedList<Order*> NormalOrders[4];
 
-	PriorityQueue<Order*> inServicsOrder[4];
+	PriorityQueue<Order*,1> inServicsOrder[4]; // they are enqued according to Finsih time; 
+	Queue<Order*> Delivered_orders[4];
 	int NumberOfActiveOrders[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
 	int NumberOfMotorcycles[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
 	// Motor cycle data structures; 
-	PriorityQueue <Motorcycle *> M_NormalA;
-	PriorityQueue <Motorcycle*> M_FrozenA;
-	PriorityQueue <Motorcycle*> M_VIPA;
-	PriorityQueue <Motorcycle*> M_NormalB;
-	PriorityQueue <Motorcycle*> M_FrozenB;
-	PriorityQueue <Motorcycle*> M_VIPB;
-	PriorityQueue <Motorcycle*> M_NormalC;
-	PriorityQueue <Motorcycle*> M_FrozenC;
-	PriorityQueue <Motorcycle*> M_VIPC;
-	PriorityQueue <Motorcycle*> M_NormalD;
-	PriorityQueue <Motorcycle*> M_FrozenD;
-	PriorityQueue <Motorcycle *> M_VIPD;
-	PriorityQueue <Motorcycle *> in_service_Motorcyles[4]; 
+	PriorityQueue <Motorcycle *> M_Normal[4];
+	PriorityQueue <Motorcycle*> M_Frozen[4];
+	PriorityQueue <Motorcycle*> M_VIP[4];
+	PriorityQueue <Motorcycle *,1> in_service_Motorcyles[4]; // thery are enqueud according to in_use_again time
 	/// ==>
 	
 	int timeStep;
-
+	int  GUI_mode; // 0 for interactive and for and 1 for click by click 
 	//
 	// TODO: Add More Data Members As Needed
 	//
@@ -79,6 +71,9 @@ public:
 	void creat_motor_cycles(int *speed, int *regA, int *regB, int *regC, int *regD); 
 	void updateStringsInfo(string& s, string& s1, string& s2, string& s3, string& s4, string& s5, string &s6, int timeStep);
 	void updateRestaurantsInfo();
+	void go_without_simulation();  // for silent mode Only 
+	bool checker(); 
+	void output_file(); 
 	/// ==> 
 
 
