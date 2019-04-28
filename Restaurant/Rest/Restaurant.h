@@ -23,7 +23,7 @@ private:
 	//	DEMO-related members. Should be removed in phases 1&2
 	Queue<Order*> DEMO_Queue;	//Important: This is just for demo
 	
-	PriorityQueue < Order*, less_ptrs<Order*> > vipOrders[4];
+	PriorityQueue < Order*, greater_ptrs<Order*> > vipOrders[4];
 	Queue<Order*> FrozenOrders[4];
 	LinkedList<Order*> NormalOrders[4];
 
