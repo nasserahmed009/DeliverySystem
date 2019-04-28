@@ -596,10 +596,13 @@ void Restaurant::output_file() {
 			else {
 				types[i][2]++;
 			}
-			avgwait[i] /= orders[i];
-			avgser[i] /= orders[i];
 			//Delivered_orders[i].dequeue(ord);
 			ofile << ord->get_FT() << "      " << ord->GetID() << "      " << ord->get_AVT() << "       "<<ord->get_WT()<<"       " << ord->get_SVT() << endl; 
+		} 
+		if (orders[i] == 0);
+		else {
+			avgwait[i] /= orders[i];
+			avgser[i] /= orders[i];
 		}
 		ofile << "......................................................................................................" << endl; 
 		ofile << "......................................................................................................" << endl;
