@@ -599,7 +599,7 @@ void Restaurant::output_file() {
 			avgwait[i] /= orders[i];
 			avgser[i] /= orders[i];
 			//Delivered_orders[i].dequeue(ord);
-			ofile << ord->get_FT() << "      " << ord->GetID() << "      " << ord->get_AVT() << "     " << ord->get_SVT() << endl; 
+			ofile << ord->get_FT() << "      " << ord->GetID() << "      " << ord->get_AVT() << "       "<<ord->get_WT()<<"       " << ord->get_SVT() << endl; 
 		}
 		ofile << "......................................................................................................" << endl; 
 		ofile << "......................................................................................................" << endl;
@@ -634,7 +634,7 @@ void Restaurant::output_file() {
 		while (!Delivered_orders[i].isEmpty()) {
 			Order*ord;
 			Delivered_orders[i].dequeue(ord);
-			ofile << ord->get_FT() << "      " << ord->GetID() << "      " << ord->get_AVT() << "     " << ord->get_SVT() << endl;
+			ofile << ord->get_FT() << "      " << ord->GetID() << "      " << ord->get_AVT() <<"       "<< ord->get_WT() <<"        " << ord->get_SVT() << endl;
 		}
 	}
 	
