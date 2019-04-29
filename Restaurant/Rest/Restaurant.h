@@ -40,6 +40,7 @@ private:
 	
 	int timeStep;
 	int  GUI_mode; // 0 for interactive and for and 1 for click by click 
+	int auto_promo_limit; 
 	//
 	// TODO: Add More Data Members As Needed
 	//
@@ -75,6 +76,9 @@ public:
 	void go_without_simulation();  // for silent mode Only 
 	bool checker(); 
 	void output_file(); 
+	void set_auto_promo(int x); 
+	int get_auto_promo(); 
+	void check_auto_promo(int tim); 
 	/// ==> 
 
 

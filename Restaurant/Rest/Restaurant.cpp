@@ -151,6 +151,7 @@ void Restaurant::Simulate()
 			Event* junk;
 			EventsQueue.dequeue(junk);
 		}
+		check_auto_promo(timeStep);
 		for (int i = 0; i < 4; i++) {// Here i should loop to assign motor cycles to VIP orders (i the iteration for each region ) 
 			bool i_could = true; 
 			Motorcycle * temp_Motor; 
@@ -458,6 +459,10 @@ void Restaurant::cancelOrder(Order * o)
 void Restaurant::promoteOrder(Order * o)
 {
 	if (o == NULL) return;
+	double mon = o->get_money();
+	int dis = o->GetDistance();
+	int tim = timeStep + (timeStep - o->get_AVT());
+	o->set_wieght(2 * mon + dis + tim);
 	o->setType(TYPE_VIP);
 	vipOrders[o->GetRegion()].enqueue(o);
 	NormalOrders[o->GetRegion()].remove(o);
@@ -644,10 +649,32 @@ void Restaurant::output_file() {
 	}
 	
 	ofile << "Orders" << "  :" << orders[0]+ orders[1]+ orders[2]+ orders[3] << "[" << "NORM: " << types[0][0]+ types[1][0]+ types[2][0]+ types[3][0] << "   " << ", FROZ: " << types[1][1]+ types[2][1]+ types[3][1]+ types[0][1] << "  VIP: " << types[0][2]+ types[1][2]+ types[2][2]+ types[3][2] <<"]"<< endl;
-	ofile << "MOROTC:  " << total_sum_of_MC << "   " << "[" << "NORM: " << NumberOfMotorcycles[3][0]+ NumberOfMotorcycles[0][0] + NumberOfMotorcycles[1][0] + NumberOfMotorcycles[2][0] << "   " << ", FROZ: " << NumberOfMotorcycles[3][1]+ NumberOfMotorcycles[2][1] + NumberOfMotorcycles[1][1] + NumberOfMotorcycles[1][0] << "  VIP: " << NumberOfMotorcycles[3][2] + NumberOfMotorcycles[2][2] + NumberOfMotorcycles[1][2] + NumberOfMotorcycles[0][2] <<"]"<< endl;
+	ofile << "MOROTC:  " << total_sum_of_MC << "   " << "[" << "NORM: " << NumberOfMotorcycles[3][0]+ NumberOfMotorcycles[0][0] + NumberOfMotorcycles[1][0] + NumberOfMotorcycles[2][0] << "   " << ", FROZ: " << NumberOfMotorcycles[3][1]+ NumberOfMotorcycles[2][1] + NumberOfMotorcycles[1][1] + NumberOfMotorcycles[0][1] << "  VIP: " << NumberOfMotorcycles[3][2] + NumberOfMotorcycles[2][2] + NumberOfMotorcycles[1][2] + NumberOfMotorcycles[0][2] <<"]"<< endl;
 	ofile << "AVG Wait" << "      " << (avgwait[0]+ avgwait[1]+ avgwait[2]+ avgwait[3])/4 << "           " << "AVG SERVICE TIME     " << (avgser[0] + avgser[1] + avgser[2] + avgser[3]) / 4 << endl;
 	ofile.close();
 }
+int Restaurant::get_auto_promo() {
+	return auto_promo_limit; 
+}
+void Restaurant::set_auto_promo(int x) {
+	auto_promo_limit = x; 
+}
+void Restaurant::check_auto_promo(int tim) {
+	for (int i = 0; i < 4; i++)
+	{
+		Node<Order*>* temp = NormalOrders[i].getHead();
+		while (temp) {
+			if ((tim - temp->getItem()->get_AVT()) >= auto_promo_limit) {
+				promoteOrder(temp->getItem());
 
+					temp = temp->getNext();
+			}
+			else {
+				temp = temp->getNext();
+			}
+		}
+		
+	}
+}
 
 /// ==> end of DEMO-related function

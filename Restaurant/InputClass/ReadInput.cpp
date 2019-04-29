@@ -158,6 +158,7 @@ bool ReadInput::read(Restaurant* R, GUI*& pGUI) {
 	x[1] = FrozenSpeed; 
 	x[2] = VipSpeed;
 	R->creat_motor_cycles(x, motorCyclesInA, motorCyclesInB, motorCyclesInC , motorCyclesInD);
+	R->set_auto_promo(AutoPromotionLimit);
 	infile.close();
 	return true;
 }
