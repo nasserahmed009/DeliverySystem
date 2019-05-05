@@ -112,7 +112,7 @@ void Restaurant::Simulate()
 {
 	ReadInput pIn;
 	string name;
-	pIn.read(this,pGUI);
+	pIn.modifiedRead(this,pGUI);
 	timeStep = 0;
 
 	for (int i = 0; i < 4; i++)
@@ -469,56 +469,56 @@ void Restaurant::promoteOrder(Order * o)
 	NumberOfActiveOrders[o->GetRegion()][0]--;
 	NumberOfActiveOrders[o->GetRegion()][2]++;
 }
-void Restaurant::creat_motor_cycles(int *speed, int *regA, int *regB, int *regC, int *regD) {
+void Restaurant::creat_motor_cycles(int *regA, int *regB, int *regC, int* regD,int* nrmA,int* nrmB,int* nrmC,int* nrmD,int* frzA,int* frzB,int* frzC,int* frzD,int* vipA,int* vipB,int* vipC,int* vipD) {
 	int i = 0;
 	for (i = 0; i < regA[0]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(i);  M->set_REG(A_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_Normal[0].enqueue(M);
+		M->set_id(i);  M->set_REG(A_REG);  M->set_speed(nrmA[i]);  M->set_type(TYPE_NRM); M_Normal[0].enqueue(M);
 	}
 	int k = i;
 	for (i = 0; i < regB[0]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_Normal[1].enqueue(M); k++;
+		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(nrmB[i]);  M->set_type(TYPE_NRM); M_Normal[1].enqueue(M); k++;
 	}
 	for (i = 0; i < regC[0]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_Normal[2].enqueue(M);  k++;
+		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(nrmC[i]);  M->set_type(TYPE_NRM); M_Normal[2].enqueue(M);  k++;
 	}
 	for (i = 0; i < regD[0]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[0]);  M->set_type(TYPE_NRM); M_Normal[3].enqueue(M);  k++;
+		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(nrmD[i]);  M->set_type(TYPE_NRM); M_Normal[3].enqueue(M);  k++;
 	}
 	for (i = 0; i < regA[1]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(A_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_Frozen[0].enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(A_REG);  M->set_speed(frzA[i]);  M->set_type(TYPE_FROZ); M_Frozen[0].enqueue(M);   k++;
 	}
 	for (i = 0; i < regB[1]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_Frozen[1].enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(frzB[i]);  M->set_type(TYPE_FROZ); M_Frozen[1].enqueue(M);   k++;
 	}
 	for (i = 0; i < regC[1]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_Frozen[2].enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(frzC[i]);  M->set_type(TYPE_FROZ); M_Frozen[2].enqueue(M);   k++;
 	}
 	for (i = 0; i < regD[1]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[1]);  M->set_type(TYPE_FROZ); M_Frozen[3].enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(frzD[i]);  M->set_type(TYPE_FROZ); M_Frozen[3].enqueue(M);   k++;
 	}
 	for (i = 0; i < regA[2]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(i);  M->set_REG(A_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIP[0].enqueue(M);   k++;
+		M->set_id(i);  M->set_REG(A_REG);  M->set_speed(vipA[i]);  M->set_type(TYPE_VIP); M_VIP[0].enqueue(M);   k++;
 	}
 	for (i = 0; i < regB[2]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIP[1].enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(B_REG);  M->set_speed(vipB[i]);  M->set_type(TYPE_VIP); M_VIP[1].enqueue(M);   k++;
 	}
 	for (i = 0; i < regC[2]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIP[2].enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(C_REG);  M->set_speed(vipC[i]);  M->set_type(TYPE_VIP); M_VIP[2].enqueue(M);   k++;
 	}
 	for (i = 0; i < regD[2]; i++) {
 		Motorcycle * M = new Motorcycle;
-		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(speed[2]);  M->set_type(TYPE_VIP); M_VIP[3].enqueue(M);   k++;
+		M->set_id(k);  M->set_REG(D_REG);  M->set_speed(vipD[i]);  M->set_type(TYPE_VIP); M_VIP[3].enqueue(M);   k++;
 	}
 
 }
