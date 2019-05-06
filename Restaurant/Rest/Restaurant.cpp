@@ -692,7 +692,9 @@ void Restaurant::output_file() {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			types[i][j] = 0;
-			total_sum_of_MC += NumberOfMotorcycles[i][j];
+			if (j <= 2) {
+				total_sum_of_MC += NumberOfMotorcycles[i][j];
+			}
 		}
 	}
 	double avgwait[4] = { 0,0,0,0 };
