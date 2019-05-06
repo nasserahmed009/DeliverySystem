@@ -118,7 +118,7 @@ void Restaurant::Simulate()
 	timeStep = 0;
 
 	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			NumberOfActiveOrders[i][j] = 0;
 		}
@@ -292,6 +292,46 @@ void Restaurant::Simulate()
 				}
 				else {
 					i_could = false; 
+				}
+			}
+
+			// serving family orders
+			i_could = true;
+			Motorcycle* temp_Motor2;
+			while (!FamilyOrders[i].is_empty() && i_could) {
+				if (M_Normal[i].dequeue(temp_Motor) && M_Normal[i].dequeue(temp_Motor2)) {
+					temp_Motor->set_status(SERV);
+					temp_Motor2->set_status(SERV);
+					in_service_Motorcyles[i].enqueue(temp_Motor);
+					in_service_Motorcyles[i].enqueue(temp_Motor2);
+					i_could = true;
+					FamilyOrders[i].removeFront(pOrd);
+					if (pOrd->get_critical_order())
+					{
+						temp_Motor->set_broken(1);
+						temp_Motor2->set_broken(1);
+						temp_Motor->set_repair_time(timeStep + timeTakenForRepair);
+						temp_Motor2->set_repair_time(timeStep + timeTakenForRepair);
+
+					}
+
+					if (temp_Motor->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
+
+					if (temp_Motor2->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
+
+					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
+					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
+					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
+					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
+					//NumberOfActiveOrders[i][0]--;
+					inServicsOrder[i].enqueue(pOrd);		
+				}
+				else {
+					i_could = false;
+					if (temp_Motor) M_Normal[i].enqueue(temp_Motor);
+					if (temp_Motor2) M_Normal[i].enqueue(temp_Motor2);
 				}
 			}
 			
@@ -480,6 +520,12 @@ void Restaurant::AddNormalOrder(Order * o)
 	NormalOrders[o->GetRegion()].insert_at_end(o);
 }
 
+void Restaurant::AddFamilyOrder(Order * o)
+{
+	NumberOfActiveOrders[o->GetRegion()][o->GetType()]++;
+	FamilyOrders[o->GetRegion()].insert_at_end(o);
+}
+
 Order* Restaurant::getOrderById(int orderID)
 {
 	for (int i = 0; i < 4; i++)
@@ -579,13 +625,14 @@ void Restaurant::updateRestaurantsInfo()
 
 void Restaurant::updateStringsInfo(string& s,string & s1, string & s2, string & s3, string & s4, string & s5,string &s6,int timeStep)
 {
-	s = "                                   Orders                Motorcycles";
-	s1 = "                                   N   F   V                    N   F   V";
+	s = "                                   Orders                          Motorcycles";
+	s1 = "                                   N   F   V   L                    N   F   V";
 
 	s2 = "Region A                    ";
 	s2 += to_string(NumberOfActiveOrders[0][0]);
 	s2 += "   " + to_string(NumberOfActiveOrders[0][1]);
 	s2 += "   " + to_string(NumberOfActiveOrders[0][2]);
+	s2 += "   " + to_string(NumberOfActiveOrders[0][3]);
 	s2 += "                     " + to_string(NumberOfMotorcycles[0][0]);
 	s2 += "   " + to_string(NumberOfMotorcycles[0][1]);
 	s2 += "   " + to_string(NumberOfMotorcycles[0][2]);
@@ -594,6 +641,7 @@ void Restaurant::updateStringsInfo(string& s,string & s1, string & s2, string & 
 	s3 += to_string(NumberOfActiveOrders[1][0]);
 	s3 += "   " + to_string(NumberOfActiveOrders[1][1]);
 	s3 += "   " + to_string(NumberOfActiveOrders[1][2]);
+	s3 += "   " + to_string(NumberOfActiveOrders[1][3]);
 	s3 += "                     " + to_string(NumberOfMotorcycles[1][0]);
 	s3 += "   " + to_string(NumberOfMotorcycles[1][1]);
 	s3 += "   " + to_string(NumberOfMotorcycles[1][2]);
@@ -601,6 +649,7 @@ void Restaurant::updateStringsInfo(string& s,string & s1, string & s2, string & 
 	s4 = "Region C                   " + to_string(NumberOfActiveOrders[2][0]);
 	s4 += "   " + to_string(NumberOfActiveOrders[2][1]);
 	s4 += "   " + to_string(NumberOfActiveOrders[2][2]);
+	s4 += "   " + to_string(NumberOfActiveOrders[2][3]);
 	s4 += "                     " + to_string(NumberOfMotorcycles[2][0]);
 	s4 += "   " + to_string(NumberOfMotorcycles[2][1]);
 	s4 += "   " + to_string(NumberOfMotorcycles[2][2]);
@@ -608,6 +657,7 @@ void Restaurant::updateStringsInfo(string& s,string & s1, string & s2, string & 
 	s5 = "Region D                   " + to_string(NumberOfActiveOrders[3][0]);
 	s5 += "   " + to_string(NumberOfActiveOrders[3][1]);
 	s5 += "   " + to_string(NumberOfActiveOrders[3][2]);
+	s5 += "   " + to_string(NumberOfActiveOrders[3][3]);
 	s5 += "                     " + to_string(NumberOfMotorcycles[3][0]);
 	s5 += "   " + to_string(NumberOfMotorcycles[3][1]);
 	s5 += "   " + to_string(NumberOfMotorcycles[3][2]);

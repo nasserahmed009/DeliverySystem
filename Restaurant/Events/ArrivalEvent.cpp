@@ -49,6 +49,9 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 		case TYPE_FROZ:
 			pRest->AddFrozenOrder(pOrd);
 			break;
+		case TYPE_FAMILY:
+			pRest->AddFamilyOrder(pOrd);
+			break;
 		case TYPE_VIP:
 			// Calculation the weight of this viP order 
 			double mon = get_ord_money();
@@ -57,6 +60,8 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 			pOrd->set_wieght(2 * mon + dis + tim);
 			pRest->AddVipOrder(pOrd);
 			break;
+		
+
 	}
 		
 			

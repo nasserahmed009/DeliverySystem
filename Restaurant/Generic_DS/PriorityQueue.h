@@ -121,8 +121,10 @@ and it is returned as a parameter
 template <class T, class C>
 bool PriorityQueue<T, C>::dequeue(T& frntEntry)
 {
-	if (this->isEmpty())
+	if (this->isEmpty()) {
+		frntEntry = NULL;
 		return false;
+	}
 	frntEntry = frontPtr->getItem();
 
 	if (frontPtr == backPtr) // if there is a single element in the queue, change the back to null

@@ -26,11 +26,12 @@ private:
 	PriorityQueue < Order*, greater_ptrs<Order*> > vipOrders[4];
 	Queue<Order*> FrozenOrders[4];
 	LinkedList<Order*> NormalOrders[4];
+	LinkedList<Order*> FamilyOrders[4];
 
 	PriorityQueue < Order*, less_ptrs<Order*> > inServicsOrder[4]; // they are enqued according to Finsih time; 
 	Queue<Order*> Delivered_orders[4];
-	int NumberOfActiveOrders[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
-	int NumberOfMotorcycles[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
+	int NumberOfActiveOrders[4][4]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip, 3 = family
+	int NumberOfMotorcycles[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip, 3 = family
 	// Motor cycle data structures; 
 	PriorityQueue <Motorcycle*, greater_moto_ptrs<Motorcycle*> > M_Normal[4];
 	PriorityQueue <Motorcycle*, greater_moto_ptrs<Motorcycle*> > M_Frozen[4];
@@ -71,6 +72,7 @@ public:
 	void AddVipOrder(Order* o);
 	void AddFrozenOrder(Order* o);
 	void AddNormalOrder(Order* o);
+	void AddFamilyOrder(Order* o);
 
 	Order* getOrderById(int orderID);
 	void cancelOrder(Order* o);
