@@ -629,6 +629,18 @@ void Restaurant::output_file() {
 	double avgser[4] = { 0,0,0,0 };
 	int orders[4] = { 0,0,0,0 }; // for each region; 
 	for (int i = 0; i < 4; i++) {
+		if (i == 0) {
+			ofile << "REGION A" << endl;
+		}
+		else if (i == 1) {
+			ofile << "REGION B" << endl;
+		}
+		else if (i == 2) {
+			ofile << "REGION C" << endl;
+		}
+		else {
+			ofile << "REGION D" << endl;
+		}
 		Queue<Order*> temp = Delivered_orders[i];
 		ofile << "FT" << "      " << "ID" << "     " << "AT" << "     " << "WT" << "      " << "ST" << endl;
 		while (!temp.isEmpty()) {
@@ -654,32 +666,33 @@ void Restaurant::output_file() {
 			avgwait[i] /= orders[i];
 			avgser[i] /= orders[i];
 		}
-		ofile << "......................................................................................................" << endl; 
-		ofile << "......................................................................................................" << endl;
+	
 		if (i == 0) {
-			ofile << "REGION A" << endl;
-			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] <<"]"<< endl;
+		
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][1] << "  VIP: " << types[i][2] <<"]"<< endl;
 			ofile<<"MOROTC:  "<<NumberOfMotorcycles[0][0]+ NumberOfMotorcycles[0][1]+ NumberOfMotorcycles[0][2]<<"   " << "[" << "NORM: " << NumberOfMotorcycles[0][0] << "   " << ", FROZ: " << NumberOfMotorcycles[0][1] << "  VIP: " << NumberOfMotorcycles[0][2] <<"]"<< endl;
 			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl; 
 		}
 		else if (i == 1) {
-			ofile << "REGION B" << endl;
-			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] <<"]"<< endl;
+			
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][1] << "  VIP: " << types[i][2] <<"]"<< endl;
 			ofile << "MOROTC:  " << NumberOfMotorcycles[1][0] + NumberOfMotorcycles[1][1] + NumberOfMotorcycles[1][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[1][0] << "   " << ", FROZ: " << NumberOfMotorcycles[1][1] << "  VIP: " << NumberOfMotorcycles[1][2] <<"]"<< endl;
 			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl;
 		}
 		else if (i == 2) {
-			ofile << "REGION C" << endl;
-			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] <<"]"<< endl;
+		
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][1] << "  VIP: " << types[i][2] <<"]"<< endl;
 			ofile << "MOROTC:  " << NumberOfMotorcycles[2][0] + NumberOfMotorcycles[2][1] + NumberOfMotorcycles[2][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[2][0] << "   " << ", FROZ: " << NumberOfMotorcycles[2][1] << "  VIP: " << NumberOfMotorcycles[2][2] <<"]"<< endl;
 			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl;
 		}
 		else {
-			ofile << "REGION D" << endl;
-			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][0] << "  VIP: " << types[i][2] <<"]"<< endl;
+		
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][1] << "  VIP: " << types[i][2] <<"]"<< endl;
 			ofile << "MOROTC:  " << NumberOfMotorcycles[3][0] + NumberOfMotorcycles[3][1] + NumberOfMotorcycles[3][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[3][0] << "   " << ", FROZ: " << NumberOfMotorcycles[3][1] << "  VIP: " << NumberOfMotorcycles[3][2] << "]" << endl; ;
 			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl;
 		}
+		ofile << "......................................................................................................" << endl;
+		ofile << "......................................................................................................" << endl;
 	}
 	ofile << "For the Hole Restaurant " << endl;
 	ofile << "FT" << "      " << "ID" << "     " << "AT" << "     " << "WT" << "      " << "ST" << endl;
