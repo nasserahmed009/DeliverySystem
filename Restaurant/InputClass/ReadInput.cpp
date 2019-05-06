@@ -424,8 +424,8 @@ bool ReadInput::modifiedRead(Restaurant* R, GUI*& pGUI)
 							type = TYPE_NRM;
 						else if (word[2] == "F")
 							type = TYPE_FROZ;
-					//	else if (word[2] == "L")
-						//	type = TYPE_FAMILY;
+						else if (word[2] == "L")
+							type = TYPE_FAMILY;
 						else
 							type = TYPE_VIP;
 

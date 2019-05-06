@@ -176,6 +176,8 @@ void Restaurant::Simulate()
 					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT()); 
 					//NumberOfActiveOrders[i][2]--;
 					inServicsOrder[i].enqueue(pOrd);
+					NumberOfMotorcycles[i][2]--;
+
 				}
 				else if (M_Normal[i].dequeue(temp_Motor)) {
 					temp_Motor->set_status(SERV);
@@ -195,6 +197,7 @@ void Restaurant::Simulate()
 					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
 					//NumberOfActiveOrders[i][2]--;
 					inServicsOrder[i].enqueue(pOrd);
+					NumberOfMotorcycles[i][0]--;
 				}
 				else if (M_Frozen[i].dequeue(temp_Motor)) {
 					temp_Motor->set_status(SERV);
@@ -216,6 +219,8 @@ void Restaurant::Simulate()
 					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
 					//NumberOfActiveOrders[i][2]--;
 					inServicsOrder[i].enqueue(pOrd);
+					NumberOfMotorcycles[i][1]--;
+
 				}
 				else {
 					i_could = false;
@@ -244,6 +249,7 @@ void Restaurant::Simulate()
 					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
 					//NumberOfActiveOrders[i][3]--;
 					inServicsOrder[i].enqueue(pOrd);
+					NumberOfMotorcycles[i][1]--;
 				}
 			 else {
 				 i_could = false; 
@@ -272,6 +278,7 @@ void Restaurant::Simulate()
 					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
 					//NumberOfActiveOrders[i][0]--;
 					inServicsOrder[i].enqueue(pOrd);
+					NumberOfMotorcycles[i][0]--;
 				}
 				
 				
@@ -286,6 +293,8 @@ void Restaurant::Simulate()
 					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
 					//NumberOfActiveOrders[i][0]--;
 					inServicsOrder[i].enqueue(pOrd);
+					NumberOfMotorcycles[i][2]--;
+
 				}
 				else {
 					i_could = false;
@@ -323,7 +332,8 @@ void Restaurant::Simulate()
 					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
 					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
 					//NumberOfActiveOrders[i][0]--;
-					inServicsOrder[i].enqueue(pOrd);		
+					inServicsOrder[i].enqueue(pOrd);
+					NumberOfMotorcycles[i][0]-=2;
 				}
 				else {
 					i_could = false;
@@ -342,12 +352,18 @@ void Restaurant::Simulate()
 					Delivered_orders[i].enqueue(ord);
 					if (ord->GetType() == TYPE_NRM) {
 						NumberOfActiveOrders[i][0]--;
+						
 					}
 					else if (ord->GetType() == TYPE_FROZ) {
 						NumberOfActiveOrders[i][1]--;
+						
+					}
+					else if(ord->GetType() == TYPE_VIP){
+						NumberOfActiveOrders[i][2]--;
+						
 					}
 					else {
-						NumberOfActiveOrders[i][2]--;
+						NumberOfActiveOrders[i][3]--;
 					}
 				}
 				else {
@@ -363,12 +379,19 @@ void Restaurant::Simulate()
 					ord->set_status(IDLE);
 					if (ord->GetType() == TYPE_NRM) {
 						M_Normal[i].enqueue(ord);
+						NumberOfMotorcycles[i][0]++;
 					}
 					else if (ord->GetType() == TYPE_FROZ) {
 						M_Frozen[i].enqueue(ord);
+						NumberOfMotorcycles[i][1]++;
+					}
+					else if (ord->GetType() == TYPE_FAMILY) {
+						M_Normal[i].enqueue(ord);
+						NumberOfMotorcycles[i][0]++;
 					}
 					else {
 						M_VIP[i].enqueue(ord);
+						NumberOfMotorcycles[i][2]++;
 					}
 				}
 				else {
