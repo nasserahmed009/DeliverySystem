@@ -115,6 +115,7 @@ void Restaurant::Simulate()
 	ReadInput pIn;
 	string name;
 	pIn.modifiedRead(this,pGUI);
+	maxOrderID = pIn.getMaxID();
 	timeStep = 0;
 	for (int i = 0; i < 4; i++){
 		totalMoney[i] = 0;
@@ -595,7 +596,7 @@ void Restaurant::AddFamilyOrder(Order * o)
 
 void Restaurant::AddCharityOrder(REGION region, int time)
 {
-	Order* charityOrder = new Order( rand()%100, TYPE_CHARITY , region, 0);
+	Order* charityOrder = new Order( rand()%maxOrderID + maxOrderID + 1, TYPE_CHARITY , region, 0);
 	charityOrder->set_ARivval_time(time);
 	charityOrder->set_money(0);
 	charityOrder->SetDistance( rand()%100 );

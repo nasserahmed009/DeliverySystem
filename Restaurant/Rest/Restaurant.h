@@ -35,6 +35,7 @@ private:
 	int NumberOfMotorcycles[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip, 3 = family
 	int totalMoney[4];
 	int charityMinimum[4];
+	int maxOrderID;
 	// Motor cycle data structures; 
 	PriorityQueue <Motorcycle*, greater_moto_ptrs<Motorcycle*> > M_Normal[4];
 	PriorityQueue <Motorcycle*, greater_moto_ptrs<Motorcycle*> > M_Frozen[4];
