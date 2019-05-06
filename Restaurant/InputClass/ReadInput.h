@@ -20,10 +20,14 @@ private:
 	int motorCyclesInB[3];
 	int motorCyclesInC[3];
 	int motorCyclesInD[3];
+	int* NRMspeedA, *NRMspeedB,*NRMspeedC,*NRMspeedD;
+	int* FRZspeedA, *FRZspeedB, *FRZspeedC, *FRZspeedD;
+	int* VIPspeedA, *VIPspeedB, *VIPspeedC, *VIPspeedD;
 
 public:
 	ReadInput();
 	bool read(Restaurant*,GUI*& pGUI);
+	bool modifiedRead(Restaurant*, GUI*& pGUI);
 	int getNormalSpeed();
 	int getFrozenSpeed();
 	int getVipSpeed();

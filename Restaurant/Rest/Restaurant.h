@@ -75,7 +75,7 @@ public:
 	Order* getOrderById(int orderID);
 	void cancelOrder(Order* o);
 	void promoteOrder(Order* o);
-	void creat_motor_cycles(int *speed, int *regA, int *regB, int *regC, int *regD); 
+	void creat_motor_cycles(int* regA, int* regB, int* regC, int* regD, int* nrmA, int* nrmB, int* nrmC, int* nrmD, int* frzA, int* frzB, int* frzC, int* frzD, int* vipA, int* vipB, int* vipC, int* vipD);
 	void updateStringsInfo(string& s, string& s1, string& s2, string& s3, string& s4, string& s5, string &s6, int timeStep);
 	void updateRestaurantsInfo();
 	void go_without_simulation();  // for silent mode Only 
