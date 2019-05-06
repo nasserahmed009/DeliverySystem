@@ -13,11 +13,11 @@ void testPQ()
 {
 	PriorityQueue<Order*, less_ptrs<Order*> >pq;
 	//int x;
-	Order* O = new Order(1, TYPE_VIP, A_REG);
+	Order* O = new Order(1, TYPE_VIP, A_REG,1);
 	O->set_wieght(100);
-	Order* O2 = new Order(2, TYPE_VIP, A_REG);
+	Order* O2 = new Order(2, TYPE_VIP, A_REG,0);
 	O2->set_wieght(200);
-	Order *O3 = new Order(3, TYPE_VIP, A_REG);
+	Order *O3 = new Order(3, TYPE_VIP, A_REG,1);
 	O3->set_wieght(150);
 	pq.enqueue(O3);
 	pq.enqueue(O2);
@@ -25,7 +25,7 @@ void testPQ()
 	if (pq.isEmpty()) cout << "empty" << endl;
 	else cout << "not empty" << endl;
 
-	Order* pord = new Order(4, TYPE_VIP, A_REG);
+	Order* pord = new Order(4, TYPE_VIP, A_REG,0);
 	while (!pq.isEmpty()) {
 		pq.dequeue(pord);
 		cout << pord->get_wight() << "         ";

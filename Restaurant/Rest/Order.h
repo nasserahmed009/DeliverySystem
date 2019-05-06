@@ -27,7 +27,7 @@ protected:
 	bool criticalOrder;
 
 public:
-	Order(int ID, ORD_TYPE r_Type, REGION r_region);
+	Order(int ID, ORD_TYPE r_Type, REGION r_region,bool crit);
 	Order(); 
 	virtual ~Order();
 
