@@ -1,7 +1,16 @@
-﻿  Restaurant.cpp
+﻿  Demo_Main.cpp
+  ArrivalEvent.cpp
+d:\deliverysystem\restaurant\events\arrivalevent.cpp(57): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  CancellationEvent.cpp
+  PromotionEvent.cpp
+  GUI.cpp
+  ReadInput.cpp
+  Order.cpp
+  Restaurant.cpp
 d:\deliverysystem\restaurant\rest\restaurant.cpp(383): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 d:\deliverysystem\restaurant\rest\restaurant.cpp(426): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _itoa. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdlib.h(1323): note: see declaration of 'itoa'
 d:\deliverysystem\restaurant\rest\restaurant.cpp(510): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  Generating Code...
 d:\deliverysystem\restaurant\generic_ds\linkedlist.h(126): warning C4715: 'LinkedList<Order *>::remove': not all control paths return a value
   Restaurant.vcxproj -> D:\deliverySystem\Debug\Restaurant.exe
