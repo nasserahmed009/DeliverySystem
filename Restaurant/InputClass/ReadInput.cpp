@@ -434,7 +434,8 @@ bool ReadInput::modifiedRead(Restaurant* R, GUI*& pGUI)
 							reg = C_REG;
 						else
 							reg = D_REG;
-						ArrivalEvent * A = new ArrivalEvent(time, type, ID, dist, money, reg);
+						bool crit = stoi(word[7]);
+						ArrivalEvent * A = new ArrivalEvent(time, type, ID, dist, money, reg,crit);
 						R->AddEvent(A);
 					}
 							 break;
@@ -458,11 +459,6 @@ bool ReadInput::modifiedRead(Restaurant* R, GUI*& pGUI)
 				}
 			}
 		}
-		// BY MOHY here i called the fuction creat motor cycle from restaurnat to creat them after read their data. (it will not affect any thing in your work shoma XD)
-		int x[3];
-		x[0] = NormalSpeed;
-		x[1] = FrozenSpeed;
-		x[2] = VipSpeed;
 		R->creat_motor_cycles(motorCyclesInA,motorCyclesInB, motorCyclesInC, motorCyclesInD, NRMspeedA, NRMspeedB, NRMspeedC, NRMspeedD,FRZspeedA,FRZspeedB,FRZspeedC,FRZspeedD,VIPspeedA,VIPspeedB,VIPspeedC,VIPspeedD );
 		R->set_auto_promo(AutoPromotionLimit);
 		infile.close();

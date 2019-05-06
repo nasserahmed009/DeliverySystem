@@ -12,8 +12,9 @@ class ArrivalEvent: public Event
 	ORD_TYPE OrdType;		//order type: Normal, Frozen, VIP
 	REGION OrdRegion;  //Region of this order	                
 	double OrdMoney;	//Total order money
+	bool criticalEvent;
 public:
-	ArrivalEvent (int eTime, ORD_TYPE oType, int oID, int Odistance, double Omoney, REGION reg);
+	ArrivalEvent (int eTime, ORD_TYPE oType, int oID, int Odistance, double Omoney, REGION reg,bool crit);
 	ArrivalEvent(int eTime, int O_id, ORD_TYPE OType, REGION reg);
 	ORD_TYPE getOrderType();
 	REGION getOrderRegion();
