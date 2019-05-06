@@ -5,12 +5,14 @@ Order::Order(int id, ORD_TYPE r_Type, REGION r_region)
 	ID = (id>0&&id<1000)?id:0;	//1<ID<999
 	type = r_Type;
 	Region = r_region;	
+	this->criticalOrder = 0;
 }
 
 Order::~Order()
 {
 }
 Order::Order() {
+	this->criticalOrder = 0;
 }
 int Order::GetID()
 {
@@ -67,6 +69,14 @@ bool Order::operator < (const Order &O) const {
 }
 int  Order::get_wight() const  {
 	return weight;
+}
+bool Order::get_critical_order()
+{
+	return this->criticalOrder;
+}
+void Order::set_critical_order(bool c)
+{
+	this->criticalOrder = c;
 }
 void Order::set_ARivval_time(int tim) {
 	ArrTime = tim;

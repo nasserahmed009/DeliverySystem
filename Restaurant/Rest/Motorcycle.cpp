@@ -3,9 +3,16 @@
 
 Motorcycle::Motorcycle(int id, ORD_TYPE ot, int sp, REGION reg)
 {
+	// initializations
+	health = 100;
+	broken = false;
+	timeForRepair = -1;
 }
 Motorcycle::Motorcycle() {
-
+	// initializations
+	health = 100;
+	broken = false;
+	timeForRepair = -1;
 }
 
 Motorcycle::~Motorcycle()
@@ -57,4 +64,42 @@ bool Motorcycle:: operator > (const Motorcycle  &M) const {
 int Motorcycle::GetType() const
 {
 	return type;
+}
+
+int Motorcycle::get_health() const
+{
+	return health;
+}
+
+bool Motorcycle::get_broken() const
+{
+	return broken;
+}
+
+int Motorcycle::get_repair_time() const
+{
+	return timeForRepair;
+}
+
+void Motorcycle::set_health(int health)
+{
+	if (health <= 100 && health >= 0)
+		this->health = health;
+}
+
+void Motorcycle::set_broken(bool broken)
+{
+	this->broken = broken;
+}
+
+void Motorcycle::set_repair_time(int repairTime)
+{
+	this->timeForRepair = repairTime;
+}
+
+void Motorcycle::reduceHealthBy(int dh)
+{
+	this->health -= dh;
+	if (health < 0)
+		health = 0;
 }

@@ -35,6 +35,28 @@ void testPQ()
 	else cout << "not empty" << endl;
 }
 
+void testMotorcyclePQ()
+{
+	PriorityQueue<Motorcycle*, greater_moto_ptrs<Motorcycle*>> PQ;
+	Motorcycle* moto1 = new Motorcycle;
+	moto1->set_speed(500);
+	moto1->set_broken(1);
+	Motorcycle* moto2 = new Motorcycle;
+	moto2->set_speed(400);
+	moto2->set_broken(0);
+	Motorcycle* moto3 = new Motorcycle;
+	moto3->set_speed(300);
+	moto3->set_broken(0);
+	Motorcycle* moto4 = new Motorcycle;
+	moto4->set_speed(300);
+	moto4->set_broken(1);
+	PQ.enqueue(moto1);
+	PQ.enqueue(moto2);
+	PQ.enqueue(moto3);
+	PQ.enqueue(moto4);
+
+}
+
 int main()
 {
 	
@@ -48,6 +70,7 @@ int main()
 	//testPQ(); 
 
 	//system("pause");
+
 	
 	return 0;
 }

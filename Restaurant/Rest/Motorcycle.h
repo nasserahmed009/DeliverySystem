@@ -13,6 +13,11 @@ class Motorcycle
 	REGION	region;	//region of the motorcycle
 	STATUS	status;	//idle or in-service
 	int again_use; // time from which the motor cycle is available again to be used 
+	
+	//Bonus: damaged motorcycles
+	int health;
+	bool broken;
+	int timeForRepair;
 
 public:
 	Motorcycle(int id, ORD_TYPE ot, int sp, REGION reg);
@@ -30,6 +35,17 @@ public:
 	int GetType() const;
 	bool operator > (const Motorcycle &O) const;
 	bool operator < (const Motorcycle  &O) const;
+
+	//Bonus: damaged motorcycles
+	int get_health() const;
+	bool get_broken() const;
+	int get_repair_time() const;
+	
+	void set_health(int health);
+	void set_broken(bool broken);
+	void set_repair_time(int repairTime);
+
+	void reduceHealthBy(int dh);
 };
 
 #endif

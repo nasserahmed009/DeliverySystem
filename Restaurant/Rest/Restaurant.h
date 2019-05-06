@@ -32,9 +32,9 @@ private:
 	int NumberOfActiveOrders[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
 	int NumberOfMotorcycles[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip
 	// Motor cycle data structures; 
-	PriorityQueue <Motorcycle*, greater_ptrs<Motorcycle*> > M_Normal[4];
-	PriorityQueue <Motorcycle*, greater_ptrs<Motorcycle*> > M_Frozen[4];
-	PriorityQueue <Motorcycle*, greater_ptrs<Motorcycle*> > M_VIP[4];
+	PriorityQueue <Motorcycle*, greater_moto_ptrs<Motorcycle*> > M_Normal[4];
+	PriorityQueue <Motorcycle*, greater_moto_ptrs<Motorcycle*> > M_Frozen[4];
+	PriorityQueue <Motorcycle*, greater_moto_ptrs<Motorcycle*> > M_VIP[4];
 	PriorityQueue <Motorcycle *, less_ptrs<Motorcycle*> > in_service_Motorcyles[4]; // thery are enqueud according to in_use_again time
 	/// ==>
 	
@@ -44,6 +44,11 @@ private:
 	//
 	// TODO: Add More Data Members As Needed
 	//
+
+	// Bonus: damaged motorcycles
+
+	int timeTakenForRepair = 5; // still needs to be read from input (default 5)
+
 
 public:
 	
@@ -86,6 +91,10 @@ public:
 	// TODO: Add More Member Functions As Needed
 	//
 
+	// Bonus: broken motorcycles
+
+	void RemoveDamagedRepairFixed(); // removes motorcycles with health 0 and changes the status of the repaired motorcycles
+	int MotorcycleHealthReduction = 20;
 };
 
 #endif

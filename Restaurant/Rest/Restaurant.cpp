@@ -94,6 +94,8 @@ void Restaurant::DeleteMotorcycles()
 }
 
 
+
+
 bool Restaurant::checker() {
 	bool temp = false; 
 	if (!in_service_Motorcyles[0].isEmpty() || !in_service_Motorcyles[1].isEmpty() || !in_service_Motorcyles[2].isEmpty() || !in_service_Motorcyles[3].isEmpty()) {
@@ -152,6 +154,8 @@ void Restaurant::Simulate()
 			EventsQueue.dequeue(junk);
 		}
 		check_auto_promo(timeStep);
+		RemoveDamagedRepairFixed(); // Bonus: damaged motorcycles: removes motorcycles with health 0 and resets broken of motorcycles that are repaired now
+
 		for (int i = 0; i < 4; i++) {// Here i should loop to assign motor cycles to VIP orders (i the iteration for each region ) 
 			bool i_could = true; 
 			Motorcycle * temp_Motor; 
@@ -162,6 +166,13 @@ void Restaurant::Simulate()
 					in_service_Motorcyles[i].enqueue(temp_Motor); 
 					i_could = true;
 					vipOrders[i].dequeue(pOrd);
+					if (pOrd->get_critical_order())
+					{
+						temp_Motor->set_broken(1);
+						temp_Motor->set_repair_time(timeStep + timeTakenForRepair);
+					}
+					if (temp_Motor->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction); 
 					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
 					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
 					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
@@ -174,6 +185,13 @@ void Restaurant::Simulate()
 					in_service_Motorcyles[i].enqueue(temp_Motor);
 					i_could = true;
 					vipOrders[i].dequeue(pOrd);
+					if (pOrd->get_critical_order())
+					{
+						temp_Motor->set_broken(1);
+						temp_Motor->set_repair_time(timeStep + timeTakenForRepair);
+					}
+					if (temp_Motor->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
 					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
 					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
 					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
@@ -186,6 +204,15 @@ void Restaurant::Simulate()
 					in_service_Motorcyles[i].enqueue(temp_Motor);
 					i_could = true;
 					vipOrders[i].dequeue(pOrd);
+					if (pOrd->get_critical_order())
+					{
+						temp_Motor->set_broken(1);
+						temp_Motor->set_repair_time(timeStep + timeTakenForRepair);
+					}
+
+					if (temp_Motor->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
+
 					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
 					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
 					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
@@ -205,6 +232,15 @@ void Restaurant::Simulate()
 					in_service_Motorcyles[i].enqueue(temp_Motor);
 					i_could = true;
 					FrozenOrders[i].dequeue(pOrd);
+					if (pOrd->get_critical_order())
+					{
+						temp_Motor->set_broken(1);
+						temp_Motor->set_repair_time(timeStep + timeTakenForRepair);
+					}
+
+					if (temp_Motor->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
+
 					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
 					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
 					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
@@ -224,6 +260,15 @@ void Restaurant::Simulate()
 					in_service_Motorcyles[i].enqueue(temp_Motor);
 					i_could = true;
 					NormalOrders[i].removeFront(pOrd);
+					if (pOrd->get_critical_order())
+					{
+						temp_Motor->set_broken(1);
+						temp_Motor->set_repair_time(timeStep + timeTakenForRepair);
+					}
+
+					if (temp_Motor->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
+
 					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
 					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
 					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
@@ -675,6 +720,117 @@ void Restaurant::check_auto_promo(int tim) {
 		}
 		
 	}
+}
+
+void Restaurant::RemoveDamagedRepairFixed()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		PriorityQueue <Motorcycle*, greater_moto_ptrs<Motorcycle*> > PQ;
+		while (!M_Normal[i].isEmpty())
+		{
+			Motorcycle* temp;
+
+			M_Normal[i].dequeue(temp);
+			STATUS s = temp->get_status();
+			if (temp->get_health() <= 0 && s != SERV)
+			{
+				delete temp;
+				NumberOfMotorcycles[i][0] --;
+				continue;
+			}
+
+			if (temp->get_repair_time() == timeStep)
+			{
+				temp->set_broken(0);
+			}
+
+			PQ.enqueue(temp);
+		}
+
+		while (!PQ.isEmpty())
+		{
+			Motorcycle* temp;
+			PQ.dequeue(temp);
+			M_Normal[i].enqueue(temp);
+		}
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		PriorityQueue <Motorcycle*, greater_moto_ptrs<Motorcycle*> > PQ;
+		while (!M_Frozen[i].isEmpty())
+		{
+
+			Motorcycle* temp;
+
+			M_Frozen[i].dequeue(temp);
+
+			STATUS s = temp->get_status();
+			if (temp->get_health() <= 0 && s != SERV)
+			{
+				delete temp;
+				NumberOfMotorcycles[i][1] --;
+				continue;
+			}
+
+			if (temp->get_repair_time() == timeStep)
+			{
+				temp->set_broken(0);
+			}
+
+			PQ.enqueue(temp);
+		}
+
+		while (!PQ.isEmpty())
+		{
+			Motorcycle* temp;
+			PQ.dequeue(temp);
+			M_Frozen[i].enqueue(temp);
+		}
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		PriorityQueue <Motorcycle*, greater_moto_ptrs<Motorcycle*> > PQ;
+		while (!M_VIP[i].isEmpty())
+		{
+
+			Motorcycle* temp;
+
+			M_VIP[i].dequeue(temp);
+
+			if (temp->get_health() <= 0)
+			{
+				delete temp;
+				continue;
+			}
+
+			STATUS s = temp->get_status();
+			if (temp->get_health() <= 0 && s != SERV)
+			{
+				delete temp;
+				NumberOfMotorcycles[i][2] --;
+				continue;
+			}
+
+			if (temp->get_repair_time() == timeStep)
+			{
+				temp->set_broken(0);
+			}
+
+			PQ.enqueue(temp);
+		}
+
+		while (!PQ.isEmpty())
+		{
+			Motorcycle* temp;
+			PQ.dequeue(temp);
+			M_VIP[i].enqueue(temp);
+		}
+	}
+
+
 }
 
 /// ==> end of DEMO-related function

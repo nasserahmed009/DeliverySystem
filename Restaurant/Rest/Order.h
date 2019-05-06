@@ -22,6 +22,10 @@ protected:
 	// TODO: Add More Data Members As Needed
 	//
 
+	//Bonus : broken motorcycles
+
+	bool criticalOrder;
+
 public:
 	Order(int ID, ORD_TYPE r_Type, REGION r_region);
 	Order(); 
@@ -53,6 +57,10 @@ public:
 	//
 	// TODO: Add More Member Functions As Needed
 	//
+
+	//Bonus: broken motorcycles
+	bool get_critical_order();
+	void set_critical_order(bool c);
 };
 
 #endif
