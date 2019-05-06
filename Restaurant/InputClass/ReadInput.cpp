@@ -1,6 +1,6 @@
 #include "ReadInput.h"
 
-ReadInput::ReadInput() :AutoPromotionLimit(0), NumberOfEvents(0)
+ReadInput::ReadInput() :AutoPromotionLimit(0), NumberOfEvents(0), maxID(0)
 {
 	for (int i = 0; i < 3; i++) {
 		motorCyclesInA[i] = 0;
@@ -430,6 +430,8 @@ bool ReadInput::modifiedRead(Restaurant* R, GUI*& pGUI)
 							type = TYPE_VIP;
 
 						int ID = stoi(word[3]);
+						if (ID > maxID)
+							maxID = ID;
 						int dist = stoi(word[4]);
 						double money = stod(word[5]);
 						REGION reg;
@@ -485,6 +487,11 @@ int ReadInput::getTimeToRepair()
 int ReadInput::getNumberOfEvents()
 {
 	return NumberOfEvents;
+}
+
+int ReadInput::getMaxID()
+{
+	return maxID;
 }
 
 int ReadInput::getMotorCyclesInRegion(ORD_TYPE O, REGION R)

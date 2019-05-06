@@ -23,6 +23,7 @@ private:
 	int* NRMspeedA, *NRMspeedB,*NRMspeedC,*NRMspeedD;
 	int* FRZspeedA, *FRZspeedB, *FRZspeedC, *FRZspeedD;
 	int* VIPspeedA, *VIPspeedB, *VIPspeedC, *VIPspeedD;
+	int maxID;
 
 public:
 	ReadInput();
@@ -31,6 +32,7 @@ public:
 	int getAutoPromotionLimit();
 	int getTimeToRepair();
 	int getNumberOfEvents();
+	int getMaxID();
 	int getMotorCyclesInRegion(ORD_TYPE,REGION);
 	~ReadInput();
 };
