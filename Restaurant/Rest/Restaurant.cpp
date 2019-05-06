@@ -116,7 +116,6 @@ void Restaurant::Simulate()
 	string name;
 	pIn.modifiedRead(this,pGUI);
 	timeStep = 0;
-
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++)
 		{
@@ -127,10 +126,8 @@ void Restaurant::Simulate()
 		for (int j = 0; j < 3; j++) 
 			NumberOfMotorcycles[i][j] = pIn.getMotorCyclesInRegion(static_cast<ORD_TYPE>(j), static_cast<REGION>(i));
 	
-	
-
-	/* ADD MORE INITIALIZATIONS */
-
+	timeTakenForRepair = pIn.getTimeToRepair();
+	auto_promo_limit = pIn.getAutoPromotionLimit();
 	/* READ INPUT FROM pIn */
 		// Here i should write the assignment process. 
 
@@ -157,7 +154,7 @@ void Restaurant::Simulate()
 		RemoveDamagedRepairFixed(); // Bonus: damaged motorcycles: removes motorcycles with health 0 and resets broken of motorcycles that are repaired now
 
 		for (int i = 0; i < 4; i++) {// Here i should loop to assign motor cycles to VIP orders (i the iteration for each region ) 
-			bool i_could = true; 
+			bool i_could = true;
 			Motorcycle * temp_Motor; 
 
 			while (!vipOrders[i].isEmpty()&&i_could) { // Here add another condition to exit the loop if there is no motor cycles now. 
@@ -291,7 +288,7 @@ void Restaurant::Simulate()
 					inServicsOrder[i].enqueue(pOrd);
 				}
 				else {
-					i_could = false; 
+					i_could = false;
 				}
 			}
 

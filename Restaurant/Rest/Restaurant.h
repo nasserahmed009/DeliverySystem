@@ -48,7 +48,7 @@ private:
 
 	// Bonus: damaged motorcycles
 
-	int timeTakenForRepair = 5; // still needs to be read from input (default 5)
+	int timeTakenForRepair; // still needs to be read from input (default 5)
 
 
 public:

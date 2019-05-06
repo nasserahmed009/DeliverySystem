@@ -15,7 +15,7 @@ using namespace std;
 class ReadInput
 {
 private:
-	int NormalSpeed, FrozenSpeed, VipSpeed, AutoPromotionLimit,NumberOfEvents;
+	int AutoPromotionLimit,NumberOfEvents,timeToRepair;
 	int motorCyclesInA[3];
 	int motorCyclesInB[3];
 	int motorCyclesInC[3];
@@ -28,10 +28,8 @@ public:
 	ReadInput();
 	bool read(Restaurant*,GUI*& pGUI);
 	bool modifiedRead(Restaurant*, GUI*& pGUI);
-	int getNormalSpeed();
-	int getFrozenSpeed();
-	int getVipSpeed();
 	int getAutoPromotionLimit();
+	int getTimeToRepair();
 	int getNumberOfEvents();
 	int getMotorCyclesInRegion(ORD_TYPE,REGION);
 	~ReadInput();
