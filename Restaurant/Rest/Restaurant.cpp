@@ -116,12 +116,14 @@ void Restaurant::Simulate()
 	string name;
 	pIn.modifiedRead(this,pGUI);
 	timeStep = 0;
-	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 4; j++)
+	for (int i = 0; i < 4; i++){
+		totalMoney[i] = 0;
+		charityMinimum[i] = 1000;
+		for (int j = 0; j < 5; j++)
 		{
 			NumberOfActiveOrders[i][j] = 0;
 		}
-
+	}
 	for (int i = 0; i < 4; i++) 
 		for (int j = 0; j < 3; j++) 
 			NumberOfMotorcycles[i][j] = pIn.getMotorCyclesInRegion(static_cast<ORD_TYPE>(j), static_cast<REGION>(i));
@@ -331,6 +333,7 @@ void Restaurant::Simulate()
 					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
 					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
 					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
+					temp_Motor2->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
 					//NumberOfActiveOrders[i][0]--;
 					inServicsOrder[i].enqueue(pOrd);
 					NumberOfMotorcycles[i][0]-=2;
@@ -339,6 +342,45 @@ void Restaurant::Simulate()
 					i_could = false;
 					if (temp_Motor) M_Normal[i].enqueue(temp_Motor);
 					if (temp_Motor2) M_Normal[i].enqueue(temp_Motor2);
+				}
+			}
+
+			// adding charity order when resturant profits is greater than the limit
+			for (int i = 0; i < 4; i++) {
+				if (totalMoney[i] > charityMinimum[i]) {
+					AddCharityOrder(static_cast<REGION>(i), timeStep);
+					charityMinimum[i] += 1000;
+				}
+			}
+
+			// serving charity orders
+			i_could = true;
+			while (!CharityOrders[i].isEmpty() && i_could) {
+				if (M_Normal[i].dequeue(temp_Motor)) {
+					temp_Motor->set_status(SERV);
+					in_service_Motorcyles[i].enqueue(temp_Motor);
+					i_could = true;
+					CharityOrders[i].dequeue(pOrd);
+					if (pOrd->get_critical_order())
+					{
+						temp_Motor->set_broken(1);
+						temp_Motor->set_repair_time(timeStep + timeTakenForRepair);
+					}
+
+					if (temp_Motor->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
+
+
+					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
+					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
+					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
+					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
+					//NumberOfActiveOrders[i][0]--;
+					inServicsOrder[i].enqueue(pOrd);
+					NumberOfMotorcycles[i][0] --;
+				}
+				else {
+					i_could = false;
 				}
 			}
 			
@@ -362,8 +404,11 @@ void Restaurant::Simulate()
 						NumberOfActiveOrders[i][2]--;
 						
 					}
-					else {
+					else if(ord->GetType() == TYPE_FAMILY) {
 						NumberOfActiveOrders[i][3]--;
+					}
+					else if (ord->GetType() == TYPE_CHARITY) {
+						NumberOfActiveOrders[i][4]--;
 					}
 				}
 				else {
@@ -377,7 +422,7 @@ void Restaurant::Simulate()
 				if (ord->get_again_use()<= timeStep) {
 					in_service_Motorcyles[i].dequeue(ord);
 					ord->set_status(IDLE);
-					if (ord->GetType() == TYPE_NRM) {
+					if ( (ord->GetType() == TYPE_NRM) || (ord->GetType() == TYPE_FAMILY) || (ord->GetType() == TYPE_CHARITY)) {
 						M_Normal[i].enqueue(ord);
 						NumberOfMotorcycles[i][0]++;
 					}
@@ -385,11 +430,7 @@ void Restaurant::Simulate()
 						M_Frozen[i].enqueue(ord);
 						NumberOfMotorcycles[i][1]++;
 					}
-					else if (ord->GetType() == TYPE_FAMILY) {
-						M_Normal[i].enqueue(ord);
-						NumberOfMotorcycles[i][0]++;
-					}
-					else {
+					else if( ord->GetType() == TYPE_VIP){
 						M_VIP[i].enqueue(ord);
 						NumberOfMotorcycles[i][2]++;
 					}
@@ -399,7 +440,8 @@ void Restaurant::Simulate()
 				}
 			}
 		}
-	
+		
+		
 		pGUI->ResetDrawingList();
 		
 		for (int i = 0; i < 4; i++) {
@@ -426,6 +468,7 @@ void Restaurant::Simulate()
 		}
 	}
 	output_file(); 
+	Sleep(2000);
 	pGUI->PrintMessage("Simulation Finished Thanks for watching");
 	//cout << "Ended successfully" << endl;
 }
@@ -525,25 +568,39 @@ Order* Restaurant::getDemoOrder()
 void Restaurant::AddVipOrder(Order * o)
 {
 	NumberOfActiveOrders[o->GetRegion()][o->GetType()]++;
+	totalMoney[o->GetRegion()] += o->get_money();
 	vipOrders[o->GetRegion()].enqueue(o);
 }
 
 void Restaurant::AddFrozenOrder(Order * o)
 {
 	NumberOfActiveOrders[o->GetRegion()][o->GetType()]++;
+	totalMoney[o->GetRegion()] += o->get_money();
 	FrozenOrders[o->GetRegion()].enqueue(o);
 }
 
 void Restaurant::AddNormalOrder(Order * o)
 {
 	NumberOfActiveOrders[o->GetRegion()][o->GetType()]++;
+	totalMoney[o->GetRegion()] += o->get_money();
 	NormalOrders[o->GetRegion()].insert_at_end(o);
 }
 
 void Restaurant::AddFamilyOrder(Order * o)
 {
 	NumberOfActiveOrders[o->GetRegion()][o->GetType()]++;
+	totalMoney[o->GetRegion()] += o->get_money();
 	FamilyOrders[o->GetRegion()].enqueue(o);
+}
+
+void Restaurant::AddCharityOrder(REGION region, int time)
+{
+	Order* charityOrder = new Order( 999, TYPE_CHARITY , region, 0);
+	charityOrder->set_ARivval_time(time);
+	charityOrder->set_money(0);
+	charityOrder->SetDistance( rand()%100 );
+	CharityOrders[region].enqueue(charityOrder);
+	NumberOfActiveOrders[region][4]++;
 }
 
 Order* Restaurant::getOrderById(int orderID)
@@ -645,54 +702,62 @@ void Restaurant::updateRestaurantsInfo()
 
 void Restaurant::updateStringsInfo(string& s,string & s1, string & s2, string & s3, string & s4, string & s5,string &s6,int timeStep)
 {
-	s = "                                   Orders                          Motorcycles";
-	s1 = "                                   N   F   V   L                    N   F   V";
+	s = "                                   Orders                             Motorcycles";
+	s1 = "                                   N   F   V   L   C                    N   F   V";
 
 	s2 = "Region A                    ";
 	s2 += to_string(NumberOfActiveOrders[0][0]);
 	s2 += "   " + to_string(NumberOfActiveOrders[0][1]);
 	s2 += "   " + to_string(NumberOfActiveOrders[0][2]);
 	s2 += "   " + to_string(NumberOfActiveOrders[0][3]);
+	s2 += "    " + to_string(NumberOfActiveOrders[0][4]);
 	s2 += "                     " + to_string(NumberOfMotorcycles[0][0]);
 	s2 += "   " + to_string(NumberOfMotorcycles[0][1]);
 	s2 += "   " + to_string(NumberOfMotorcycles[0][2]);
+	s2 += "          Total Money : " + to_string(totalMoney[0]);
 
 	s3 = "Region B                   ";
 	s3 += to_string(NumberOfActiveOrders[1][0]);
 	s3 += "   " + to_string(NumberOfActiveOrders[1][1]);
 	s3 += "   " + to_string(NumberOfActiveOrders[1][2]);
 	s3 += "   " + to_string(NumberOfActiveOrders[1][3]);
+	s3 += "    " + to_string(NumberOfActiveOrders[1][4]);
 	s3 += "                     " + to_string(NumberOfMotorcycles[1][0]);
 	s3 += "   " + to_string(NumberOfMotorcycles[1][1]);
 	s3 += "   " + to_string(NumberOfMotorcycles[1][2]);
+	s3 += "          Total Money : " + to_string(totalMoney[1]);
 
 	s4 = "Region C                   " + to_string(NumberOfActiveOrders[2][0]);
 	s4 += "   " + to_string(NumberOfActiveOrders[2][1]);
 	s4 += "   " + to_string(NumberOfActiveOrders[2][2]);
 	s4 += "   " + to_string(NumberOfActiveOrders[2][3]);
+	s4 += "    " + to_string(NumberOfActiveOrders[2][4]);
 	s4 += "                     " + to_string(NumberOfMotorcycles[2][0]);
 	s4 += "   " + to_string(NumberOfMotorcycles[2][1]);
 	s4 += "   " + to_string(NumberOfMotorcycles[2][2]);
+	s4 += "          Total Money : " + to_string(totalMoney[2]);
 
 	s5 = "Region D                   " + to_string(NumberOfActiveOrders[3][0]);
 	s5 += "   " + to_string(NumberOfActiveOrders[3][1]);
 	s5 += "   " + to_string(NumberOfActiveOrders[3][2]);
 	s5 += "   " + to_string(NumberOfActiveOrders[3][3]);
+	s5 += "    " + to_string(NumberOfActiveOrders[3][4]);
 	s5 += "                     " + to_string(NumberOfMotorcycles[3][0]);
 	s5 += "   " + to_string(NumberOfMotorcycles[3][1]);
 	s5 += "   " + to_string(NumberOfMotorcycles[3][2]);
+	s5 += "          Total Money : " + to_string(totalMoney[3]);
 	
 	s6 = "Timestep: " + to_string(timeStep);
 }
 void Restaurant::output_file() {
 	ofstream ofile;
 	ofile.open("OUTPUT.txt");
-	int types[4][4];
+	int types[4][5];
 	int total_sum_of_MC = 0; 
 	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
+		for (int j = 0; j < 5; j++) {
 			types[i][j] = 0;
-			total_sum_of_MC += NumberOfMotorcycles[i][j];
+			if(j<3) total_sum_of_MC += NumberOfMotorcycles[i][j];
 		}
 	}
 	double avgwait[4] = { 0,0,0,0 };
@@ -728,9 +793,13 @@ void Restaurant::output_file() {
 			else if (ord->GetType() == TYPE_VIP) {
 				types[i][2]++;
 			}
-			else {
+			else if(ord->GetType() == TYPE_FAMILY){
 				types[i][3]++;
 			}
+			else if (ord->GetType() == TYPE_CHARITY) {
+				types[i][4]++;
+			}
+
 			//Delivered_orders[i].dequeue(ord);
 			ofile << ord->get_FT() << "      " << ord->GetID() << "      " << ord->get_AVT() << "       "<<ord->get_WT()<<"       " << ord->get_SVT() << endl; 
 		} 
@@ -742,25 +811,25 @@ void Restaurant::output_file() {
 	
 		if (i == 0) {
 		
-			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][1] << "  VIP: " << types[i][2] << "  Family: " << types[i][3] << "]"<< endl;
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][1] << "  VIP: " << types[i][2] << "  Family: " << types[i][3] << "  Charity: " << types[i][4] << "]"<< endl;
 			ofile<<"MOROTC:  "<<NumberOfMotorcycles[0][0]+ NumberOfMotorcycles[0][1]+ NumberOfMotorcycles[0][2]<<"   " << "[" << "NORM: " << NumberOfMotorcycles[0][0] << "   " << ", FROZ: " << NumberOfMotorcycles[0][1] << "  VIP: " << NumberOfMotorcycles[0][2] <<"]"<< endl;
 			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl; 
 		}
 		else if (i == 1) {
 			
-			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][1] << "  VIP: " << types[i][2] << "  Family: " << types[i][3] << "]"<< endl;
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][1] << "  VIP: " << types[i][2] << "  Family: " << types[i][3] << "  Charity: " << types[i][4] << "]"<< endl;
 			ofile << "MOROTC:  " << NumberOfMotorcycles[1][0] + NumberOfMotorcycles[1][1] + NumberOfMotorcycles[1][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[1][0] << "   " << ", FROZ: " << NumberOfMotorcycles[1][1] << "  VIP: " << NumberOfMotorcycles[1][2] <<"]"<< endl;
 			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl;
 		}
 		else if (i == 2) {
 		
-			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][1] << "  VIP: " << types[i][2] << "  Family: " << types[i][3] << "]"<< endl;
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][1] << "  VIP: " << types[i][2] << "  Family: " << types[i][3] << "  Charity: " << types[i][4] << "]"<< endl;
 			ofile << "MOROTC:  " << NumberOfMotorcycles[2][0] + NumberOfMotorcycles[2][1] + NumberOfMotorcycles[2][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[2][0] << "   " << ", FROZ: " << NumberOfMotorcycles[2][1] << "  VIP: " << NumberOfMotorcycles[2][2] <<"]"<< endl;
 			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl;
 		}
 		else {
 		
-			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][1] << "  VIP: " << types[i][2] << "  Family: " << types[i][3] << "]"<< endl;
+			ofile << "Orders" << "  :" << orders[i] << "[" << "NORM: " << types[i][0] << "   " << ", FROZ: " << types[i][1] << "  VIP: " << types[i][2] << "  Family: " << types[i][3] << "  Charity: " << types[i][4] << "]"<< endl;
 			ofile << "MOROTC:  " << NumberOfMotorcycles[3][0] + NumberOfMotorcycles[3][1] + NumberOfMotorcycles[3][2] << "   " << "[" << "NORM: " << NumberOfMotorcycles[3][0] << "   " << ", FROZ: " << NumberOfMotorcycles[3][1] << "  VIP: " << NumberOfMotorcycles[3][2] << "]" << endl; ;
 			ofile << "AVG Wait" << "      " << avgwait[i] << "           " << "AVG SERVICE TIME     " << avgser[i] << endl;
 		}
