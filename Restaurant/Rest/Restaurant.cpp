@@ -304,14 +304,14 @@ void Restaurant::Simulate()
 			// serving family orders
 			i_could = true;
 			Motorcycle* temp_Motor2;
-			while (!FamilyOrders[i].is_empty() && i_could) {
+			while (!FamilyOrders[i].isEmpty() && i_could) {
 				if (M_Normal[i].dequeue(temp_Motor) && M_Normal[i].dequeue(temp_Motor2)) {
 					temp_Motor->set_status(SERV);
 					temp_Motor2->set_status(SERV);
 					in_service_Motorcyles[i].enqueue(temp_Motor);
 					in_service_Motorcyles[i].enqueue(temp_Motor2);
 					i_could = true;
-					FamilyOrders[i].removeFront(pOrd);
+					FamilyOrders[i].dequeue(pOrd);
 					if (pOrd->get_critical_order())
 					{
 						temp_Motor->set_broken(1);
@@ -543,17 +543,17 @@ void Restaurant::AddNormalOrder(Order * o)
 void Restaurant::AddFamilyOrder(Order * o)
 {
 	NumberOfActiveOrders[o->GetRegion()][o->GetType()]++;
-	FamilyOrders[o->GetRegion()].insert_at_end(o);
+	FamilyOrders[o->GetRegion()].enqueue(o);
 }
 
 Order* Restaurant::getOrderById(int orderID)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		Node<Order*>* temp = NormalOrders[i].getHead();
-		while (temp) {
-			if ((temp->getItem())->GetID() == orderID) return temp->getItem();
-			temp = temp->getNext();
+		Node<Order*>* tempNormal = NormalOrders[i].getHead();
+		while (tempNormal) {
+			if ((tempNormal->getItem())->GetID() == orderID) return tempNormal->getItem();
+			tempNormal = tempNormal->getNext();
 		}
 	}
 	return NULL;

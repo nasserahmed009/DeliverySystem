@@ -25,8 +25,8 @@ private:
 	
 	PriorityQueue < Order*, greater_ptrs<Order*> > vipOrders[4];
 	Queue<Order*> FrozenOrders[4];
+	Queue<Order*> FamilyOrders[4];
 	LinkedList<Order*> NormalOrders[4];
-	LinkedList<Order*> FamilyOrders[4];
 
 	PriorityQueue < Order*, less_ptrs<Order*> > inServicsOrder[4]; // they are enqued according to Finsih time; 
 	Queue<Order*> Delivered_orders[4];
