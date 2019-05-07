@@ -1,6 +1,6 @@
 #include "ReadInput.h"
 
-ReadInput::ReadInput() :NormalSpeed(0), FrozenSpeed(0), VipSpeed(0), AutoPromotionLimit(0), NumberOfEvents(0)
+ReadInput::ReadInput() :AutoPromotionLimit(0), NumberOfEvents(0), maxID(0)
 {
 	for (int i = 0; i < 3; i++) {
 		motorCyclesInA[i] = 0;
@@ -176,7 +176,7 @@ bool ReadInput::modifiedRead(Restaurant* R, GUI*& pGUI)
 			infile.open(name + ".txt");
 		}
 		int j;
-		string word[10];
+		string word[100];
 		stringstream line_ss;
 		int lineNumber = 1;
 		if (infile.is_open()) {
@@ -394,12 +394,17 @@ bool ReadInput::modifiedRead(Restaurant* R, GUI*& pGUI)
 					line_ss >> AutoPromotionLimit;
 					lineNumber++;
 				}
-						 break;
+				break;
 				case(18): {
+					line_ss >> timeToRepair;
+					lineNumber++;
+				}
+				break;
+				case(19): {
 					line_ss >> NumberOfEvents;
 					lineNumber++;
 				}
-						 break;
+				break;
 				default: {
 					int i = 0;
 					while (getline(line_ss, word[j], ' ')) {
@@ -419,10 +424,14 @@ bool ReadInput::modifiedRead(Restaurant* R, GUI*& pGUI)
 							type = TYPE_NRM;
 						else if (word[2] == "F")
 							type = TYPE_FROZ;
+						else if (word[2] == "L")
+							type = TYPE_FAMILY;
 						else
 							type = TYPE_VIP;
 
 						int ID = stoi(word[3]);
+						if (ID > maxID)
+							maxID = ID;
 						int dist = stoi(word[4]);
 						double money = stod(word[5]);
 						REGION reg;
@@ -460,36 +469,29 @@ bool ReadInput::modifiedRead(Restaurant* R, GUI*& pGUI)
 			}
 		}
 		R->creat_motor_cycles(motorCyclesInA,motorCyclesInB, motorCyclesInC, motorCyclesInD, NRMspeedA, NRMspeedB, NRMspeedC, NRMspeedD,FRZspeedA,FRZspeedB,FRZspeedC,FRZspeedD,VIPspeedA,VIPspeedB,VIPspeedC,VIPspeedD );
-		R->set_auto_promo(AutoPromotionLimit);
 		infile.close();
 		return true;
 }
 
-
-
-int ReadInput::getNormalSpeed()
-{
-	return NormalSpeed;
-}
-
-int ReadInput::getFrozenSpeed()
-{
-	return FrozenSpeed;
-}
-
-int ReadInput::getVipSpeed()
-{
-	return VipSpeed;
-}
 
 int ReadInput::getAutoPromotionLimit()
 {
 	return AutoPromotionLimit;
 }
 
+int ReadInput::getTimeToRepair()
+{
+	return timeToRepair;
+}
+
 int ReadInput::getNumberOfEvents()
 {
 	return NumberOfEvents;
+}
+
+int ReadInput::getMaxID()
+{
+	return maxID;
 }
 
 int ReadInput::getMotorCyclesInRegion(ORD_TYPE O, REGION R)
@@ -545,4 +547,5 @@ int ReadInput::getMotorCyclesInRegion(ORD_TYPE O, REGION R)
 
 ReadInput::~ReadInput()
 {
+	delete  NRMspeedA, NRMspeedB, NRMspeedC, NRMspeedD, FRZspeedA, FRZspeedB, FRZspeedC,FRZspeedD, VIPspeedA,VIPspeedB,VIPspeedC,VIPspeedD ;
 }
