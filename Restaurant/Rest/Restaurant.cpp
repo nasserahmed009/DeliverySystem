@@ -353,7 +353,7 @@ void Restaurant::Simulate()
 						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
 
 					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
-					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
+					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor2->get_speed());
 					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
 					temp_Motor->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
 					temp_Motor2->set_again_use(pOrd->get_FT() + pOrd->get_SVT());
