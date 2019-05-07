@@ -98,7 +98,7 @@ void GUI::PrintAssignedString(int region, string s)
 	
 	if (region == 0)
 	{
-		pWind->SetFont(18, BOLD, BY_NAME, "Arial");
+		pWind->SetFont(16, BOLD, BY_NAME, "Arial");
 		pWind->SetBrush(LIGHTYELLOW);
 		pWind->SetPen(BROWN);
 		pWind->DrawRectangle(20, 90, 555, 125, FILLED);
@@ -106,7 +106,7 @@ void GUI::PrintAssignedString(int region, string s)
 	}
 	else if (region == 1)
 	{
-		pWind->SetFont(18, BOLD, BY_NAME, "Arial");
+		pWind->SetFont(16, BOLD, BY_NAME, "Arial");
 		pWind->SetBrush(LIGHTYELLOW);
 		pWind->SetPen(BROWN);
 		pWind->DrawRectangle(WindWidth / 2 + 45, 90, 1165, 125, FILLED);
@@ -116,7 +116,7 @@ void GUI::PrintAssignedString(int region, string s)
 	{
 		pWind->SetBrush(LIGHTYELLOW);
 		pWind->SetPen(BROWN);
-		pWind->SetFont(18, BOLD, BY_NAME, "Arial");
+		pWind->SetFont(16, BOLD, BY_NAME, "Arial");
 		pWind->DrawRectangle(WindWidth / 2 + 45, 420, 1165, 455, FILLED);
 		pWind->DrawString(WindWidth / 2 + 50, 425, s);
 	}
@@ -124,7 +124,7 @@ void GUI::PrintAssignedString(int region, string s)
 	{
 		pWind->SetBrush(LIGHTYELLOW);
 		pWind->SetPen(BROWN);
-		pWind->SetFont(18, BOLD, BY_NAME, "Arial");
+		pWind->SetFont(16, BOLD, BY_NAME, "Arial");
 		pWind->DrawRectangle(20, 420, 555, 455, FILLED);
 		pWind->DrawString(25, 425, s);
 	}
