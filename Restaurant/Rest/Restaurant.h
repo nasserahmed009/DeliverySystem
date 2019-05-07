@@ -36,6 +36,7 @@ private:
 	int totalMoney[4];
 	int charityMinimum[4];
 	int maxOrderID;
+	int ser_ord[4];
 	// Motor cycle data structures; 
 	PriorityQueue <Motorcycle*, greater_moto_ptrs<Motorcycle*> > M_Normal[4];
 	PriorityQueue <Motorcycle*, greater_moto_ptrs<Motorcycle*> > M_Frozen[4];
