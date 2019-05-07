@@ -33,6 +33,7 @@ private:
 	Queue<Order*> Delivered_orders[4];
 	int NumberOfActiveOrders[4][5]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip, 3 = family
 	int NumberOfMotorcycles[4][3]; // i => region, j => type of order, 0 = normal , 1 = frozen , 2 = vip, 3 = family
+	int DamagedMotorcycles[4];
 	int totalMoney[4];
 	int charityMinimum[4];
 	int maxOrderID;

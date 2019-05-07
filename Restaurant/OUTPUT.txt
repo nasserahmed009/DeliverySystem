@@ -1,16 +1,15 @@
 REGION A
 FT      ID     AT     WT      ST
-12      2      2       0       10
-24      3      3       0       21
-51      8      8       38       5
-57      5      5       41       11
-79      6      6       63       10
-90      4      4       65       21
-122      7      7       105       10
-179      10      5       107       67
-Orders  : 8[NORM: 2   , FROZ: 0  VIP: 5  Family: 0  Charity: 1]
+2      2      2       0       0
+4      4      4       0       0
+4      3      3       0       1
+5      5      5       0       0
+6      6      6       0       0
+7      7      7       0       0
+8      8      8       0       0
+Orders  : 7[NORM: 7   , FROZ: 0  VIP: 0  Family: 0  Charity: 0]
 MOROTC:  2   [NORM: 2   , FROZ: 0  VIP: 0]
-AVG Wait      52.375           AVG SERVICE TIME     19.375
+AVG Wait      0           AVG SERVICE TIME     0.142857
 ......................................................................................................
 ......................................................................................................
 REGION B
@@ -36,14 +35,13 @@ AVG Wait      0           AVG SERVICE TIME     0
 ......................................................................................................
 For the whole Restaurant 
 FT      ID     AT     WT      ST
-12      2      2       0        10
-24      3      3       0        21
-51      8      8       38        5
-57      5      5       41        11
-79      6      6       63        10
-90      4      4       65        21
-122      7      7       105        10
-179      10      5       107        67
-Orders:  8[NORM: 2   , FROZ: 0  VIP: 5  Family: 0  Charity: 1]
+2      2      2       0        0
+4      4      4       0        0
+4      3      3       0        1
+5      5      5       0        0
+6      6      6       0        0
+7      7      7       0        0
+8      8      8       0        0
+Orders:  7[NORM: 7   , FROZ: 0  VIP: 0  Family: 0  Charity: 0]
 MOROTC:  2   [NORM: 2   , FROZ: 0  VIP: 0]
-AVG Wait      13.0938           AVG SERVICE TIME     4.84375
+AVG Wait      0           AVG SERVICE TIME     0.0357143

@@ -130,6 +130,9 @@ void Restaurant::Simulate()
 		for (int j = 0; j < 3; j++) 
 			NumberOfMotorcycles[i][j] = pIn.getMotorCyclesInRegion(static_cast<ORD_TYPE>(j), static_cast<REGION>(i));
 	
+	for (int i = 0; i < 4; i++)
+		DamagedMotorcycles[i] = 0;
+	
 	timeTakenForRepair = pIn.getTimeToRepair();
 	auto_promo_limit = pIn.getAutoPromotionLimit();
 	/* READ INPUT FROM pIn */
@@ -747,6 +750,7 @@ void Restaurant::updateStringsInfo(string& s,string & s1, string & s2, string & 
 	s2 += "   " + to_string(NumberOfMotorcycles[0][2]);
 	s2 += "          Total Money : " + to_string(totalMoney[0]);
 	s2 += "          Served Orders So far: " + to_string(ser_ord[0]);
+	s2 += "          Damaged Motorcycles: " + to_string(DamagedMotorcycles[0]);
 
 	s3 = "Region B                   ";
 	s3 += to_string(NumberOfActiveOrders[1][0]);
@@ -759,6 +763,7 @@ void Restaurant::updateStringsInfo(string& s,string & s1, string & s2, string & 
 	s3 += "   " + to_string(NumberOfMotorcycles[1][2]);
 	s3 += "          Total Money : " + to_string(totalMoney[1]);
 	s3 += "          Served Orders So far: " + to_string(ser_ord[1]);
+	s3 += "          Damaged Motorcycles: " + to_string(DamagedMotorcycles[1]);
 
 	s4 = "Region C                   " + to_string(NumberOfActiveOrders[2][0]);
 	s4 += "   " + to_string(NumberOfActiveOrders[2][1]);
@@ -770,6 +775,7 @@ void Restaurant::updateStringsInfo(string& s,string & s1, string & s2, string & 
 	s4 += "   " + to_string(NumberOfMotorcycles[2][2]);
 	s4 += "          Total Money : " + to_string(totalMoney[2]);
 	s4 += "          Served Orders So far: " + to_string(ser_ord[2]);
+	s4 += "          Damaged Motorcycles: " + to_string(DamagedMotorcycles[2]);
 
 	s5 = "Region D                   " + to_string(NumberOfActiveOrders[3][0]);
 	s5 += "   " + to_string(NumberOfActiveOrders[3][1]);
@@ -781,6 +787,7 @@ void Restaurant::updateStringsInfo(string& s,string & s1, string & s2, string & 
 	s5 += "   " + to_string(NumberOfMotorcycles[3][2]);
 	s5 += "          Total Money : " + to_string(totalMoney[3]);
 	s5 += "          Served Orders So far: " + to_string(ser_ord[3]);
+	s5 += "          Damaged Motorcycles: " + to_string(DamagedMotorcycles[3]);
 	
 	s6 = "Timestep: " + to_string(timeStep);
 }
@@ -934,6 +941,7 @@ void Restaurant::RemoveDamagedRepairFixed()
 			{
 				delete temp;
 				NumberOfMotorcycles[i][0] --;
+				DamagedMotorcycles[i]++;
 				continue;
 			}
 
@@ -968,6 +976,7 @@ void Restaurant::RemoveDamagedRepairFixed()
 			{
 				delete temp;
 				NumberOfMotorcycles[i][1] --;
+				DamagedMotorcycles[i]++;
 				continue;
 			}
 
@@ -1008,6 +1017,7 @@ void Restaurant::RemoveDamagedRepairFixed()
 			{
 				delete temp;
 				NumberOfMotorcycles[i][2] --;
+				DamagedMotorcycles[i]++;
 				continue;
 			}
 
