@@ -483,6 +483,17 @@ void Restaurant::Simulate()
 				tempNormal = tempNormal->getNext();
 			}
 
+			Queue<Order*> tempFamily = FamilyOrders[i];
+			while (tempFamily.dequeue(pOrd)) {
+				pGUI->AddOrderForDrawing(pOrd);
+			}
+
+			Queue<Order*> tempCharity = CharityOrders[i];
+			while (tempCharity.dequeue(pOrd)) {
+				pGUI->AddOrderForDrawing(pOrd);
+			}
+
+
 		}
 		updateRestaurantsInfo();
 		pGUI->UpdateInterface();
