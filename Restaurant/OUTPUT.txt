@@ -1,47 +1,63 @@
 REGION A
 FT      ID     AT     WT      ST
-2      2      2       0       0
-4      4      4       0       0
-4      3      3       0       1
-5      5      5       0       0
-6      6      6       0       0
-7      7      7       0       0
-8      8      8       0       0
-Orders  : 7[NORM: 7   , FROZ: 0  VIP: 0  Family: 0  Charity: 0]
-MOROTC:  2   [NORM: 2   , FROZ: 0  VIP: 0]
-AVG Wait      0           AVG SERVICE TIME     0.142857
+10      1      7       0       3
+22      4      12       0       10
+26      14      25       0       1
+33      45      28       0       5
+41      5      30       0       11
+Orders  : 5[NORM: 2   , FROZ: 2  VIP: 1  Family: 0  Charity: 0]
+MOROTC:  8   [NORM: 4   , FROZ: 3  VIP: 1]
+AVG Wait      0           AVG SERVICE TIME     6
 ......................................................................................................
 ......................................................................................................
 REGION B
 FT      ID     AT     WT      ST
-Orders  : 0[NORM: 0   , FROZ: 0  VIP: 0  Family: 0  Charity: 0]
-MOROTC:  0   [NORM: 0   , FROZ: 0  VIP: 0]
-AVG Wait      0           AVG SERVICE TIME     0
+2      3      1       0       1
+10      17      9       0       1
+36      27      32       0       4
+36      2      29       0       7
+36      6      25       0       11
+Orders  : 5[NORM: 3   , FROZ: 1  VIP: 1  Family: 0  Charity: 0]
+MOROTC:  7   [NORM: 3   , FROZ: 2  VIP: 2]
+AVG Wait      0           AVG SERVICE TIME     4.8
 ......................................................................................................
 ......................................................................................................
 REGION C
 FT      ID     AT     WT      ST
-Orders  : 0[NORM: 0   , FROZ: 0  VIP: 0  Family: 0  Charity: 0]
-MOROTC:  0   [NORM: 0   , FROZ: 0  VIP: 0]
-AVG Wait      0           AVG SERVICE TIME     0
+5      9      3       0       2
+28      37      27       0       1
+27      5      19       0       8
+Orders  : 3[NORM: 1   , FROZ: 0  VIP: 2  Family: 0  Charity: 0]
+MOROTC:  4   [NORM: 2   , FROZ: 1  VIP: 1]
+AVG Wait      0           AVG SERVICE TIME     3.66667
 ......................................................................................................
 ......................................................................................................
 REGION D
 FT      ID     AT     WT      ST
-Orders  : 0[NORM: 0   , FROZ: 0  VIP: 0  Family: 0  Charity: 0]
-MOROTC:  0   [NORM: 0   , FROZ: 0  VIP: 0]
-AVG Wait      0           AVG SERVICE TIME     0
+6      10      5       0       1
+29      19      26       0       3
+Orders  : 2[NORM: 0   , FROZ: 0  VIP: 2  Family: 0  Charity: 0]
+MOROTC:  7   [NORM: 3   , FROZ: 2  VIP: 2]
+AVG Wait      0           AVG SERVICE TIME     2
 ......................................................................................................
 ......................................................................................................
 For the whole Restaurant 
 FT      ID     AT     WT      ST
-2      2      2       0        0
-4      4      4       0        0
-4      3      3       0        1
-5      5      5       0        0
-6      6      6       0        0
-7      7      7       0        0
-8      8      8       0        0
-Orders:  7[NORM: 7   , FROZ: 0  VIP: 0  Family: 0  Charity: 0]
-MOROTC:  2   [NORM: 2   , FROZ: 0  VIP: 0]
-AVG Wait      0           AVG SERVICE TIME     0.0357143
+10      1      7       0        3
+22      4      12       0        10
+26      14      25       0        1
+33      45      28       0        5
+41      5      30       0        11
+2      3      1       0        1
+10      17      9       0        1
+36      27      32       0        4
+36      2      29       0        7
+36      6      25       0        11
+5      9      3       0        2
+28      37      27       0        1
+27      5      19       0        8
+6      10      5       0        1
+29      19      26       0        3
+Orders:  15[NORM: 6   , FROZ: 3  VIP: 6  Family: 0  Charity: 0]
+MOROTC:  26   [NORM: 12   , FROZ: 8  VIP: 6]
+AVG Wait      0           AVG SERVICE TIME     4.11667

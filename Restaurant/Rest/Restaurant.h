@@ -103,7 +103,7 @@ public:
 	// Bonus: broken motorcycles
 
 	void RemoveDamagedRepairFixed(); // removes motorcycles with health 0 and changes the status of the repaired motorcycles
-	int MotorcycleHealthReduction = 20;
+	int MotorcycleHealthReduction = 50;
 };
 
 #endif
