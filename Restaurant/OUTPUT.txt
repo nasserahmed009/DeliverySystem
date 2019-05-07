@@ -1,71 +1,33 @@
 REGION A
 FT      ID     AT     WT      ST
-11      6      9       0       2
-10      5      7       0       3
-29      11      26       0       3
-34      14      29       0       5
-Orders  : 4[NORM: 3   , FROZ: 0  VIP: 1  Family: 0  Charity: 0]
-MOROTC:  4   [NORM: 2   , FROZ: 1  VIP: 1]
-AVG Wait      0           AVG SERVICE TIME     3.25
+Orders  : 0[NORM: 0   , FROZ: 0  VIP: 0  Family: 0  Charity: 0]
+MOROTC:  2   [NORM: 2   , FROZ: 0  VIP: 0]
+AVG Wait      0           AVG SERVICE TIME     0
 ......................................................................................................
 ......................................................................................................
 REGION B
 FT      ID     AT     WT      ST
-4      1      2       0       2
-9      2      3       0       6
-12      3      4       0       8
-22      4      6       15       1
-23      20      6       15       2
-30      12      27       0       3
-40      16      32       2       6
-43      22      6       15       22
-Orders  : 8[NORM: 0   , FROZ: 0  VIP: 6  Family: 1  Charity: 1]
-MOROTC:  4   [NORM: 2   , FROZ: 1  VIP: 1]
-AVG Wait      5.875           AVG SERVICE TIME     6.25
+Orders  : 0[NORM: 0   , FROZ: 0  VIP: 0  Family: 0  Charity: 0]
+MOROTC:  0   [NORM: 0   , FROZ: 0  VIP: 0]
+AVG Wait      0           AVG SERVICE TIME     0
 ......................................................................................................
 ......................................................................................................
 REGION C
 FT      ID     AT     WT      ST
-27      10      25       0       2
-25      7      12       0       13
-50      15      30       9       11
-Orders  : 3[NORM: 0   , FROZ: 2  VIP: 1  Family: 0  Charity: 0]
-MOROTC:  4   [NORM: 2   , FROZ: 1  VIP: 1]
-AVG Wait      3           AVG SERVICE TIME     8.66667
+Orders  : 0[NORM: 0   , FROZ: 0  VIP: 0  Family: 0  Charity: 0]
+MOROTC:  0   [NORM: 0   , FROZ: 0  VIP: 0]
+AVG Wait      0           AVG SERVICE TIME     0
 ......................................................................................................
 ......................................................................................................
 REGION D
 FT      ID     AT     WT      ST
-20      8      19       0       1
-30      9      25       0       5
-33      13      28       0       5
-41      17      34       5       2
-Orders  : 4[NORM: 1   , FROZ: 2  VIP: 1  Family: 0  Charity: 0]
-MOROTC:  4   [NORM: 2   , FROZ: 1  VIP: 1]
-AVG Wait      1.25           AVG SERVICE TIME     3.25
+Orders  : 0[NORM: 0   , FROZ: 0  VIP: 0  Family: 0  Charity: 0]
+MOROTC:  0   [NORM: 0   , FROZ: 0  VIP: 0]
+AVG Wait      0           AVG SERVICE TIME     0
 ......................................................................................................
 ......................................................................................................
 For the whole Restaurant 
 FT      ID     AT     WT      ST
-11      6      9       0        2
-10      5      7       0        3
-29      11      26       0        3
-34      14      29       0        5
-4      1      2       0        2
-9      2      3       0        6
-12      3      4       0        8
-22      4      6       15        1
-23      20      6       15        2
-30      12      27       0        3
-40      16      32       2        6
-43      22      6       15        22
-27      10      25       0        2
-25      7      12       0        13
-50      15      30       9        11
-20      8      19       0        1
-30      9      25       0        5
-33      13      28       0        5
-41      17      34       5        2
-Orders:  19[NORM: 4   , FROZ: 4  VIP: 9  Family: 1  Charity: 1]
-MOROTC:  16   [NORM: 8   , FROZ: 4  VIP: 4]
-AVG Wait      2.53125           AVG SERVICE TIME     5.35417
+Orders:  0[NORM: 0   , FROZ: 0  VIP: 0  Family: 0  Charity: 0]
+MOROTC:  2   [NORM: 2   , FROZ: 0  VIP: 0]
+AVG Wait      0           AVG SERVICE TIME     0

@@ -343,7 +343,7 @@ healthchecksdb
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
 /.vscode
-/Debug
-/.vs
+/Debug/
+/.vs/
 /Restaurant/OUTPUT.txt
-/Restaurant/Debug
+/Restaurant/Debug/
