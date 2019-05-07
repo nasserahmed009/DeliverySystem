@@ -133,6 +133,3 @@ void Motorcycle::set_ord_id(int x) {
 int Motorcycle::get_ord_id() {
 	return ord_id; 
 }
-int Motorcycle::get_id() {
-	return ID;
-}

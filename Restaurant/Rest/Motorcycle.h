@@ -37,7 +37,6 @@ public:
 	STATUS get_status(); 
 	REGION get_region();
 	ORD_TYPE get_type();
-	int get_id();
 	int GetType() const;
 	bool operator > (const Motorcycle &O) const;
 	bool operator < (const Motorcycle  &O) const;

@@ -126,7 +126,7 @@ void GUI::PrintAssignedString(int region, string s)
 		pWind->SetPen(BROWN);
 		pWind->SetFont(18, BOLD, BY_NAME, "Arial");
 		pWind->DrawRectangle(20, 420, 555, 455, FILLED);
-		pWind->DrawString(50, 425, s);
+		pWind->DrawString(25, 425, s);
 	}
 
 

@@ -517,7 +517,8 @@ void Restaurant::Simulate()
 		updateRestaurantsInfo();
 		pGUI->UpdateInterface();
 		DrawAssignedMotoStrings();
-		motorcyle_with_orders();
+		//motorcyle_with_orders();
+
 		if (GUI_mode == 0) {
 			pGUI->waitForClick();
 			timeStep++;
@@ -1085,6 +1086,14 @@ void Restaurant::motorcyle_with_orders() {
 			else if (M->GetType() == 1) {
 				s[i] += "F" + to_string(M->get_id()) + "(" + to_string(M->get_ord_id()) + ")  ";
 
+			}
+			else if (M->GetType() == 2) {
+				s[i] += "V" + to_string(M->get_id()) + "(" + to_string(M->get_ord_id()) + ")  ";
+			}
+		}
+	}
+	pGUI->Draw_orders_and_Motor(s[0], s[1], s[2], s[3]);
+}
 string Restaurant::CreateAssignedString(int region)
 {
 	string s = "";
