@@ -104,6 +104,7 @@ public:
 
 	void RemoveDamagedRepairFixed(); // removes motorcycles with health 0 and changes the status of the repaired motorcycles
 	int MotorcycleHealthReduction = 50;
+	void motorcyle_with_orders(); 
 };
 
 #endif

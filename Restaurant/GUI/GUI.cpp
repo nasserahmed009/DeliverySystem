@@ -81,6 +81,13 @@ void GUI::print_msg_multi(string s,string s1, string s2, string s3, string s4, s
 	pWind->DrawString(10, WindHeight - 70, s5);
 	pWind->DrawString(10, WindHeight - 55, s6);
 }
+void GUI::Draw_orders_and_Motor(string s1, string s2, string s3, string s4) {
+	pWind->DrawString(10, 120, s1);
+	pWind->DrawString(650, 120, s2);
+	pWind->DrawString(10, 320, s3);
+	pWind->DrawString(620, 420, s4);
+
+}
 //////////////////////////////////////////////////////////////////////////////////////////
 void GUI::DrawString(const int iX, const int iY, const string Text)
 {

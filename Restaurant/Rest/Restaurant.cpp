@@ -185,6 +185,7 @@ void Restaurant::Simulate()
 					}
 					NumberOfActiveOrders[i][2]--;
 					inServicsOrder[i].enqueue(pOrd);
+					temp_Motor->set_ord_id(pOrd->GetID());
 					NumberOfMotorcycles[i][2]--;
 
 				}
@@ -208,6 +209,7 @@ void Restaurant::Simulate()
 					}
 					NumberOfActiveOrders[i][2]--;
 					inServicsOrder[i].enqueue(pOrd);
+					temp_Motor->set_ord_id(pOrd->GetID());
 					NumberOfMotorcycles[i][0]--;
 				}
 				else if (M_Frozen[i].dequeue(temp_Motor)) {
@@ -230,6 +232,7 @@ void Restaurant::Simulate()
 					}
 					NumberOfActiveOrders[i][2]--;
 					inServicsOrder[i].enqueue(pOrd);
+					temp_Motor->set_ord_id(pOrd->GetID());
 					NumberOfMotorcycles[i][1]--;
 
 				}
@@ -260,6 +263,7 @@ void Restaurant::Simulate()
 					}
 					NumberOfActiveOrders[i][1]--;
 					inServicsOrder[i].enqueue(pOrd);
+					temp_Motor->set_ord_id(pOrd->GetID());
 					NumberOfMotorcycles[i][1]--;
 				}
 			 else {
@@ -290,6 +294,7 @@ void Restaurant::Simulate()
 					}
 					NumberOfActiveOrders[i][0]--;
 					inServicsOrder[i].enqueue(pOrd);
+					temp_Motor->set_ord_id(pOrd->GetID());
 					NumberOfMotorcycles[i][0]--;
 				}
 				
@@ -313,6 +318,7 @@ void Restaurant::Simulate()
 					}
 					NumberOfActiveOrders[i][0]--;
 					inServicsOrder[i].enqueue(pOrd);
+					temp_Motor->set_ord_id(pOrd->GetID());
 					NumberOfMotorcycles[i][2]--;
 
 				}
@@ -357,6 +363,8 @@ void Restaurant::Simulate()
 
 					NumberOfActiveOrders[i][3]--;
 					inServicsOrder[i].enqueue(pOrd);
+					temp_Motor->set_ord_id(pOrd->GetID());
+					temp_Motor2->set_ord_id(pOrd->GetID());
 					NumberOfMotorcycles[i][0]-=2;
 				}
 				else {
@@ -399,6 +407,7 @@ void Restaurant::Simulate()
 					}
 					NumberOfActiveOrders[i][4]--;
 					inServicsOrder[i].enqueue(pOrd);
+					temp_Motor->set_ord_id(pOrd->GetID());
 					NumberOfMotorcycles[i][0] --;
 				}
 				else {
@@ -465,7 +474,6 @@ void Restaurant::Simulate()
 		
 		
 		pGUI->ResetDrawingList();
-		
 		for (int i = 0; i < 4; i++) {
 			PriorityQueue < Order*, greater_ptrs<Order*> > tempVip = vipOrders[i];
 			while (tempVip.dequeue(pOrd)) {
@@ -497,6 +505,7 @@ void Restaurant::Simulate()
 		}
 		updateRestaurantsInfo();
 		pGUI->UpdateInterface();
+		motorcyle_with_orders();
 		if (GUI_mode == 0) {
 			pGUI->waitForClick();
 			timeStep++;
@@ -1050,5 +1059,26 @@ void Restaurant::RemoveDamagedRepairFixed()
 
 
 }
+void Restaurant::motorcyle_with_orders() {
+	string s[4];
+	for (int i = 0; i < 4; i++) {
+		Motorcycle *M;
+		PriorityQueue <Motorcycle *, less_ptrs<Motorcycle*> > temp_m = in_service_Motorcyles[i];
+		while (!temp_m.isEmpty()) {
+			temp_m.dequeue(M);
 
+			if (M->GetType() == 0) {
+				s[i] += "N" + to_string(M->get_id()) + "(" + to_string(M->get_ord_id()) + ") ";
+			}
+			else if (M->GetType() == 1) {
+				s[i] += "F" + to_string(M->get_id()) + "(" + to_string(M->get_ord_id()) + ")  ";
+
+			}
+			else if (M->GetType() == 2) {
+				s[i] += "V" + to_string(M->get_id()) + "(" + to_string(M->get_ord_id()) + ")  ";
+			}
+		}
+	}
+	pGUI->Draw_orders_and_Motor(s[0], s[1], s[2], s[3]);
+}
 /// ==> end of DEMO-related function

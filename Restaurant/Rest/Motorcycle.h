@@ -18,12 +18,14 @@ class Motorcycle
 	int health;
 	bool broken;
 	int timeForRepair;
+	int ord_id;
 
 public:
 	Motorcycle(int id, ORD_TYPE ot, int sp, REGION reg);
 	virtual ~Motorcycle();
 	Motorcycle();
 	void set_id(int id);
+	int get_id(); 
 	void set_type(ORD_TYPE ot);
 	void set_speed(int sp);
 	int get_speed(); 
@@ -46,6 +48,8 @@ public:
 	void set_repair_time(int repairTime);
 
 	void reduceHealthBy(int dh);
+	void set_ord_id(int x); 
+	int  get_ord_id(); 
 };
 
 #endif
