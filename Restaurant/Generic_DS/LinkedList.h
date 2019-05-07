@@ -53,15 +53,27 @@ bool LinkedList <T>::insert_at_end (T item) {
 template<typename T>
 inline bool LinkedList<T>::removeFront(T & item)
 {
-	if (is_empty()) return false;
-
-	Node<T>* temp = Head;
-	Head = Head->getNext();
-	item = temp->getItem();
-	temp->setNext(NULL);
-	delete temp;
-
-	return true;
+	if (is_empty()) {
+		return false;
+	}
+	else if (Head == Tail) {
+		item = Head->getItem();
+		delete Head;
+		Head = Tail = NULL;
+		return true;
+	}
+	else {
+		Node <T> * temp;
+		temp = Head->getNext();
+		item = Head->getItem();
+		delete Head;
+		Head = temp;
+		if (!Head) {
+			Tail = NULL;
+		}
+		return true;
+	}
+	return false;
 }
 
 template<typename T>
@@ -102,6 +114,7 @@ bool LinkedList <T> ::remove (T &item) { // to delete an order if it's cancelled
 		if (!Head) {
 		Tail =NULL;
 		}
+		return true;
 	}
 
 	else 
