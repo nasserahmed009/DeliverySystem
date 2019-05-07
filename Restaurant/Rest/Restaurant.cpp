@@ -166,13 +166,14 @@ void Restaurant::Simulate()
 					in_service_Motorcyles[i].enqueue(temp_Motor); 
 					i_could = true;
 					vipOrders[i].dequeue(pOrd);
+					if (temp_Motor->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
 					if (pOrd->get_critical_order())
 					{
 						temp_Motor->set_broken(1);
 						temp_Motor->set_repair_time(timeStep + timeTakenForRepair);
 					}
-					if (temp_Motor->get_broken() == 1)
-						temp_Motor->reduceHealthBy(MotorcycleHealthReduction); 
+
 					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
 					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
 					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
@@ -185,13 +186,14 @@ void Restaurant::Simulate()
 					in_service_Motorcyles[i].enqueue(temp_Motor);
 					i_could = true;
 					vipOrders[i].dequeue(pOrd);
+					if (temp_Motor->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
 					if (pOrd->get_critical_order())
 					{
 						temp_Motor->set_broken(1);
 						temp_Motor->set_repair_time(timeStep + timeTakenForRepair);
 					}
-					if (temp_Motor->get_broken() == 1)
-						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
+
 					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
 					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
 					pOrd->set_Finish_time(pOrd->get_AVT() + pOrd->get_SVT() + pOrd->get_WT());
@@ -204,14 +206,13 @@ void Restaurant::Simulate()
 					in_service_Motorcyles[i].enqueue(temp_Motor);
 					i_could = true;
 					vipOrders[i].dequeue(pOrd);
+					if (temp_Motor->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
 					if (pOrd->get_critical_order())
 					{
 						temp_Motor->set_broken(1);
 						temp_Motor->set_repair_time(timeStep + timeTakenForRepair);
 					}
-
-					if (temp_Motor->get_broken() == 1)
-						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
 
 					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
 					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
@@ -232,14 +233,13 @@ void Restaurant::Simulate()
 					in_service_Motorcyles[i].enqueue(temp_Motor);
 					i_could = true;
 					FrozenOrders[i].dequeue(pOrd);
+					if (temp_Motor->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
 					if (pOrd->get_critical_order())
 					{
 						temp_Motor->set_broken(1);
 						temp_Motor->set_repair_time(timeStep + timeTakenForRepair);
 					}
-
-					if (temp_Motor->get_broken() == 1)
-						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
 
 					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
 					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
@@ -260,14 +260,13 @@ void Restaurant::Simulate()
 					in_service_Motorcyles[i].enqueue(temp_Motor);
 					i_could = true;
 					NormalOrders[i].removeFront(pOrd);
+					if (temp_Motor->get_broken() == 1)
+						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
 					if (pOrd->get_critical_order())
 					{
 						temp_Motor->set_broken(1);
 						temp_Motor->set_repair_time(timeStep + timeTakenForRepair);
 					}
-
-					if (temp_Motor->get_broken() == 1)
-						temp_Motor->reduceHealthBy(MotorcycleHealthReduction);
 
 					pOrd->set_wait_time(timeStep - pOrd->get_AVT());
 					pOrd->set_Service_time(pOrd->GetDistance() / temp_Motor->get_speed());
