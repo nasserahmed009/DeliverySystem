@@ -4,7 +4,7 @@
 GUI::GUI()
 {
 	pWind = new window(WindWidth+15,WindHeight,0,0); 
-	pWind->ChangeTitle("The Restautant");
+	pWind->ChangeTitle("The Restaurant");
 
 	OrderCount = 0;
 
@@ -81,6 +81,51 @@ void GUI::print_msg_multi(string s,string s1, string s2, string s3, string s4, s
 	pWind->DrawString(10, WindHeight - 70, s5);
 	pWind->DrawString(10, WindHeight - 55, s6);
 }
+
+void GUI::PrintAssignedString(int region, string s)
+{
+
+	pWind->SetBrush(LIGHTYELLOW);
+	pWind->SetPen(BROWN);
+
+	
+	if (region == 0)
+	{
+		pWind->SetFont(18, BOLD, BY_NAME, "Arial");
+		pWind->SetBrush(LIGHTYELLOW);
+		pWind->SetPen(BROWN);
+		pWind->DrawRectangle(20, 90, 555, 125, FILLED);
+		pWind->DrawString(25, 100, s);
+	}
+	else if (region == 1)
+	{
+		pWind->SetFont(18, BOLD, BY_NAME, "Arial");
+		pWind->SetBrush(LIGHTYELLOW);
+		pWind->SetPen(BROWN);
+		pWind->DrawRectangle(WindWidth / 2 + 45, 90, 1165, 125, FILLED);
+		pWind->DrawString(WindWidth / 2 + 50, 100, s);
+	}
+	else if (region == 2)
+	{
+		pWind->SetBrush(LIGHTYELLOW);
+		pWind->SetPen(BROWN);
+		pWind->SetFont(18, BOLD, BY_NAME, "Arial");
+		pWind->DrawRectangle(WindWidth / 2 + 45, 420, 1165, 455, FILLED);
+		pWind->DrawString(WindWidth / 2 + 50, 425, s);
+	}
+	else
+	{
+		pWind->SetBrush(LIGHTYELLOW);
+		pWind->SetPen(BROWN);
+		pWind->SetFont(18, BOLD, BY_NAME, "Arial");
+		pWind->DrawRectangle(20, 420, 555, 455, FILLED);
+		pWind->DrawString(50, 425, s);
+	}
+
+
+}
+
+
 //////////////////////////////////////////////////////////////////////////////////////////
 void GUI::DrawString(const int iX, const int iY, const string Text)
 {
@@ -111,6 +156,13 @@ void GUI::ClearDrawingArea() const
 void GUI::DrawRestArea() const
 {
 	int L = RestWidth / 2;
+
+	pWind->SetBrush(LIGHTYELLOW);
+	pWind->SetPen(BROWN);
+	pWind->DrawRectangle(20, 90, 555, 125, FILLED);
+	pWind->DrawRectangle(WindWidth / 2 + 45, 90, 1165, 125, FILLED);
+	pWind->DrawRectangle(20, 420, 555, 455, FILLED);
+	pWind->DrawRectangle(WindWidth / 2 + 45, 420, 1165, 455, FILLED);
 
 	// 1- Drawing the brown square of the Rest
 	pWind->SetPen(BROWN);

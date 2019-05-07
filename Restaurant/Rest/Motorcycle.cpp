@@ -7,12 +7,14 @@ Motorcycle::Motorcycle(int id, ORD_TYPE ot, int sp, REGION reg)
 	health = 100;
 	broken = false;
 	timeForRepair = -1;
+	inServiceOrder = nullptr;
 }
 Motorcycle::Motorcycle() {
 	// initializations
 	health = 100;
 	broken = false;
 	timeForRepair = -1;
+	inServiceOrder = nullptr;
 }
 
 Motorcycle::~Motorcycle()
@@ -36,6 +38,18 @@ void Motorcycle::set_status(STATUS S) {
 STATUS Motorcycle::get_status() {
 	return status; 
 }
+REGION Motorcycle::get_region()
+{
+	return this->region;
+}
+ORD_TYPE Motorcycle::get_type()
+{
+	return this->type;
+}
+int Motorcycle::get_id()
+{
+	return this->ID;
+}
 int Motorcycle::get_speed() {
 	return speed; 
 }
@@ -53,6 +67,16 @@ bool Motorcycle:: operator <  (const Motorcycle  &M) const {
 		return false; 
 	}
 }
+void Motorcycle::set_inServiceOrder(Order * O)
+{
+	this->inServiceOrder = O;
+}
+
+Order * Motorcycle::get_inServiceOrder()
+{
+	return inServiceOrder;
+}
+
 bool Motorcycle:: operator > (const Motorcycle  &M) const {
 	if (speed > M.speed) {
 		return true;

@@ -3,7 +3,7 @@
 
 
 #include "..\Defs.h"
-
+#include "Order.h"
 #pragma once
 class Motorcycle 
 {
@@ -18,7 +18,7 @@ class Motorcycle
 	int health;
 	bool broken;
 	int timeForRepair;
-
+	Order* inServiceOrder;
 public:
 	Motorcycle(int id, ORD_TYPE ot, int sp, REGION reg);
 	virtual ~Motorcycle();
@@ -32,10 +32,14 @@ public:
 	void set_again_use(int tim); 
 	int get_again_use(); 
 	STATUS get_status(); 
+	REGION get_region();
+	ORD_TYPE get_type();
+	int get_id();
 	int GetType() const;
 	bool operator > (const Motorcycle &O) const;
 	bool operator < (const Motorcycle  &O) const;
-
+	void set_inServiceOrder(Order* O);
+	Order* get_inServiceOrder();
 	//Bonus: damaged motorcycles
 	int get_health() const;
 	bool get_broken() const;

@@ -183,6 +183,7 @@ void Restaurant::Simulate()
 						temp_Motor->set_broken(1);
 						temp_Motor->set_repair_time(timeTakenForRepair + temp_Motor->get_again_use());
 					}
+					temp_Motor->set_inServiceOrder(pOrd);
 					NumberOfActiveOrders[i][2]--;
 					inServicsOrder[i].enqueue(pOrd);
 					NumberOfMotorcycles[i][2]--;
@@ -206,6 +207,7 @@ void Restaurant::Simulate()
 						temp_Motor->set_broken(1);
 						temp_Motor->set_repair_time(timeTakenForRepair + temp_Motor->get_again_use());
 					}
+					temp_Motor->set_inServiceOrder(pOrd);
 					NumberOfActiveOrders[i][2]--;
 					inServicsOrder[i].enqueue(pOrd);
 					NumberOfMotorcycles[i][0]--;
@@ -228,6 +230,7 @@ void Restaurant::Simulate()
 						temp_Motor->set_broken(1);
 						temp_Motor->set_repair_time(timeTakenForRepair + temp_Motor->get_again_use());
 					}
+					temp_Motor->set_inServiceOrder(pOrd);
 					NumberOfActiveOrders[i][2]--;
 					inServicsOrder[i].enqueue(pOrd);
 					NumberOfMotorcycles[i][1]--;
@@ -258,6 +261,7 @@ void Restaurant::Simulate()
 						temp_Motor->set_broken(1);
 						temp_Motor->set_repair_time(timeTakenForRepair + temp_Motor->get_again_use());
 					}
+					temp_Motor->set_inServiceOrder(pOrd);
 					NumberOfActiveOrders[i][1]--;
 					inServicsOrder[i].enqueue(pOrd);
 					NumberOfMotorcycles[i][1]--;
@@ -288,6 +292,7 @@ void Restaurant::Simulate()
 						temp_Motor->set_broken(1);
 						temp_Motor->set_repair_time(timeTakenForRepair + temp_Motor->get_again_use());
 					}
+					temp_Motor->set_inServiceOrder(pOrd);
 					NumberOfActiveOrders[i][0]--;
 					inServicsOrder[i].enqueue(pOrd);
 					NumberOfMotorcycles[i][0]--;
@@ -311,6 +316,7 @@ void Restaurant::Simulate()
 						temp_Motor->set_broken(1);
 						temp_Motor->set_repair_time(timeTakenForRepair + temp_Motor->get_again_use());
 					}
+					temp_Motor->set_inServiceOrder(pOrd);
 					NumberOfActiveOrders[i][0]--;
 					inServicsOrder[i].enqueue(pOrd);
 					NumberOfMotorcycles[i][2]--;
@@ -354,7 +360,8 @@ void Restaurant::Simulate()
 						temp_Motor2->set_repair_time(timeTakenForRepair + temp_Motor2->get_again_use());
 
 					}
-
+					temp_Motor->set_inServiceOrder(pOrd);
+					temp_Motor2->set_inServiceOrder(pOrd);
 					NumberOfActiveOrders[i][3]--;
 					inServicsOrder[i].enqueue(pOrd);
 					NumberOfMotorcycles[i][0]-=2;
@@ -397,6 +404,7 @@ void Restaurant::Simulate()
 						temp_Motor->set_broken(1);
 						temp_Motor->set_repair_time(timeTakenForRepair + temp_Motor->get_again_use());
 					}
+					temp_Motor->set_inServiceOrder(pOrd);
 					NumberOfActiveOrders[i][4]--;
 					inServicsOrder[i].enqueue(pOrd);
 					NumberOfMotorcycles[i][0] --;
@@ -463,8 +471,10 @@ void Restaurant::Simulate()
 			}
 		}
 		
-		
+
+
 		pGUI->ResetDrawingList();
+
 		
 		for (int i = 0; i < 4; i++) {
 			PriorityQueue < Order*, greater_ptrs<Order*> > tempVip = vipOrders[i];
@@ -497,6 +507,7 @@ void Restaurant::Simulate()
 		}
 		updateRestaurantsInfo();
 		pGUI->UpdateInterface();
+		DrawAssignedMotoStrings();
 		if (GUI_mode == 0) {
 			pGUI->waitForClick();
 			timeStep++;
@@ -1048,6 +1059,64 @@ void Restaurant::RemoveDamagedRepairFixed()
 		}
 	}
 
+
+}
+
+string Restaurant::CreateAssignedString(int region)
+{
+	string s = "";
+	PriorityQueue<Motorcycle*, less_ptrs<Motorcycle*>> tempPQ = in_service_Motorcyles[region];
+	while (!tempPQ.isEmpty())
+	{
+		Motorcycle* tempPtr;
+		tempPQ.dequeue(tempPtr);
+		Order* tempOrder = tempPtr->get_inServiceOrder();
+		if (tempPtr->get_region() == region)
+		{
+			if (tempPtr->get_type() == TYPE_NRM)
+				s += "N";
+			else if (tempPtr->get_type() == TYPE_FROZ)
+				s += "F";
+			else if (tempPtr->get_type() == TYPE_VIP)
+				s += "V";
+			else if (tempPtr->get_type() == TYPE_FAMILY)
+				s += "FAM";
+			else if (tempPtr->get_type() == TYPE_CHARITY)
+				s += "C";
+
+			s += to_string(tempPtr->get_id());
+			s += "(";
+			
+			if (tempOrder->GetType() == TYPE_NRM)
+				s += "N";
+			else if (tempOrder->GetType() == TYPE_FROZ)
+				s += "F";
+			else if (tempOrder->GetType() == TYPE_VIP)
+				s += "V";
+			else if (tempOrder->GetType() == TYPE_FAMILY)
+				s += "FAM";
+			else if (tempOrder->GetType() == TYPE_CHARITY)
+				s += "C";
+			s += to_string(tempOrder->GetID());
+			s += ") ";
+			
+
+		}
+	}
+	return s;
+}
+
+void Restaurant::DrawAssignedMotoStrings()
+{
+	string sa = CreateAssignedString(0);
+	string sb = CreateAssignedString(1);
+	string sc = CreateAssignedString(2);
+	string sd = CreateAssignedString(3);
+
+	pGUI->PrintAssignedString(0, sa);
+	pGUI->PrintAssignedString(1, sb);
+	pGUI->PrintAssignedString(2, sc);
+	pGUI->PrintAssignedString(3, sd);
 
 }
 

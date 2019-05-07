@@ -95,6 +95,8 @@ public:
 	void PrintMessage(string msg) const; // prints a message in the status bar
 	void print_msg_multi(string s,string s1, string s2, string s3,string s4,string s5,string s6);
 
+	void PrintAssignedString(int region, string s);
+
 
 	void UpdateInterface();
 	void AddOrderForDrawing(Order* pOrd);	//Adds a new order to the drawing list
