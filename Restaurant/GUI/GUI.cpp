@@ -11,7 +11,9 @@ GUI::GUI()
 	//Set color for each order type
 	OrdersClrs[TYPE_NRM] = 	DARKBLUE;	//normal-order color
 	OrdersClrs[TYPE_FROZ] = VIOLET;		//Frozen-order color
-	OrdersClrs[TYPE_VIP] = 	RED;		//VIP-order color					
+	OrdersClrs[TYPE_VIP] = 	RED;		//VIP-order color		
+	OrdersClrs[TYPE_FAMILY] = DARKGREEN; 
+	OrdersClrs[TYPE_CHARITY] = GRAY;
 
 	ClearStatusBar();
 	ClearDrawingArea(); 
