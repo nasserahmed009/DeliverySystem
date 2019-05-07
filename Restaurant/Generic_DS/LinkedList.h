@@ -29,10 +29,11 @@ bool LinkedList<T> ::is_empty() {
 	else return false;
 }
 template<typename T>
-inline Node<T>* LinkedList<T>::getHead()
+Node<T>* LinkedList<T>::getHead()
 {
 	return Head;
 }
+
 template<typename T>
 bool LinkedList <T>::insert_at_end (T item) {
 	if (is_empty()) {
@@ -67,24 +68,24 @@ inline bool LinkedList<T>::removeFront(T & item)
 template<typename T>
 bool LinkedList<T>::remove_at_end(T &item) { //to remove an order when it's served 
 	if (is_empty()) {
-	return false;
+		return false;
 	}
 	else if (Head == Tail ) {
 		item = Head->getItem();
-	delete Head;
-	Head= Tail = NULL;
-	return true; 
+		delete Head;
+		Head= Tail = NULL;
+		return true; 
 	}
 	else {
 		Node <T> * temp;
-	temp = Head->getNext();
-	item = Head->getItem();
-	delete Head;
-	Head = temp;
-	if (!Head) {
-		Tail = NULL;
-	}
-	return true; 
+		temp = Head->getNext();
+		item = Head->getItem();
+		delete Head;
+		Head = temp;
+		if (!Head) {
+			Tail = NULL;
+		}
+		return true; 
 	}
 	return false;
 }

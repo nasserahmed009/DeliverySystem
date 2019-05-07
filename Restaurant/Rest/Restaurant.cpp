@@ -885,14 +885,18 @@ void Restaurant::set_auto_promo(int x) {
 	auto_promo_limit = x; 
 }
 void Restaurant::check_auto_promo(int tim) {
+
 	for (int i = 0; i < 4; i++)
 	{
-		Node<Order*>* temp = NormalOrders[i].getHead();
+		Node<Order*>* temp;
+		temp = NormalOrders[i].getHead();
 		while (temp) {
 			if ((tim - temp->getItem()->get_AVT()) >= auto_promo_limit) {
 				promoteOrder(temp->getItem());
 
-					temp = temp->getNext();
+				temp = temp->getNext();
+				if (NormalOrders[i].getHead() == NULL)
+					temp = NULL;
 			}
 			else {
 				temp = temp->getNext();
