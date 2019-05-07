@@ -127,3 +127,12 @@ void Motorcycle::reduceHealthBy(int dh)
 	if (health < 0)
 		health = 0;
 }
+void Motorcycle::set_ord_id(int x) {
+	ord_id = x; 
+}
+int Motorcycle::get_ord_id() {
+	return ord_id; 
+}
+int Motorcycle::get_id() {
+	return ID;
+}

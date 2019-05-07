@@ -106,6 +106,7 @@ public:
 	string CreateAssignedString(int region);
 	void DrawAssignedMotoStrings();
 	int MotorcycleHealthReduction = 50;
+	void motorcyle_with_orders(); 
 };
 
 #endif

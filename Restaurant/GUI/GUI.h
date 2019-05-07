@@ -101,6 +101,7 @@ public:
 	void UpdateInterface();
 	void AddOrderForDrawing(Order* pOrd);	//Adds a new order to the drawing list
 	void ResetDrawingList();		//resets drawing list (should be called every timestep after drawing)
+	void Draw_orders_and_Motor(string s1, string s2, string s3, string s4);
 
 	PROG_MODE getGUIMode() const;			//returns the mode of the program
 
